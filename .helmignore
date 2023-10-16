@@ -1,0 +1,12 @@
+.git/
+.gitignore
+
+*.swp
+*.tmp
+
+.idea/
+.vscode/
+
+tests
+*.tgz
+

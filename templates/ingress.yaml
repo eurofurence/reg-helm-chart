@@ -1,0 +1,36 @@
+{{- if (.Values.ingress).enable }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: regsys
+  {{- with .Values.global.namespace }}
+  namespace: '{{ . }}'
+  {{- end }}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-live
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    nginx.ingress.kubernetes.io/limit-rps: "9"
+    nginx.ingress.kubernetes.io/limit-rpm: "360"
+    nginx.ingress.kubernetes.io/limit-burst-multiplier: "5"
+    nginx.ingress.kubernetes.io/limit-whitelist: "10.200.10.1/24,85.199.154.55/32,2001:1a50:a::/64,31.16.177.200/32"
+  labels:
+    name: ef-regsys
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: regsys.test.eurofurence.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: regsys
+                port:
+                  number: 8080
+  tls:
+    - hosts:
+        - regsys.test.eurofurence.org
+      secretName: regsys-test-certificate
+---
+{{- end }}

@@ -1,0 +1,28 @@
+name: Run Helm Unit-Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  run-helm-unit-tests:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        run: 'git clone -b "$BRANCH_OR_TAG_NAME" --depth 1 "$FULL_REPO_URL" app'
+        shell: bash
+        env:
+          FULL_REPO_URL: "https://github.com/${{ github.repository }}"
+          BRANCH_OR_TAG_NAME: ${{ github.ref_name }}
+
+      - name: Docker build and push image
+        run: >
+          cd app &&
+          mkdir -p tests/__snapshot__ &&
+          chmod 777 tests/__snapshot__ &&
+          docker run --rm -v ${{ github.workspace }}/app:/apps helmunittest/helm-unittest:3.12.3-0.3.5 .
+        shell: bash

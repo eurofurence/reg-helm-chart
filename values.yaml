@@ -1,0 +1,6 @@
+global: {}
+  #   set this to supply a namespace with all the resources.
+  # namespace: my-namespace
+
+ingress:
+  enable: false

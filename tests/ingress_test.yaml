@@ -1,0 +1,37 @@
+suite: test ingress
+templates:
+  - ingress.yaml
+tests:
+  - it: should not create anything by default
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: should create an ingress if enabled
+    set:
+      ingress:
+        enable: true
+    asserts:
+      - isKind:
+          of: Ingress
+      - hasDocuments:
+          count: 1
+  - it: should not set namespace if unset
+    set:
+      ingress:
+        enable: true
+    asserts:
+      - notExists:
+          path: metadata.namespace
+      - equal:
+          path: spec.rules[0].host
+          value: regsys.test.eurofurence.org
+  - it: should set namespace if specified
+    set:
+      ingress:
+        enable: true
+      global:
+        namespace: hellospace
+    asserts:
+      - equal:
+          path: metadata.namespace
+          value: hellospace

@@ -1,0 +1,28 @@
+{
+  "$id": "https://github.com/eurofurence/reg-helm-chart/values.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "title": "Values",
+  "description": "Definition of available values.yaml fields",
+  "type": "object",
+  "properties": {
+    "global": {
+      "type": "object",
+      "description": "global properties (can be set by ArgoCD)",
+      "properties": {
+
+      }
+    },
+    "ingress": {
+      "type": "object",
+      "description": "settings for an ingress (optional, off by default)",
+      "properties": {
+        "enable": {
+          "type": "boolean",
+          "description": "enable creating an ingress",
+          "default": false
+        }
+      }
+    }
+  }
+}
