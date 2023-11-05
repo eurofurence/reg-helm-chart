@@ -1,6 +1,108 @@
+# ------------------------------------------------------------------------------
+#           Eurofurence Registration System configuration defaults
+# ------------------------------------------------------------------------------
+
+# deployment configuration
 global: {}
-  #   set this to supply a namespace with all the resources.
-  # namespace: my-namespace
 
 ingress:
   enable: false
+
+# system configuration
+system:
+  registration_languages: []
+
+  public_base_url_domain: https://example.com
+  public_base_context: ''
+
+  logging:
+    severity: INFO
+    style: ecs
+
+  components:
+    attendee_service:
+      enable: true
+      local_base_url: http://attendee-service:8080
+      require_login_for_reg: true
+      dues:
+        due_days: 14
+      birthday:
+        earliest: '1901-01-01'
+
+    auth_service:
+      enable: true
+      local_base_url: http://auth-service:8080
+      id_token_cookie_name: 'JWT'
+      access_token_cookie_name: 'AUTH'
+      user_info_cache_seconds: 10
+
+    mail_service:
+      enable: true
+      local_base_url: http://mail-service:8080
+
+    payment_cncrd_adapter:
+      enable: false
+      local_base_url: http://payment-cncrd-adapter:8080
+
+    payment_service:
+      enable: true
+      local_base_url: http://payment-service:8080
+
+    room_service:
+      enable: false
+      local_base_url: http://room-service:8080
+
+    regsys_classic:
+      enable: true
+      context_path: regsys
+
+    frontend:
+      enable: true
+
+  database:
+    use: 'inmemory'
+    username: 'demouser'
+    database: 'tcp(localhost:3306)/dbname'
+    parameters:
+      - 'charset=utf8mb4'
+      - 'collation=utf8mb4_general_ci'
+      - 'parseTime=True'
+      - 'timeout=30s' # connection timeout
+
+# business configuration
+choices:
+  flags:
+    # minimum flags required for correct system operation (logic depends on them)
+    terms-accepted:
+      description: 'Accepted the terms'
+      default: true
+      read_only: true
+    guest:
+      description: 'Guest of the Convention'
+      admin_only: true
+      visible_for:
+        - self
+    skip_ban_check:
+      description: 'Bypass ban check for this attendee'
+      admin_only: true
+  packages: {}
+  options: {}
+  tshirtsizes: []
+  spoken_languages: []
+  countries: []
+  additional_info_areas:
+    # minimum entries required for correct system operation (logic depends on them)
+    regdesk:
+      permissions:
+        - regdesk
+    sponsordesk:
+      permissions:
+        - sponsordesk
+
+# development only - do NOT enable any of this for production, or you'll make the system insecure.
+development:
+  cors:
+    disable: false
+  security:
+    insecure_cookies: false
+    disable_http_only_cookies: false

@@ -1,19 +1,24 @@
 {
   "$id": "https://github.com/eurofurence/reg-helm-chart/values.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "additionalProperties": false,
   "title": "Values",
   "description": "Definition of available values.yaml fields",
+  "additionalProperties": false,
   "type": "object",
   "properties": {
     "global": {
+      "additionalProperties": false,
       "type": "object",
       "description": "global properties (can be set by ArgoCD)",
       "properties": {
-
+        "namespace": {
+          "type": "string",
+          "description": "kubernetes namespace to set on all resources. Leave unset to not supply one."
+        }
       }
     },
     "ingress": {
+      "additionalProperties": false,
       "type": "object",
       "description": "settings for an ingress (optional, off by default)",
       "properties": {
@@ -21,6 +26,637 @@
           "type": "boolean",
           "description": "enable creating an ingress",
           "default": false
+        }
+      }
+    },
+    "system": {
+      "type": "object",
+      "description": "system configuration",
+      "additionalProperties": false,
+      "properties": {
+        "registration_languages": {
+          "type": "array",
+          "description": "the languages the user can switch the UI to (and the languages emails are sent in). More precisely, the list of registration language (locale) choices and their human language representations, sorted by display order. If you add a language here, you will need to provide UI translation files for it in reg-frontend, as well as email template translations, or the user will not be able to use the system when they switch to that locale. The first in the list is the system default for new users (unless browser discovery finds a match).",
+          "items": {
+            "type": "object",
+            "description": "the key to use internally for the registration language (locale), one key per list entry only (so you can specify sorting order)",
+            "minProperties": 1,
+            "maxProperties": 1,
+            "propertyNames": {
+              "pattern": "^[a-z]+-[A-Z]+$"
+            },
+            "additionalProperties": {
+              "type": "object",
+              "description": "human language display names for a particular registration locale",
+              "propertyNames": {
+                "pattern": "^[a-z]+-[A-Z]+$",
+                "example": "en-US"
+              },
+              "minProperties": 1,
+              "additionalProperties": {
+                "type": "string",
+                "description": "human readable display name for the registration locale for the given display locale",
+                "example": "English (US)"
+              }
+            }
+          }
+        },
+        "public_base_url_domain": {
+          "type": "string",
+          "description": "the protocol and domain part of the public base url (possibly with port number). Do NOT include trailing /. Do NOT include any part of the context path here, or the system will not work (no https://example.com/some/context/path). Put the context part in public_base_context!",
+          "pattern": "^https?://[^/]*$",
+          "example": "https://example.com"
+        },
+        "public_base_context": {
+          "type": "string",
+          "description": "the context part of the public base url, do NOT include leading or trailing /, but can include inner slashes. Empty value is allowed, if you want the regsys url to be easy to guess.",
+          "pattern": "^(|[^/]|[^/].*[^/])$",
+          "default": "",
+          "example": "this/comes/after/the/domain"
+        },
+        "logging": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "logging defaults configuration",
+          "properties": {
+            "severity": {
+              "type": "string",
+              "enum": ["DEBUG", "INFO", "WARN", "ERROR"],
+              "default": "INFO",
+              "description": "Configure the default log level for all services. Individual services may allow overrides."
+            },
+            "style": {
+              "type": "string",
+              "enum": ["ecs", "plain"],
+              "default": "ecs",
+              "description": "Log style. ecs = elastic common schema structure json logging. plain = developer friendly plaintext logging."
+            }
+          }
+        },
+        "components": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "configuration for individual system components",
+          "properties": {
+            "attendee_service": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "system configuration for the attendee service",
+              "properties": {
+                "enable": {
+                  "type": "boolean",
+                  "description": "deploy the attendee service",
+                  "default": "true"
+                },
+                "local_base_url": {
+                  "type": "string",
+                  "description": "the local url used to access this service, including protocol and port, with no trailing /"
+                },
+                "early_reg_group_id": {
+                  "type": "string",
+                  "description": "set this to allow early registration to members of this group"
+                },
+                "require_login_for_reg": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "set this to true to require a valid oidc token for initial reg. This allow the service to store the subject of the token and use it for authorization. With the current feature set it is probably not useful to set this to false except for local testing."
+                },
+                "go_live": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "start_iso_datetime": {
+                      "type": "string",
+                      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+][0-9]{2}:[0-9]{2}|-[0-9]{2}:[0-9]{2})$",
+                      "description": "iso datetime (yyyy-mm-ddThh:mm:ss plus timezone, e.g. Z or +01:00) for public registration go-live. Required."
+                    },
+                    "early_reg_start_iso_datetime": {
+                      "type": "string",
+                      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+][0-9]{2}:[0-9]{2}|-[0-9]{2}:[0-9]{2})$",
+                      "description": "iso datetime (yyyy-mm-ddThh:mm:ss plus timezone, e.g. Z or +01:00) for early registration go-live. Optional, only useful if you also set early_reg_group_id, should be earlier than start_iso_datetime."
+                    }
+                  }
+                },
+                "dues": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "earliest_due_date": {
+                      "type": "string",
+                      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+                      "description": "earliest due date as iso date (yyyy-mm-dd), inclusive. If the due date calculation leads to an earlier date, it is silently adjusted. Use to keep payments within your tax year and prevent attendees from being considered overdue before they have even had a chance to pay."
+                    },
+                    "latest_due_date": {
+                      "type": "string",
+                      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+                      "description": "latest due date as iso date (yyyy-mm-dd), inclusive. If the due date calculation leads to a later date, it is silently adjusted. Often set to the last day of the convention to force payments to become due immediately for last minute registrations."
+                    },
+                    "due_days": {
+                      "type": "integer",
+                      "minValue": 1,
+                      "description": "calendar days until payments become overdue. 14 = after 2 weeks have passed.",
+                      "default": 14
+                    }
+                  }
+                },
+                "birthday": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "earliest": {
+                      "type": "string",
+                      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+                      "description": "earliest birthday (yyyy-mm-dd), inclusive. Registrations with a birthday before that are rejected as invalid. Defaults to 1901-01-01"
+                    },
+                    "latest": {
+                      "type": "string",
+                      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+                      "description": "latest birthday (yyyy-mm-dd), inclusive. Registrations with a birthday after that are rejected as 'too young to attend'. Use to prevent underage participants from registering, if so desired."
+                    }
+                  }
+                }
+
+              }
+            },
+            "auth_service": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "system configuration for the auth service (the bridge to the identity provider)",
+              "properties": {
+                "enable": {
+                  "type": "boolean",
+                  "description": "deploy the auth service",
+                  "default": "true"
+                },
+                "local_base_url": {
+                  "type": "string",
+                  "description": "the local url used to access this service, including protocol and port, with no trailing /"
+                },
+                "id_token_cookie_name": {
+                  "type": "string",
+                  "description": "the cookie name used for the jwt id token",
+                  "default": "JWT"
+                },
+                "access_token_cookie_name": {
+                  "type": "string",
+                  "description": "the cookie name used for the access token",
+                  "default": "AUTH"
+                },
+                "admin_group_id": {
+                  "type": "string",
+                  "description": "the group id for admins of this regsys instance",
+                  "default": "admin"
+                },
+                "admin_group_limit_to_identities": {
+                  "type": "array",
+                  "description": "the user ids to allow admin access for (additional security measure). If empty, no limitation.",
+                  "default": [],
+                  "uniqueItems": true
+                },
+                "other_group_ids": {
+                  "type": "array",
+                  "description": "the list of other relevant group ids. Any group not listed here (and not admin_group_id) will be removed from any API responses and ignored by the auth service",
+                  "default": [],
+                  "uniqueItems": true
+                },
+                "token_public_keys_PEM": {
+                  "type": "array",
+                  "description": "a list of public RSA keys in PEM format, see https://github.com/Jumpy-Squirrel/jwks2pem for obtaining PEM from openid keyset endpoint",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "allowed_audience_in_tokens": {
+                  "type": "string",
+                  "description": "optional, but will be checked if set (should set to reject tokens created for other clients than regsys)"
+                },
+                "allowed_issuer_in_tokens": {
+                  "type": "string",
+                  "description": "optional, but will be checked if set"
+                },
+                "user_info_url": {
+                  "type": "string",
+                  "description": "OpenID Connect user info URL. optional, if not configured, local validation is used if the key is provided. Not safe for production if omitted."
+                },
+                "user_info_cache_seconds": {
+                  "type": "integer",
+                  "minValue": 0,
+                  "default": 10,
+                  "description": "seconds to cache user info and token introspection results (can drastically reduce load on the identity provider). Important downside: revoked tokens will still grant access up to this long, so don't set it to large values. 10 seconds should be an acceptable compromise."
+                },
+                "token_introspection_url": {
+                  "type": "string",
+                  "description": "OpenID Connect token info URL. optional, if not configured, audience check is potentially skipped. Not recommended for production to omit this."
+                }
+              }
+            },
+            "mail_service": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "system configuration for the mail service",
+              "properties": {
+                "enable": {
+                  "type": "boolean",
+                  "description": "deploy the mail service",
+                  "default": "true"
+                },
+                "local_base_url": {
+                  "type": "string",
+                  "description": "the local url used to access this service, including protocol and port, with no trailing /"
+                }
+              }
+            },
+            "payment_cncrd_adapter": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "system configuration for the concardis adapter",
+              "properties": {
+                "enable": {
+                  "type": "boolean",
+                  "description": "deploy the concardis adapter",
+                  "default": "false"
+                },
+                "local_base_url": {
+                  "type": "string",
+                  "description": "the local url used to access this service, including protocol and port, with no trailing /"
+                }
+              }
+            },
+            "payment_service": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "system configuration for the payment service",
+              "properties": {
+                "enable": {
+                  "type": "boolean",
+                  "description": "deploy the payment service",
+                  "default": "true"
+                },
+                "local_base_url": {
+                  "type": "string",
+                  "description": "the local url used to access this service, including protocol and port, with no trailing /"
+                }
+              }
+            },
+            "room_service": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "system configuration for the room service",
+              "properties": {
+                "enable": {
+                  "type": "boolean",
+                  "description": "deploy the room service",
+                  "default": "false"
+                },
+                "local_base_url": {
+                  "type": "string",
+                  "description": "the local url used to access this service, including protocol and port, with no trailing /"
+                }
+              }
+            },
+            "regsys_classic": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "system configuration for regsys classic",
+              "properties": {
+                "enable": {
+                  "type": "boolean",
+                  "description": "deploy regsys classic",
+                  "default": "true"
+                },
+                "context_path": {
+                  "type": "string",
+                  "description": "the context path to use after public_base_context. Must not include slashes, or the system will not work. Cannot be empty.",
+                  "pattern": "^[^/]+$",
+                  "default": "regsys"
+                }
+              }
+            },
+            "frontend": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "system configuration for the frontend",
+              "properties": {
+                "enable": {
+                  "type": "boolean",
+                  "description": "deploy the frontend",
+                  "default": "true"
+                }
+              }
+            }
+          }
+        },
+        "database": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "configuration for the database connections",
+          "properties": {
+            "use": {
+              "type": "string",
+              "enum": ["mysql", "inmemory"],
+              "description": "which database to use. inmemory only works with 1 replica per service, and is useless for anything but temporary test installations"
+            },
+            "username": {
+              "description": "database username (mysql only)",
+              "type": "string"
+            },
+            "database": {
+              "type": "string",
+              "description": "database connection string (mysql only)",
+              "example": "tcp(localhost:3306)/dbname"
+            },
+            "parameters": {
+              "type": "array",
+              "description": "additional parameters to pass to the database driver (mysql only)",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "choices": {
+      "additionalProperties": false,
+      "type": "object",
+      "description": "business configuration",
+      "properties": {
+        "flags": {
+          "type": "object",
+          "description": "flags affect the behaviour of the system for a given attendee, but they do not cost money",
+          "propertyNames": {
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "additionalProperties": {
+            "additionalProperties": false,
+            "type": "object",
+            "description": "configuration for a flag. The name of the property is the internal short code used for the flag",
+            "properties": {
+              "description": {
+                "type": "string",
+                "description": "human readable description for the flag, in primary system language. Is not normally displayed to the user but may be used in error messages returned by the API."
+              },
+              "default": {
+                "type": "boolean",
+                "description": "when a new attendee is created, should the flag be set automatically? (note: does not work for admin_only flags, as the admin resource is not created initially for performance reasons)",
+                "default": false
+              },
+              "admin_only": {
+                "type": "boolean",
+                "description": "if set to true, this flag is located on the admin info resource rather than the regular attendee resource. A normal attendee will not be able to change it at all, in fact they will not even be able to see its value unless you set visible_for to a value that allows them access.",
+                "default": false
+              },
+              "read_only": {
+                "type": "boolean",
+                "description": "if set to true, this flag can only be changed by an admin",
+                "default": false
+              },
+              "visible_for": {
+                "type": "array",
+                "description": "the list of area permissions that allows read access to this flag. The special value 'self' in the list will allow an attendee to view the flag for their own registration, while any other entry will allow any attendee who has this value as part of their 'permissions' field to see the flag for all attendees.",
+                "default": [],
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]*$"
+                }
+              }
+            }
+          }
+        },
+        "packages": {
+          "type": "object",
+          "description": "packages are things that cost money",
+          "propertyNames": {
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "additionalProperties": {
+            "additionalProperties": false,
+            "type": "object",
+            "description": "configuration for a package. The name of the property is the internal short code used for the package",
+            "properties": {
+              "description": {
+                "type": "string",
+                "description": "human readable description for the package, in primary system language. Is not normally displayed to the user but may be used in error messages returned by the API."
+              },
+              "default": {
+                "type": "boolean",
+                "description": "when a new attendee is created, should the package be added automatically?",
+                "default": false
+              },
+              "read_only": {
+                "type": "boolean",
+                "description": "if set to true, this flag can only be changed by an admin",
+                "default": false
+              },
+              "at-least-one-mandatory": {
+                "type": "boolean",
+                "description": "set to true on the primary packages that allow participation in the event. At least one of these must be selected for a valid registration.",
+                "default": false
+              },
+              "price": {
+                "type": "integer",
+                "description": "price for the package in the smallest currency denomination (for example in cents), so 1000 is 10.00 EUR if system currency is euro."
+              },
+              "vat_percent": {
+                "type": "number",
+                "description": "value added tax percentage as a floating point number expressed in whole percent, 19.0 is 19% VAT."
+              },
+              "constraint": {
+                "type": "string",
+                "description": "the list of constraints for this package. Comma separated list of package keys, with an optional negation using !. Example: '!sponsor,!sponsor2' means this package cannot be selected at the same time with either of these two packages. 'sponsor' means must be selected together with sponsor.",
+                "pattern": "^(|(!?[a-z][a-z0-9_-]*,)*!?[a-z][a-z0-9_-]*)$",
+                "default": ""
+              },
+              "constraint_msg": {
+                "type": "string",
+                "description": "the human readable error message to send via the API if the constraint is violated. This may be displayed to the user, although usually the UI should check these conditions before even sending the invalid combination of packages."
+              },
+              "visible_for": {
+                "type": "array",
+                "description": "the list of area permissions that allows read access to this flag. The special value 'self' in the list will allow an attendee to view the flag for their own registration, while any other entry will allow any attendee who has this value as part of their 'permissions' field to see the flag for all attendees.",
+                "default": [],
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]*$"
+                }
+              }
+            }
+          }
+        },
+        "options": {
+          "type": "object",
+          "description": "options are just personal choices of the attendee, they do not affect system behaviour, but can be used for search queries",
+          "propertyNames": {
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "additionalProperties": {
+            "additionalProperties": false,
+            "type": "object",
+            "description": "configuration for an option. The name of the property is the internal short code used for the option",
+            "properties": {
+              "description": {
+                "type": "string",
+                "description": "human readable description for the option, in primary system language. Is not normally displayed to the user but may be used in error messages returned by the API."
+              }
+            }
+          }
+        },
+        "tshirtsizes": {
+          "type": "array",
+          "description": "the list of available tshirt-sizes and their human language representations, sorted by display order",
+          "items": {
+            "type": "object",
+            "description": "the key to use internally for the tshirt size, one key per list entry only (so you can specify sorting order)",
+            "minProperties": 1,
+            "maxProperties": 1,
+            "propertyNames": {
+              "pattern": "^[a-zA-Z0-9]+$"
+            },
+            "additionalProperties": {
+              "type": "object",
+              "description": "human language display names for a particular tshirt size key",
+              "propertyNames": {
+                "pattern": "^[a-z]+-[A-Z]+$",
+                "example": "en-US"
+              },
+              "minProperties": 1,
+              "additionalProperties": {
+                  "type": "string",
+                  "description": "human readable display name for the tshirt-size for the given display language",
+                  "example": "3XL (Regular Cut)"
+                }
+              }
+            }
+          },
+        "spoken_languages": {
+          "type": "array",
+          "description": "the list of available spoken language choices and their human language representations, sorted by display order",
+          "items": {
+            "type": "object",
+            "description": "the key to use internally for the spoken language, one key per list entry only (so you can specify sorting order)",
+            "minProperties": 1,
+            "maxProperties": 1,
+            "propertyNames": {
+              "pattern": "^[a-z]+$"
+            },
+            "additionalProperties": {
+              "type": "object",
+              "description": "human language display names for a particular spoken language",
+              "propertyNames": {
+                "pattern": "^[a-z]+-[A-Z]+$",
+                "example": "en-US"
+              },
+              "minProperties": 1,
+              "additionalProperties": {
+                "type": "string",
+                "description": "human readable display name for the spoken language for the given display locale",
+                "example": "German"
+              }
+            }
+          }
+        },
+        "countries": {
+          "type": "array",
+          "description": "the list of available countries and their human language representations, in default sort order",
+          "items": {
+            "type": "object",
+            "description": "the key to use internally for the country, one key per list entry only",
+            "minProperties": 1,
+            "maxProperties": 1,
+            "propertyNames": {
+              "pattern": "^[A-Z]+$",
+              "example": "DE"
+            },
+            "additionalProperties": {
+              "type": "object",
+              "description": "human language display names for a particular country",
+              "propertyNames": {
+                "pattern": "^[a-z]+-[A-Z]+$",
+                "example": "de-DE"
+              },
+              "minProperties": 1,
+              "additionalProperties": {
+                "type": "string",
+                "description": "human readable display name for the country for the given display locale",
+                "example": "Deutschland"
+              }
+            }
+          }
+        },
+        "additional_info_areas": {
+          "type": "object",
+          "description": "Additional info is a per-attendee key-value store. This setting configures available additional info areas (the 'area' parameter in the API url (/attendees/{id}/additional-info/{area}) and who may access them.",
+          "propertyNames": {
+            "pattern": "^[a-z]+$"
+          },
+          "additionalProperties": {
+            "additionalProperties": false,
+            "type": "object",
+            "description": "Access permissions for a single additional info area (the key is the area)",
+            "properties": {
+              "permissions": {
+                "type": "array",
+                "description": "the permission entries (in the permissions field in the admin info resource) that allow read/write/delete access to this additional info area. If a user has any of these values in their permissions field, they can read/write/delete this additional info area FOR ALL ATTENDEES.",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z]+$"
+                },
+                "uniqueItems": true
+              },
+              "self_read": {
+                "type": "boolean",
+                "description": "set to true to allow an attendee to read this additional info area for their own registration"
+              },
+              "self_write": {
+                "type": "boolean",
+                "description": "set to true to allow an attendee to write/delete this additional info area for their own registration"
+              }
+            }
+          }
+        }
+      }
+    },
+    "development": {
+      "additionalProperties": false,
+      "type": "object",
+      "description": "development only options, do NOT enable any of this for production",
+      "properties": {
+        "cors": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "configuration for CORS (relevant for development)",
+          "properties": {
+            "disable": {
+              "type": "boolean",
+              "default": false,
+              "description": "Set to true to enable sending CORS allow origin headers. NOT recommended for production."
+            },
+            "allow_origin": {
+              "type": "string",
+              "description": "A single origin URL including protocol. Note that a comma separated list of multiple origins will not work, even though it is technically allowed by the standard, modern browsers reject it in the presence of authentication. Same goes for the older value '*', which now doesn't work at all. This configuration only does anything if disable is also set to true.",
+              "pattern": "^(|https?://[^,]*)$",
+              "example": "http://localhost:8000"
+            }
+          }
+        },
+        "security": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "make the system insecure for debugging purposes (relevant for development)",
+          "properties": {
+            "insecure_cookies": {
+              "type": "boolean",
+              "default": false,
+              "description": "Set this to true to disable the secure cookie flag (useful for proxies on localhost only). Will allow the cookies to be sent over http connections. NOT safe for production. Will log lots of warnings"
+            },
+            "disable_http_only_cookies": {
+              "type": "boolean",
+              "default": false,
+              "description": "Set this to true to disable the http only cookie flag (useful for debugging purposes). Will allow access to the cookies from javascript code. NOT safe for production. Will log lots of warnings."
+            }
+          }
         }
       }
     }

@@ -1,0 +1,394 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: regsys-cm
+  {{- with .Values.global.namespace }}
+  namespace: '{{ . }}'
+  {{- end }}
+data:
+  {{- $public_base_url := ternary .Values.system.public_base_url_domain (printf "%s/%s" .Values.system.public_base_url_domain .Values.system.public_base_context) (empty .Values.system.public_base_context) }}
+  regsys-classic-config: |
+    # configuration file for regsys-classic
+    web:
+      server_url: '{{ $public_base_url }}/'
+      context_path: '{{ .Values.system.components.regsys_classic.context_path }}'
+      regsys_public_url: '{{ $public_base_url }}/register'
+      {{- range (index .Values.system.registration_languages 0) }}
+      {{-   range $key, $value := . }}
+      system_language: '{{ $key }}'
+      {{-   end }}
+      {{- end }}
+    downstream:
+      auth_service: '{{ .Values.system.components.auth_service.local_base_url }}'
+      attendee_service: '{{ .Values.system.components.attendee_service.local_base_url }}'
+      payment_service: '{{ .Values.system.components.payment_service.local_base_url }}'
+      mail_service: '{{ .Values.system.components.mail_service.local_base_url }}'
+      id_token_cookie_name: '{{ .Values.system.components.auth_service.id_token_cookie_name }}'
+      access_token_cookie_name: '{{ .Values.system.components.auth_service.access_token_cookie_name }}'
+      admin_group: '{{ .Values.system.components.auth_service.admin_group_id }}'
+      # api_token: '$REG_SECRET_API_TOKEN'
+      # nosecounter_token: '$REG_SECRET_NOSECOUNTER_TOKEN'
+      # dd_token: '$REG_SECRET_DD_TOKEN'
+      # artshow_token: '$REG_SECRET_ARTSHOW_TOKEN'
+      # boat_token: '$REG_SECRET_BOAT_TOKEN'
+      # secu_token: '$REG_SECRET_SECU_TOKEN'
+      # secu_secret: '$REG_SECRET_SECU_SECRET'
+    testing: {}
+    choices:
+      flags:
+        {{- .Values.choices.flags | toYaml | nindent 8 }}
+      packages:
+        {{- .Values.choices.packages | toYaml | nindent 8 }}
+      options:
+        {{- .Values.choices.options | toYaml | nindent 8 }}
+    tshirtsizes:
+      {{- .Values.choices.tshirtsizes | toYaml | nindent 6 }}
+    spoken_languages:
+      {{- .Values.choices.spoken_languages | toYaml | nindent 6 }}
+    countries:
+      {{- .Values.choices.countries | toYaml | nindent 6 }}
+    registration_languages:
+      {{- .Values.system.registration_languages | toYaml | nindent 6 }}
+
+  attendee-service-config: |
+    # configuration file for attendee-service
+    service:
+      name: 'Attendee Service'
+      regsys_public_url: '{{ $public_base_url }}/register'
+      {{- if .Values.system.components.payment_service.enable }}
+      payment_service: '{{ .Values.system.components.payment_service.local_base_url }}'
+      {{- end }}
+      {{- if .Values.system.components.mail_service.enable }}
+      mail_service: '{{ .Values.system.components.mail_service.local_base_url }}'
+      {{- end }}
+      {{- if .Values.system.components.auth_service.enable }}
+      auth_service: '{{ .Values.system.components.auth_service.local_base_url }}'
+      {{- end }}
+    server:
+      port: 8080
+    database:
+      use: '{{ .Values.system.database.use }}'
+      {{- if eq .Values.system.database.use "mysql" }}
+      username: '{{ .Values.system.database.username }}'
+      # password: '$REG_SECRET_DB_PASSWORD'
+      database: '{{ .Values.system.database.database }}'
+      {{-   with .Values.system.database.parameters }}
+      parameters:
+        {{- range . }}
+        - '{{ . }}'
+        {{- end }}
+      {{-   end }}
+      {{- end }}
+    security:
+      fixed_token: {}
+        # api: '$REG_SECRET_API_TOKEN'
+      oidc:
+        id_token_cookie_name: '{{ .Values.system.components.auth_service.id_token_cookie_name }}'
+        access_token_cookie_name: '{{ .Values.system.components.auth_service.access_token_cookie_name }}'
+        {{- with .Values.system.components.auth_service.token_public_keys_PEM }}
+        token_public_keys_PEM: {{- . | toYaml | nindent 8 }}
+        {{- end }}
+        admin_group: '{{ .Values.system.components.auth_service.admin_group_id }}'
+        {{- with .Values.system.components.attendee_service.early_reg_group_id }}
+        early_reg_group: '{{ . }}'
+        {{- end }}
+        {{- with .Values.system.components.auth_service.allowed_audience_in_tokens }}
+        audience: '{{ . }}'
+        {{- end }}
+        {{- with .Values.system.components.auth_service.allowed_issuer_in_tokens }}
+        issuer: '{{ . }}'
+        {{- end }}
+      cors:
+        disable: {{ .Values.development.cors.disable }}
+        {{- with .Values.development.cors.allow_origin }}
+        allow_origin: '{{ . }}'
+        {{- end }}
+      require_login_for_reg: {{ .Values.system.components.attendee_service.require_login_for_reg }}
+    logging:
+      severity: {{ .Values.system.logging.severity }}
+      style: {{ .Values.system.logging.style }}
+    go_live:
+      start_iso_datetime: '{{ .Values.system.components.attendee_service.go_live.start_iso_datetime }}'
+      {{- with .Values.system.components.attendee_service.go_live.early_reg_start_iso_datetime }}
+      early_reg_start_iso_datetime: '{{ . }}'
+      {{- end }}
+    dues:
+      earliest_due_date: '{{ .Values.system.components.attendee_service.dues.earliest_due_date }}'
+      latest_due_date: '{{ .Values.system.components.attendee_service.dues.latest_due_date }}'
+      due_days: {{ .Values.system.components.attendee_service.dues.due_days }}
+    birthday:
+      earliest: '{{ .Values.system.components.attendee_service.birthday.earliest }}'
+      latest: '{{ .Values.system.components.attendee_service.birthday.latest }}'
+    additional_info_areas:
+      {{- .Values.choices.additional_info_areas | toYaml | nindent 6 }}
+    choices:
+      flags:
+        {{- .Values.choices.flags | toYaml | nindent 8 }}
+      packages:
+        {{- .Values.choices.packages | toYaml | nindent 8 }}
+      options:
+        {{- .Values.choices.options | toYaml | nindent 8 }}
+    tshirtsizes:
+{{- range .Values.choices.tshirtsizes }}
+{{-   range $key, $value := . }}
+      - {{ $key }}
+{{-   end }}
+{{- end }}
+    spoken_languages:
+{{- range .Values.choices.spoken_languages }}
+{{-   range $key, $value := . }}
+      - {{ $key }}
+{{-   end }}
+{{- end }}
+    registration_languages:
+{{- range .Values.system.registration_languages }}
+{{-   range $key, $value := . }}
+      - {{ $key }}
+{{-   end }}
+{{- end }}
+    countries:
+{{- range .Values.choices.countries }}
+{{-   range $key, $value := . }}
+      - {{ $key }}
+{{-   end }}
+{{- end }}
+
+  auth-service-config: |
+    # configuration file for auth-service
+    service:
+      name: 'Auth Service'
+      # external url of my own "dropoff" endpoint. This must match the OAuth2 redirect_url setting on each client
+      dropoff_endpoint_url: '{{ $public_base_url }}/authsrv/v1/dropoff'
+    server:
+      port: 8080
+    security:
+      oidc:
+        id_token_cookie_name: '{{ .Values.system.components.auth_service.id_token_cookie_name }}'
+        access_token_cookie_name: '{{ .Values.system.components.auth_service.access_token_cookie_name }}'
+        relevant_groups:
+          admin:
+            - '123456789'
+          earlyReg: []
+        {{- with .Values.system.components.auth_service.token_public_keys_PEM }}
+        token_public_keys_PEM: {{- . | toYaml | nindent 8 }}
+        {{- end }}
+        {{- with .Values.system.components.auth_service.user_info_url }}
+        user_info_url: '{{ . }}'
+        {{- end }}
+        user_info_cache_seconds: {{ .Values.system.components.auth_service.user_info_cache_seconds | default 10 }}
+        {{- with .Values.system.components.auth_service.token_introspection_url }}
+        token_introspection_url: '{{ . }}'
+        {{- end }}
+        {{- with .Values.system.components.auth_service.allowed_audience_in_tokens }}
+        audience: '{{ . }}'
+        {{- end }}
+        {{- with .Values.system.components.auth_service.allowed_issuer_in_tokens }}
+        issuer: '{{ . }}'
+        {{- end }}
+      cors:
+        disable: {{ .Values.development.cors.disable }}
+        {{- with .Values.development.cors.allow_origin }}
+        allow_origin: '{{ . }}'
+        {{- end }}
+        insecure_cookies: {{ .Values.development.security.insecure_cookies }}
+        disable_http_only_cookies: {{ .Values.development.security.disable_http_only_cookies }}
+    logging:
+      severity: INFO
+    # TODO: ***continue work from here***
+    identity_provider:
+      authorization_endpoint: https://my.identity.provider.example.com/auth
+      token_endpoint: https://my.identity.provider.example.com/token
+      end_session_endpoint: https://my.identity.provider.example.com/logout
+      token_request_timeout: 5s
+      auth_request_timeout: 600s
+    application_configs:
+      example-service:
+        display_name: Example Service
+        scope: 'example openid email groups profile'
+        client_id: IAmNotSoSecret.
+        client_secret: IAmVerySecret!
+        default_dropoff_url: https://example.com/app/
+        dropoff_url_pattern: https://example.com/app/(\?(foo=[a-z]+|bar=[0-9]{3,8}|&)+)?
+        # note that the userinfo endpoint only works for those applications where this matches security.oidc.id_token_cookie_name
+        # we do support multiple application configs, but for now, you only get userinfo for one of them
+        cookie_name: JWT
+        cookie_domain: example.com
+        cookie_path: /app
+        cookie_expiry: 6h
+
+  mail-service-config: |
+    # configuration file for mail-service
+    server:
+      port: 9093
+    mail:
+      log_only: false # Only log the E-Mail (Requires logging to be set to DEBUG). No sending.
+      dev_mode: false # Override the recipient (To) to the list below, ignore Bcc/Cc.
+      dev_mails:
+        - 'developer@example.com'
+        - 'another.dev@example.com'
+      # optional debug option that adds this mail address to Bcc on every email sent
+      # add_auto_bcc: 'debug@example.com'
+      from: 'Example Sender <no-reply@example.com>' # Sender E-Mail Address (Can be either just "email@example.com" OR "Example <email@example.com>"
+      from_password: 'email-account-password' # Sender E-Mail Password
+      smtp_host: 'mail.example.com' # Mail-server Host
+      smtp_port: '587' # Mail-server Port
+    database:
+      use: 'inmemory' # [inmemory, mysql]
+      username: 'db-user-username'
+      password: 'db-user-password'
+      database: 'tcp(localhost:3306)/db-name'
+      parameters:
+        - 'charset=utf8mb4'
+        - 'collation=utf8mb4_general_ci'
+        - 'parseTime=True'
+        - 'timeout=30s' # connection timeout
+    security:
+      fixed_token:
+        api: 'put_secure_random_string_here_for_api_token'
+      oidc:
+        # set this nonempty to read the jwt token from a cookie
+        id_token_cookie_name: 'JWT'
+        access_token_cookie_name: 'AUTH'
+        # a list of public RSA keys in PEM format, see https://github.com/Jumpy-Squirrel/jwks2pem for obtaining PEM from openid keyset endpoint
+        token_public_keys_PEM:
+          - |
+            -----BEGIN PUBLIC KEY-----
+            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnzyis1ZjfNB0bBgKFMSv
+            vkTtwlvBsaJq7S5wA+kzeVOVpVWwkWdVha4s38XM/pa/yr47av7+z3VTmvDRyAHc
+            aT92whREFpLv9cj5lTeJSibyr/Mrm/YtjCZVWgaOYIhwrXwKLqPr/11inWsAkfIy
+            tvHWTxZYEcXLgAXFuUuaS3uF9gEiNQwzGTU1v0FqkqTBr4B8nW3HCN47XUu0t8Y0
+            e+lf4s4OxQawWD79J9/5d3Ry0vbV3Am1FtGJiJvOwRsIfVChDpYStTcHTCMqtvWb
+            V6L11BWkpzGXSW4Hv43qa+GSYOD2QU68Mb59oSk2OB+BtOLpJofmbGEGgvmwyCI9
+            MwIDAQAB
+            -----END PUBLIC KEY-----
+        admin_group: 'admin'
+        # if you leave this blank, userinfo checks will be skipped
+        auth_service: 'http://localhost:4712' # no trailing slash
+        # optional, but will be checked if set (should set to reject tokens created for other clients than regsys)
+        audience: 'only-allowed-audience-in-tokens'
+        # optional, but will be checked if set
+        issuer: 'only-allowed-issuer-in-tokens'
+      cors:
+        # set this to true to send disable cors headers - not for production - local/test instances only - will log lots of warnings
+        disable: false
+        # if setting disable_cors, you should also specify this, as a comma separated list of allowed origins
+        allow_origin: 'http://localhost:8000'
+    logging:
+      severity: INFO
+      style: plain # or ecs (elastic common schema), the default
+
+  payment-cncrd-adapter-config: |
+    # configuration file for payment-cncrd-adapter
+    service:
+      name: 'Registration Concardis Adapter'
+      # my own public URL, needed if you want the simulator to generate valid paylinks, leave unset for the very basic mock used in unit tests
+      # setting is completely ignored if you set concardis_downstream, because that turns off the simulator completely
+      public_url: 'http://localhost:10000/cncrdsrv' # do not add trailing /
+      # base url of the attendee service, leave blank to use simple in-memory simulator (not useful for production)
+      attendee_service: 'http://localhost:9091' # do not add trailing /
+      # base url of the mail service, leave blank to use simple in-memory simulator (not useful for production)
+      mail_service: 'http://localhost:9093' # no trailing slash
+      # base url of the payment service, leave blank to use simple in-memory simulator (not useful for production)
+      payment_service: 'http://localhost:9092' # do not add trailing /
+      # base url for the concardis downstream, leave blank to use the local simulator (should set public_url or generated paylinks will not work)
+      # concardis_downstream: 'https://api.pay-link.eu'
+      concardis_instance: 'demo'
+      concardis_api_secret: 'demosecret'
+      # if set, will add these redirects to the request for the paylink
+      success_redirect: 'http://localhost:10000/app/register'
+      failure_redirect: 'http://localhost:10000/app/register'
+    server:
+      port: 9097
+    logging:
+      severity: INFO
+      # switch to true to log ALL communication from/to the payment provider (only signatures omitted)
+      full_requests: false
+      # set this to receive error notification mails if unexpected interaction with the payment provider occurs
+      # error_notify_mail: nobody@example.com
+    security:
+      fixed_token:
+        api: 'put_secure_random_string_here_for_api_token'
+        webhook: 'put_secure_random_string_here_for_webhook'
+      cors:
+        # set this to true to send disable cors headers - not for production - local/test instances only - will log lots of warnings
+        disable: false
+        # if setting disable_cors, you should also specify this
+        allow_origin: 'http://localhost:8000'
+    invoice:
+      title: Time Traveller Con 1969 Edition - Attendee Fee
+      description: |
+        Fee for attending Time Traveller Con 1969 Edition
+        from July 17th to 22nd 1969, including all selected options.
+        Accomodation and catgering will have been provided.
+      purpose: Payment of entrance fee and options.
+
+  payment-service-config: |
+    # configuration file for payment-service
+    service:
+      name: 'Registration Payment Service'
+      attendee_service: 'http://localhost:9091' # do not include trailing slash
+      provider_adapter: 'http://localhost:9097' # do not include trailing slash
+      transaction_id_prefix: "EF2023"
+      allowed_currencies:
+        - 'EUR'
+      payment_default_comment: 'manually initiated credit card payment'
+    server:
+      port: 9092
+      read_timeout_seconds: 30
+      write_timeout_seconds: 30
+      idle_timeout_seconds: 120
+    database:
+      use: mysql #or inmemory
+      username: 'demouser'
+      password: 'demopw'
+      database: 'tcp(localhost:3306)/dbname'
+      parameters:
+        - 'charset=utf8mb4'
+        - 'collation=utf8mb4_general_ci'
+        - 'parseTime=True'
+        - 'timeout=30s' # connection timeout
+    security:
+      fixed_token:
+        api: 'put_secure_random_string_here_for_api_token'
+      oidc:
+        # set this nonempty to also try to read the jwt token from a cookie (Authorization header with Bearer token is always tried)
+        id_token_cookie_name: 'JWT'
+        access_token_cookie_name: 'AUTH'
+        # a list of public RSA keys in PEM format, see https://github.com/Jumpy-Squirrel/jwks2pem for obtaining PEM from openid keyset endpoint
+        # this is held locally so token validation can be done locally, especially on local installations that do not actually have an IDP.
+        token_public_keys_PEM:
+          - |
+            -----BEGIN PUBLIC KEY-----
+            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnzyis1ZjfNB0bBgKFMSv
+            vkTtwlvBsaJq7S5wA+kzeVOVpVWwkWdVha4s38XM/pa/yr47av7+z3VTmvDRyAHc
+            aT92whREFpLv9cj5lTeJSibyr/Mrm/YtjCZVWgaOYIhwrXwKLqPr/11inWsAkfIy
+            tvHWTxZYEcXLgAXFuUuaS3uF9gEiNQwzGTU1v0FqkqTBr4B8nW3HCN47XUu0t8Y0
+            e+lf4s4OxQawWD79J9/5d3Ry0vbV3Am1FtGJiJvOwRsIfVChDpYStTcHTCMqtvWb
+            V6L11BWkpzGXSW4Hv43qa+GSYOD2QU68Mb59oSk2OB+BtOLpJofmbGEGgvmwyCI9
+            MwIDAQAB
+            -----END PUBLIC KEY-----
+          - |
+            -----BEGIN PUBLIC KEY-----
+            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAu1SU1LfVLPHCozMxH2Mo
+            4lgOEePzNm0tRgeLezV6ffAt0gunVTLw7onLRnrq0/IzW7yWR7QkrmBL7jTKEn5u
+            +qKhbwKfBstIs+bMY2Zkp18gnTxKLxoS2tFczGkPLPgizskuemMghRniWaoLcyeh
+            kd3qqGElvW/VDL5AaWTg0nLVkjRo9z+40RQzuVaE8AkAFmxZzow3x+VJYKdjykkJ
+            0iT9wCS0DRTXu269V264Vf/3jvredZiKRkgwlL9xNAwxXFg0x/XFw005UWVRIkdg
+            cKWTjpBP2dPwVZ4WWC+9aGVd+Gyn1o0CLelf4rEjGoXbAAEgAqeGUxrcIlbjXfbc
+            mwIDAQAB
+            -----END PUBLIC KEY-----
+        admin_group: 'admin'
+        # if you leave this blank, userinfo checks will be skipped
+        auth_service: 'http://localhost:4712' # no trailing slash
+        # optional, but will be checked if set (should set to reject tokens created for other clients than regsys)
+        audience: 'only-allowed-audience-in-tokens'
+        # optional, but will be checked if set
+        issuer: 'only-allowed-issuer-in-tokens'
+      cors:
+        # set this to true to send disable cors headers - not for production - local/test instances only - will log lots of warnings
+        disable: false
+        # if setting disable_cors to true, you should also specify this, as a comma separated list of allowed origins
+        allow_origin: 'http://localhost:8000'
+    logging:
+      severity: INFO
+      style: plain # or ecs (elastic common schema), the default
