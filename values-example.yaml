@@ -68,15 +68,34 @@ system:
       allowed_audience_in_tokens: 'aud-1234'
       # optional, but will be checked if set
       allowed_issuer_in_tokens: 'https://example.com'
-
-      # optional, if not configured, local validation is used if the key is provided. Not safe for production if omitted.
-      user_info_url: https://my.identity.provider.example.com/user-info
-      # optional, if not configured, audience check is potentially skipped. Not recommended for production to omit this.
-      token_introspection_url: https://my.identity.provider.example.com/token-introspection
+      identity_provider:
+        # optional, if not configured, local validation is used if the key is provided. Not safe for production if omitted.
+        user_info_url: https://my.identity.provider.example.com/user-info
+        # optional, if not configured, audience check is potentially skipped. Not recommended for production to omit this.
+        token_introspection_url: https://my.identity.provider.example.com/token-introspection
+        authorization_endpoint: https://my.identity.provider.example.com/auth
+        token_endpoint: https://my.identity.provider.example.com/token
+        end_session_endpoint: https://my.identity.provider.example.com/logout
+        token_request_timeout: 5s
+        auth_request_timeout: 600s
+      scope: some.scope
+      default_dropoff_url: https://example.com/app/
+      dropoff_url_pattern: https://example.com/app/(\?(foo=[a-z]+|bar=[0-9]{3,8}|&)+)?
+      cookie_domain: example.com
+      cookie_expiry: 6h
 
     mail_service:
       enable: true
       local_base_url: http://mail-service:8080
+      log_only: false
+      dev_mode: false
+      dev_mails:
+        - 'developer@example.com'
+        - 'another.dev@example.com'
+      add_auto_bcc: 'debug@example.com'
+      from: 'Example Sender <no-reply@example.com>'
+      smtp_host: 'mail.example.com'
+      smtp_port: 587
 
     payment_cncrd_adapter:
       enable: false

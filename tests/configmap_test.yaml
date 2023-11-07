@@ -37,8 +37,26 @@ tests:
                 -----END PUBLIC KEY-----
             allowed_audience_in_tokens: 'aud-1234'
             allowed_issuer_in_tokens: 'https://identity.example.com'
-            user_info_url: https://my.identity.provider.example.com/user-info
-            token_introspection_url: https://my.identity.provider.example.com/token-introspection
+            identity_provider:
+              user_info_url: https://my.identity.provider.example.com/user-info
+              token_introspection_url: https://my.identity.provider.example.com/token-introspection
+              authorization_endpoint: https://my.identity.provider.example.com/auth
+              token_endpoint: https://my.identity.provider.example.com/token
+              end_session_endpoint: https://my.identity.provider.example.com/logout
+              token_request_timeout: 5s
+              auth_request_timeout: 600s
+            scope: some.scope
+            default_dropoff_url: https://example.com/app/
+            dropoff_url_pattern: https://example.com/app/(\?(foo=[a-z]+|bar=[0-9]{3,8}|&)+)?
+            cookie_domain: example.com
+          mail_service:
+            dev_mails:
+              - developer@example.com
+              - another.dev@example.com
+            add_auto_bcc: 'debug@example.com'
+            from: 'Example Sender <no-reply@example.com>'
+            smtp_host: 'mail.example.com'
+            smtp_port: 587
         database:
           use: mysql
       choices:
@@ -284,89 +302,71 @@ tests:
                 disable_http_only_cookies: false
             logging:
               severity: INFO
-            # TODO: ***continue work from here***
             identity_provider:
-              authorization_endpoint: https://my.identity.provider.example.com/auth
-              token_endpoint: https://my.identity.provider.example.com/token
-              end_session_endpoint: https://my.identity.provider.example.com/logout
+              authorization_endpoint: 'https://my.identity.provider.example.com/auth'
+              token_endpoint: 'https://my.identity.provider.example.com/token'
+              end_session_endpoint: 'https://my.identity.provider.example.com/logout'
               token_request_timeout: 5s
               auth_request_timeout: 600s
             application_configs:
-              example-service:
-                display_name: Example Service
-                scope: 'example openid email groups profile'
-                client_id: IAmNotSoSecret.
-                client_secret: IAmVerySecret!
-                default_dropoff_url: https://example.com/app/
-                dropoff_url_pattern: https://example.com/app/(\?(foo=[a-z]+|bar=[0-9]{3,8}|&)+)?
-                # note that the userinfo endpoint only works for those applications where this matches security.oidc.id_token_cookie_name
-                # we do support multiple application configs, but for now, you only get userinfo for one of them
-                cookie_name: JWT
-                cookie_domain: example.com
-                cookie_path: /app
-                cookie_expiry: 6h
+              registration-system:
+                display_name: Registration System
+                scope: 'some.scope openid email groups profile'
+                # client_id: '$REG_SECRET_OIDC_CLIENT_ID'
+                # client_secret: '$REG_SECRET_OIDC_CLIENT_SECRET'
+                default_dropoff_url: 'https://example.com/app/'
+                dropoff_url_pattern: 'https://example.com/app/(\?(foo=[a-z]+|bar=[0-9]{3,8}|&)+)?'
+                cookie_name: 'JWT'
+                cookie_domain: 'example.com'
+                cookie_path: '/hello/you'
+                cookie_expiry: '6h'
       - equal:
           path: data.mail-service-config
           value: |
             # configuration file for mail-service
             server:
-              port: 9093
+              port: 8080
             mail:
-              log_only: false # Only log the E-Mail (Requires logging to be set to DEBUG). No sending.
-              dev_mode: false # Override the recipient (To) to the list below, ignore Bcc/Cc.
+              log_only: false
+              dev_mode: false
               dev_mails:
-                - 'developer@example.com'
-                - 'another.dev@example.com'
-              # optional debug option that adds this mail address to Bcc on every email sent
-              # add_auto_bcc: 'debug@example.com'
-              from: 'Example Sender <no-reply@example.com>' # Sender E-Mail Address (Can be either just "email@example.com" OR "Example <email@example.com>"
-              from_password: 'email-account-password' # Sender E-Mail Password
-              smtp_host: 'mail.example.com' # Mail-server Host
-              smtp_port: '587' # Mail-server Port
+                - developer@example.com
+                - another.dev@example.com
+              add_auto_bcc: 'debug@example.com'
+              from: 'Example Sender <no-reply@example.com>'
+              # from_password: '$REG_SECRET_SMTP_PASSWORD' # or blank for no password
+              smtp_host: 'mail.example.com'
+              smtp_port: '587'
             database:
-              use: 'inmemory' # [inmemory, mysql]
-              username: 'db-user-username'
-              password: 'db-user-password'
-              database: 'tcp(localhost:3306)/db-name'
+              use: 'mysql'
+              username: 'demouser'
+              # password: '$REG_SECRET_DB_PASSWORD'
+              database: 'tcp(localhost:3306)/dbname'
               parameters:
                 - 'charset=utf8mb4'
                 - 'collation=utf8mb4_general_ci'
                 - 'parseTime=True'
-                - 'timeout=30s' # connection timeout
+                - 'timeout=30s'
             security:
-              fixed_token:
-                api: 'put_secure_random_string_here_for_api_token'
+              fixed_token: {}
+                # api: '$REG_SECRET_API_TOKEN'
               oidc:
-                # set this nonempty to read the jwt token from a cookie
                 id_token_cookie_name: 'JWT'
                 access_token_cookie_name: 'AUTH'
-                # a list of public RSA keys in PEM format, see https://github.com/Jumpy-Squirrel/jwks2pem for obtaining PEM from openid keyset endpoint
                 token_public_keys_PEM:
-                  - |
-                    -----BEGIN PUBLIC KEY-----
-                    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnzyis1ZjfNB0bBgKFMSv
-                    vkTtwlvBsaJq7S5wA+kzeVOVpVWwkWdVha4s38XM/pa/yr47av7+z3VTmvDRyAHc
-                    aT92whREFpLv9cj5lTeJSibyr/Mrm/YtjCZVWgaOYIhwrXwKLqPr/11inWsAkfIy
-                    tvHWTxZYEcXLgAXFuUuaS3uF9gEiNQwzGTU1v0FqkqTBr4B8nW3HCN47XUu0t8Y0
-                    e+lf4s4OxQawWD79J9/5d3Ry0vbV3Am1FtGJiJvOwRsIfVChDpYStTcHTCMqtvWb
-                    V6L11BWkpzGXSW4Hv43qa+GSYOD2QU68Mb59oSk2OB+BtOLpJofmbGEGgvmwyCI9
-                    MwIDAQAB
-                    -----END PUBLIC KEY-----
-                admin_group: 'admin'
-                # if you leave this blank, userinfo checks will be skipped
-                auth_service: 'http://localhost:4712' # no trailing slash
-                # optional, but will be checked if set (should set to reject tokens created for other clients than regsys)
-                audience: 'only-allowed-audience-in-tokens'
-                # optional, but will be checked if set
-                issuer: 'only-allowed-issuer-in-tokens'
+                - |
+                  -----BEGIN PUBLIC KEY-----
+                  ABC
+                  -----END PUBLIC KEY-----
+                admin_group: 'D1DQADM'
+                auth_service: 'http://auth-service:8080'
+                audience: 'aud-1234'
+                issuer: 'https://identity.example.com'
               cors:
-                # set this to true to send disable cors headers - not for production - local/test instances only - will log lots of warnings
                 disable: false
-                # if setting disable_cors, you should also specify this, as a comma separated list of allowed origins
-                allow_origin: 'http://localhost:8000'
             logging:
               severity: INFO
-              style: plain # or ecs (elastic common schema), the default
+              style: ecs
 
       - equal:
           path: data.payment-cncrd-adapter-config
@@ -503,6 +503,10 @@ tests:
               latest_due_date: '2023-09-23'
             birthday:
               latest: '2004-08-24'
+          auth_service:
+            identity_provider:
+              user_info_url: https://my.identity.provider.example.com/user-info
+              token_introspection_url: https://my.identity.provider.example.com/token-introspection
       choices:
         packages:
           attendance:
@@ -540,6 +544,10 @@ tests:
               latest_due_date: '2023-09-23'
             birthday:
               latest: '2004-08-24'
+          auth_service:
+            identity_provider:
+              user_info_url: https://my.identity.provider.example.com/user-info
+              token_introspection_url: https://my.identity.provider.example.com/token-introspection
       choices:
         packages:
           attendance:

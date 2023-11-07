@@ -35,10 +35,13 @@ system:
       id_token_cookie_name: 'JWT'
       access_token_cookie_name: 'AUTH'
       user_info_cache_seconds: 10
+      cookie_expiry: 6h
 
     mail_service:
       enable: true
       local_base_url: http://mail-service:8080
+      log_only: false
+      dev_mode: false
 
     payment_cncrd_adapter:
       enable: false

@@ -234,19 +234,69 @@
                   "type": "string",
                   "description": "optional, but will be checked if set"
                 },
-                "user_info_url": {
-                  "type": "string",
-                  "description": "OpenID Connect user info URL. optional, if not configured, local validation is used if the key is provided. Not safe for production if omitted."
-                },
                 "user_info_cache_seconds": {
                   "type": "integer",
                   "minValue": 0,
                   "default": 10,
                   "description": "seconds to cache user info and token introspection results (can drastically reduce load on the identity provider). Important downside: revoked tokens will still grant access up to this long, so don't set it to large values. 10 seconds should be an acceptable compromise."
                 },
-                "token_introspection_url": {
+                "identity_provider": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "identity provider configuration",
+                  "properties": {
+                    "user_info_url": {
+                      "type": "string",
+                      "description": "OpenID Connect user info URL. optional, if not configured, local validation is used if the key is provided. Not safe for production if omitted."
+                    },
+                    "token_introspection_url": {
+                      "type": "string",
+                      "description": "OpenID Connect token info URL. optional, if not configured, audience check is potentially skipped. Not recommended for production to omit this."
+                    },
+                    "authorization_endpoint": {
+                      "type": "string",
+                      "description": "OpenID Connect auth endpoint URL"
+                    },
+                    "token_endpoint": {
+                      "type": "string",
+                      "description": "OpenID Connect token endpoint URL"
+                    },
+                    "end_session_endpoint": {
+                      "type": "string",
+                      "description": "OpenID Connect end session endpoint URL (aka. logout)"
+                    },
+                    "token_request_timeout": {
+                      "type": "string",
+                      "pattern": "^[1-9][0-9]*(ms|s|m)$"
+                    },
+                    "auth_request_timeout": {
+                      "type": "string",
+                      "pattern": "^[1-9][0-9]*(ms|s|m)$"
+                    }
+                  }
+                },
+                "scope": {
                   "type": "string",
-                  "description": "OpenID Connect token info URL. optional, if not configured, audience check is potentially skipped. Not recommended for production to omit this."
+                  "description": "primary scope to request. openid email groups profile are added automatically. Your OIDC app must have all these scopes enabled for the system to function."
+                },
+                "default_dropoff_url": {
+                  "type": "string",
+                  "description": "default dropoff url, the redirect target after authentication success"
+                },
+                "dropoff_url_pattern": {
+                  "type": "string",
+                  "description": "OIDC dropoff url pattern, must include the default_dropoff_url. redirect targets that do not match this are rejected for security reasons. Regular expression."
+                },
+                "cookie_domain": {
+                  "type": "string",
+                  "description": "domain to limit cookie to",
+                  "example": "example.com"
+                },
+                "cookie_expiry": {
+                  "type": "string",
+                  "description": "Time until the cookie expires (unless the JWT token expires before that). s = seconds, m = minutes, h = hours",
+                  "pattern": "^[1-9][0-9]*[smh]$",
+                  "example": "2h"
                 }
               }
             },
@@ -263,6 +313,38 @@
                 "local_base_url": {
                   "type": "string",
                   "description": "the local url used to access this service, including protocol and port, with no trailing /"
+                },
+                "log_only": {
+                  "type": "boolean",
+                  "description": "Only log the E-Mail (Requires logging to be set to DEBUG). Disables sending mail completely."
+                },
+                "dev_mode": {
+                  "type": "boolean",
+                  "description": "Override the recipient (To) to the list under dev_mails, ignore Bcc/Cc."
+                },
+                "dev_mails": {
+                  "type": "array",
+                  "description": "List of email addresses to force sending to if dev_mode is enabled. Use for debugging / test systems. Actual recipients do not get mail, but are instead listed in the mail body.",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "add_auto_bcc": {
+                  "type": "string",
+                  "description": "optional debug option that adds this mail address to Bcc on every email sent"
+                },
+                "from": {
+                  "type": "string",
+                  "description": "Sender E-Mail Address (Can be either just email@example.com OR Example <email@example.com>",
+                  "example": "Example Sender <email@example.com>"
+                },
+                "smtp_host": {
+                  "type": "string",
+                  "description": "Mail-server Host"
+                },
+                "smtp_port": {
+                  "type": "integer",
+                  "description": "Mail-server Port"
                 }
               }
             },
