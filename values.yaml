@@ -46,14 +46,12 @@ system:
     payment_cncrd_adapter:
       enable: false
       local_base_url: http://payment-cncrd-adapter:8080
+      simulator: false
+      log_full_requests: true
 
     payment_service:
       enable: true
       local_base_url: http://payment-service:8080
-
-    room_service:
-      enable: false
-      local_base_url: http://room-service:8080
 
     regsys_classic:
       enable: true

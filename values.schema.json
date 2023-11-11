@@ -361,6 +361,46 @@
                 "local_base_url": {
                   "type": "string",
                   "description": "the local url used to access this service, including protocol and port, with no trailing /"
+                },
+                "simulator": {
+                  "type": "boolean",
+                  "description": "enable local simulator for paylinks. This disables talking to the actual payment provider api even if the URL is configured."
+                },
+                "log_full_requests": {
+                  "type": "boolean",
+                  "description": "switch to true to log ALL communication from/to the payment provider (only signatures omitted)",
+                  "default": true
+                },
+                "concardis_downstream": {
+                  "type": "string",
+                  "description": "base url for the concardis downstream",
+                  "example": "https://api.pay-link.eu"
+                },
+                "concardis_instance": {
+                  "type": "string",
+                  "description": "the name of your concardis instance, part of the info you receive when making a paylink contract with them (or create a test account)"
+                },
+                "error_notify_mail": {
+                  "type": "string",
+                  "description": ""
+                },
+                "invoice": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "title": {
+                      "type": "string",
+                      "description": "payment page title"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "payment page description - note that paylinks do not let you control the transaction message that appears in the bank statement, this is just on the paylink page"
+                    },
+                    "purpose": {
+                      "type": "string",
+                      "description": "payment page purpose - note that paylinks do not let you control the transaction message that appears in the bank statement, this is just on the paylink page"
+                    }
+                  }
                 }
               }
             },
@@ -377,22 +417,21 @@
                 "local_base_url": {
                   "type": "string",
                   "description": "the local url used to access this service, including protocol and port, with no trailing /"
-                }
-              }
-            },
-            "room_service": {
-              "type": "object",
-              "additionalProperties": false,
-              "description": "system configuration for the room service",
-              "properties": {
-                "enable": {
-                  "type": "boolean",
-                  "description": "deploy the room service",
-                  "default": "false"
                 },
-                "local_base_url": {
+                "transaction_id_prefix": {
                   "type": "string",
-                  "description": "the local url used to access this service, including protocol and port, with no trailing /"
+                  "description": "a short prefix to place at the beginning of the transaction id. Must be unique for every convention processed through the same concardis account. Up to 6 characters, A-Z and 0-9 only, must begin with a letter",
+                  "pattern": "^[A-Z][A-Z0-9]{0,5}$"
+                },
+                "currency": {
+                  "type": "string",
+                  "description": "ISO currency code for the currency to create and process payments in",
+                  "example": "EUR"
+                },
+                "payment_default_comment": {
+                  "type": "string",
+                  "description": "default comment to add to automatically created credit card payments",
+                  "example": "manually initiated credit card payment"
                 }
               }
             },

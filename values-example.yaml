@@ -100,14 +100,20 @@ system:
     payment_cncrd_adapter:
       enable: false
       local_base_url: http://payment-cncrd-adapter:8080
+      concardis_downstream: https://api.example.com
+      concardis_instance: demo
+      error_notify_mail: nobody@example.com
+      invoice:
+        title: Time Traveller Con 1969 Edition - Attendee Fee
+        description: Fee for attending Time Traveller Con 1969 Edition from July 17th to 22nd 1969, including all selected options. Accommodation and catering will have been provided.
+        purpose: Payment of entrance fee and options.
 
     payment_service:
       enable: true
       local_base_url: http://payment-service:8080
-
-    room_service:
-      enable: false
-      local_base_url: http://room-service:8080
+      transaction_id_prefix: EF2023
+      currency: EUR
+      payment_default_comment: manually initiated credit card payment
 
   database:
     use: 'mysql'
