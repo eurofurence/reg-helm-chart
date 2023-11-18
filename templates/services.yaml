@@ -1,19 +1,4 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: attendee-service
-  {{- with .Values.global.namespace }}
-  namespace: '{{ . }}'
-  {{- end }}
-  labels:
-    {{- $mergedLabels := merge .Values.system.components.attendee_service.labels .Values.system.labels }}
-    {{- $mergedLabels | toYaml | nindent 4 }}
-spec:
-  ports:
-    - port: 8080
-      appProtocol: http
-      name: application
-      targetPort: primary
-  selector:
-    {{- pick $mergedLabels "app" "service" "regsysChart" | toYaml | nindent 4 }}
-  type: ClusterIP
+{{- $attSrvInput := dict "name" "attendee-service"
+                         "all" .Values
+                         "component" .Values.system.components.attendee_service -}}
+{{- template "helpers.service" $attSrvInput }}
