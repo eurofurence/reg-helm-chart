@@ -69,11 +69,16 @@ tests:
                             key: REG_SECRET_API_TOKEN
                     volumeMounts:
                       - name: config-file
-                        mountPath: /config.yaml
+                        mountPath: /config
+                        readOnly: true
                 volumes:
                   - name: config-file
                     configMap:
                       name: regsys-cm
+                      items:
+                        - key: attendee-service-config
+                          path: config/yaml
+                          mode: 0444
         documentIndex: 0
       - equal:
           path: metadata
@@ -136,11 +141,16 @@ tests:
                             key: REG_SECRET_OIDC_CLIENT_SECRET
                     volumeMounts:
                       - name: config-file
-                        mountPath: /config.yaml
+                        mountPath: /config
+                        readOnly: true
                 volumes:
                   - name: config-file
                     configMap:
                       name: regsys-cm
+                      items:
+                        - key: auth-service-config
+                          path: config/yaml
+                          mode: 0444
         documentIndex: 1
   - it: should not set namespace if unset
     asserts:

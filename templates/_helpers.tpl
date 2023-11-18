@@ -78,9 +78,14 @@ spec:
 {{- end }}
           volumeMounts:
             - name: config-file
-              mountPath: /config.yaml
+              mountPath: /config
+              readOnly: true
       volumes:
         - name: config-file
           configMap:
             name: regsys-cm
+            items:
+              - key: {{ .name }}-config
+                path: config/yaml
+                mode: 0444
 {{- end }}
