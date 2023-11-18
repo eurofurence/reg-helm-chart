@@ -47,6 +47,12 @@ system:
       access_token_cookie_name: 'AUTH'
       user_info_cache_seconds: 10
       cookie_expiry: 6h
+      docker:
+        registry: ghcr.io
+        repository: eurofurence/reg-auth-service
+        tag: latest
+      labels:
+        service: auth-service
 
     mail_service:
       enable: true

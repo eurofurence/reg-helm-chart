@@ -322,6 +322,32 @@
                   "description": "Time until the cookie expires (unless the JWT token expires before that). s = seconds, m = minutes, h = hours",
                   "pattern": "^[1-9][0-9]*[smh]$",
                   "example": "2h"
+                },
+                "docker": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "container source configuration",
+                  "properties": {
+                    "registry": {
+                      "type": "string",
+                      "description": "the container registry to pull from",
+                      "default": "ghcr.io"
+                    },
+                    "repository": {
+                      "type": "string",
+                      "description": "the path within the registry",
+                      "default": "eurofurence/reg-attendee-service"
+                    },
+                    "tag": {
+                      "type": "string",
+                      "description": "the version tag, unless overridden in the individual component.",
+                      "default": "eurofurence"
+                    }
+                  }
+                },
+                "labels": {
+                  "type": "object",
+                  "additionalProperties": true
                 }
               }
             },

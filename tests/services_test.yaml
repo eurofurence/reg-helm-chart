@@ -7,9 +7,8 @@ tests:
       - isKind:
           of: Service
       - hasDocuments:
-          count: 1
+          count: 2
       - equal:
-          documentIndex: 0
           path: metadata
           value:
             name: attendee-service
@@ -17,8 +16,8 @@ tests:
               app: regsys
               service: attendee-service
               regsysChart: https://github.com/eurofurence/reg-helm-chart
+        documentIndex: 0
       - equal:
-          documentIndex: 0
           path: spec
           value:
             ports:
@@ -31,6 +30,30 @@ tests:
               service: attendee-service
               regsysChart: https://github.com/eurofurence/reg-helm-chart
             type: ClusterIP
+        documentIndex: 0
+      - equal:
+          path: metadata
+          value:
+            name: auth-service
+            labels:
+              app: regsys
+              service: auth-service
+              regsysChart: https://github.com/eurofurence/reg-helm-chart
+        documentIndex: 1
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8080
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: auth-service
+              regsysChart: https://github.com/eurofurence/reg-helm-chart
+            type: ClusterIP
+        documentIndex: 1
   - it: should not set namespace if unset
     asserts:
       - notExists:

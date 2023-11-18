@@ -1,5 +1,11 @@
-{{- $attSrvInput := dict "name" "attendee-service"
-                         "all" .Values
-                         "component" .Values.system.components.attendee_service
-                         "secrets" (list "REG_SECRET_DB_PASSWORD" "REG_SECRET_API_TOKEN") -}}
+{{ $attSrvInput := dict "name" "attendee-service"
+                        "all" .Values
+                        "component" .Values.system.components.attendee_service
+                        "secrets" (list "REG_SECRET_DB_PASSWORD" "REG_SECRET_API_TOKEN") -}}
 {{- template "helpers.deployment" $attSrvInput }}
+---
+{{ $authSrvInput := dict "name" "auth-service"
+                         "all" .Values
+                         "component" .Values.system.components.auth_service
+                         "secrets" (list "REG_SECRET_OIDC_CLIENT_ID" "REG_SECRET_OIDC_CLIENT_SECRET") -}}
+{{- template "helpers.deployment" $authSrvInput }}
