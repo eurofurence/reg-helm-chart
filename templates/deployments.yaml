@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: attendee-service
+  {{- with .Values.global.namespace }}
+  namespace: '{{ . }}'
+  {{- end }}
+  labels:
+    {{- $mergedLabels := merge .Values.system.components.attendee_service.labels .Values.system.labels }}
+    {{- $mergedLabels | toYaml | nindent 4 }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      {{- pick $mergedLabels "app" "service" "regsysChart" | toYaml | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- $mergedLabels | toYaml | nindent 8 }}
+    spec:
+      containers:
+        - name: application
+          {{- with .Values.system.components.attendee_service.docker }}
+          image: '{{ .registry }}/{{ .repository }}:{{ .tag }}'
+          {{- end }}
+          ports:
+            - containerPort: 8080
+              name: primary
+          readinessProbe:
+            httpGet:
+              port: primary
+              path: /
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          env:
+            - name: REG_SECRET_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: regsys-secret
+                  key: REG_SECRET_DB_PASSWORD
+            - name: REG_SECRET_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: regsys-secret
+                  key: REG_SECRET_API_TOKEN
+          volumeMounts:
+            - name: config-file
+              mountPath: /config.yaml
+      volumes:
+        - name: config-file
+          configMap:
+            name: regsys-cm

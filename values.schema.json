@@ -174,8 +174,33 @@
                       "description": "latest birthday (yyyy-mm-dd), inclusive. Registrations with a birthday after that are rejected as 'too young to attend'. Use to prevent underage participants from registering, if so desired."
                     }
                   }
+                },
+                "docker": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "container source configuration",
+                  "properties": {
+                    "registry": {
+                      "type": "string",
+                      "description": "the container registry to pull from",
+                      "default": "ghcr.io"
+                    },
+                    "repository": {
+                      "type": "string",
+                      "description": "the path within the registry",
+                      "default": "eurofurence/reg-attendee-service"
+                    },
+                    "tag": {
+                      "type": "string",
+                      "description": "the version tag, unless overridden in the individual component.",
+                      "default": "eurofurence"
+                    }
+                  }
+                },
+                "labels": {
+                  "type": "object",
+                  "additionalProperties": true
                 }
-
               }
             },
             "auth_service": {
@@ -492,6 +517,17 @@
               "items": {
                 "type": "string"
               }
+            }
+          }
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "labels to be put on every resource",
+          "properties": {
+            "app": {
+              "type": "string",
+              "description": "provide a unique identifier for this regsys instance. Must be provided."
             }
           }
         }

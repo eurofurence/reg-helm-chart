@@ -14,3 +14,11 @@ To run the unittests, use the [helm-unittest/helm-unittest](https://github.com/h
 
 If you have the plugin installed, `helm unittest .` runs all
 unit tests on the command line.
+
+## Configuring IntelliJ
+
+You will need the Kubernetes and Go Template plugins. 
+
+You may also wish to turn off the display of default values instead of
+your actual template code. 
+Settings -> Editor -> General -> Code Folding, then it's under Kubernetes.

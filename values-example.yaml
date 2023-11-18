@@ -30,6 +30,10 @@ system:
         en-US: German
         de-DE: Deutsch
 
+  labels:
+    # can add other labels here, but app is needed and must be unique
+    app: regtest
+
   components:
     attendee_service:
       enable: true

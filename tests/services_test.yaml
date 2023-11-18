@@ -1,0 +1,45 @@
+suite: test services
+templates:
+  - services.yaml
+tests:
+  - it: should create expected services all defaults
+    asserts:
+      - isKind:
+          of: Service
+      - hasDocuments:
+          count: 1
+      - equal:
+          documentIndex: 0
+          path: metadata
+          value:
+            name: attendee-service
+            labels:
+              app: regsys
+              service: attendee-service
+              regsysChart: https://github.com/eurofurence/reg-helm-chart
+      - equal:
+          documentIndex: 0
+          path: spec
+          value:
+            ports:
+              - port: 8080
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: attendee-service
+              regsysChart: https://github.com/eurofurence/reg-helm-chart
+            type: ClusterIP
+  - it: should not set namespace if unset
+    asserts:
+      - notExists:
+          path: metadata.namespace
+  - it: should set namespace if specified
+    set:
+      global:
+        namespace: hellospace
+    asserts:
+      - equal:
+          path: metadata.namespace
+          value: hellospace

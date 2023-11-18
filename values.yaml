@@ -15,6 +15,11 @@ system:
   public_base_url_domain: https://example.com
   public_base_context: ''
 
+  labels:
+    # make sure app is unique if deploying multiple instances
+    app: regsys
+    regsysChart: https://github.com/eurofurence/reg-helm-chart
+
   logging:
     severity: INFO
     style: ecs
@@ -28,6 +33,12 @@ system:
         due_days: 14
       birthday:
         earliest: '1901-01-01'
+      docker:
+        registry: ghcr.io
+        repository: eurofurence/reg-attendee-service
+        tag: latest
+      labels:
+        service: attendee-service
 
     auth_service:
       enable: true
