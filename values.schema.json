@@ -193,7 +193,7 @@
                     "tag": {
                       "type": "string",
                       "description": "the version tag, unless overridden in the individual component.",
-                      "default": "eurofurence"
+                      "default": "latest"
                     }
                   }
                 },
@@ -341,7 +341,7 @@
                     "tag": {
                       "type": "string",
                       "description": "the version tag, unless overridden in the individual component.",
-                      "default": "eurofurence"
+                      "default": "latest"
                     }
                   }
                 },
@@ -396,6 +396,32 @@
                 "smtp_port": {
                   "type": "integer",
                   "description": "Mail-server Port"
+                },
+                "docker": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "container source configuration",
+                  "properties": {
+                    "registry": {
+                      "type": "string",
+                      "description": "the container registry to pull from",
+                      "default": "ghcr.io"
+                    },
+                    "repository": {
+                      "type": "string",
+                      "description": "the path within the registry",
+                      "default": "eurofurence/reg-mail-service"
+                    },
+                    "tag": {
+                      "type": "string",
+                      "description": "the version tag, unless overridden in the individual component.",
+                      "default": "latest"
+                    }
+                  }
+                },
+                "labels": {
+                  "type": "object",
+                  "additionalProperties": true
                 }
               }
             },
@@ -452,6 +478,32 @@
                       "description": "payment page purpose - note that paylinks do not let you control the transaction message that appears in the bank statement, this is just on the paylink page"
                     }
                   }
+                },
+                "docker": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "container source configuration",
+                  "properties": {
+                    "registry": {
+                      "type": "string",
+                      "description": "the container registry to pull from",
+                      "default": "ghcr.io"
+                    },
+                    "repository": {
+                      "type": "string",
+                      "description": "the path within the registry",
+                      "default": "eurofurence/reg-payment-cncrd-adapter"
+                    },
+                    "tag": {
+                      "type": "string",
+                      "description": "the version tag, unless overridden in the individual component.",
+                      "default": "latest"
+                    }
+                  }
+                },
+                "labels": {
+                  "type": "object",
+                  "additionalProperties": true
                 }
               }
             },
@@ -493,6 +545,32 @@
                       "example": "manually initiated SEPA payment"
                     }
                   }
+                },
+                "docker": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "container source configuration",
+                  "properties": {
+                    "registry": {
+                      "type": "string",
+                      "description": "the container registry to pull from",
+                      "default": "ghcr.io"
+                    },
+                    "repository": {
+                      "type": "string",
+                      "description": "the path within the registry",
+                      "default": "eurofurence/reg-payment-service"
+                    },
+                    "tag": {
+                      "type": "string",
+                      "description": "the version tag, unless overridden in the individual component.",
+                      "default": "latest"
+                    }
+                  }
+                },
+                "labels": {
+                  "type": "object",
+                  "additionalProperties": true
                 }
               }
             },

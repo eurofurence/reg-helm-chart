@@ -59,16 +59,34 @@ system:
       local_base_url: http://mail-service:8080
       log_only: false
       dev_mode: false
+      docker:
+        registry: ghcr.io
+        repository: eurofurence/reg-mail-service
+        tag: latest
+      labels:
+        service: mail-service
 
     payment_cncrd_adapter:
       enable: false
       local_base_url: http://payment-cncrd-adapter:8080
       simulator: false
       log_full_requests: true
+      docker:
+        registry: ghcr.io
+        repository: eurofurence/reg-payment-cncrd-adapter
+        tag: latest
+      labels:
+        service: payment-cncrd-adapter
 
     payment_service:
       enable: true
       local_base_url: http://payment-service:8080
+      docker:
+        registry: ghcr.io
+        repository: eurofurence/reg-payment-service
+        tag: latest
+      labels:
+        service: payment-service
 
     regsys_classic:
       enable: true

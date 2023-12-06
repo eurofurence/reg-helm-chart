@@ -9,3 +9,21 @@
                          "component" .Values.system.components.auth_service
                          "secrets" (list "REG_SECRET_OIDC_CLIENT_ID" "REG_SECRET_OIDC_CLIENT_SECRET") -}}
 {{- template "helpers.deployment" $authSrvInput }}
+---
+{{ $mailSrvInput := dict "name" "mail-service"
+                         "all" .Values
+                         "component" .Values.system.components.mail_service
+                         "secrets" (list "REG_SECRET_SMTP_PASSWORD" "REG_SECRET_DB_PASSWORD" "REG_SECRET_API_TOKEN") -}}
+{{- template "helpers.deployment" $mailSrvInput }}
+---
+{{ $cncrdAdapterInput := dict "name" "payment-cncrd-adapter"
+                         "all" .Values
+                         "component" .Values.system.components.payment_cncrd_adapter
+                         "secrets" (list "REG_SECRET_CONCARDIS_API_SECRET" "REG_SECRET_API_TOKEN" "REG_SECRET_CONCARDIS_INCOMING_WEBHOOK_SECRET") -}}
+{{- template "helpers.deployment" $cncrdAdapterInput }}
+---
+{{ $paySrvInput := dict "name" "payment-service"
+                         "all" .Values
+                         "component" .Values.system.components.payment_service
+                         "secrets" (list "REG_SECRET_DB_PASSWORD" "REG_SECRET_API_TOKEN") -}}
+{{- template "helpers.deployment" $paySrvInput }}
