@@ -117,7 +117,9 @@ system:
       local_base_url: http://payment-service:8080
       transaction_id_prefix: EF2023
       currency: EUR
-      payment_default_comment: manually initiated credit card payment
+      payment_default_comment:
+        credit: manually initiated credit card payment
+        transfer: manually initiated SEPA payment
 
   database:
     use: 'mysql'

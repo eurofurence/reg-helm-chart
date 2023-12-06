@@ -480,9 +480,19 @@
                   "example": "EUR"
                 },
                 "payment_default_comment": {
-                  "type": "string",
-                  "description": "default comment to add to automatically created credit card payments",
-                  "example": "manually initiated credit card payment"
+                  "type": "object",
+                  "properties": {
+                    "credit": {
+                      "type": "string",
+                      "description": "default comments to add to automatically created credit card payments",
+                      "example": "manually initiated credit card payment"
+                    },
+                    "transfer": {
+                      "type": "string",
+                      "description": "default comments to add to automatically created SEPA transfer payments",
+                      "example": "manually initiated SEPA payment"
+                    }
+                  }
                 }
               }
             },

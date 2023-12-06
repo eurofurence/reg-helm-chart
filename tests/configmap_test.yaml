@@ -69,7 +69,9 @@ tests:
           payment_service:
             transaction_id_prefix: TTC69
             currency: EUR
-            payment_default_comment: manually initiated credit card payment
+            payment_default_comment:
+              credit: manually initiated credit card payment
+              transfer: manually initiated SEPA payment
         database:
           use: mysql
       choices:
@@ -423,7 +425,10 @@ tests:
               transaction_id_prefix: 'TTC69'
               allowed_currencies:
                 - 'EUR'
-              payment_default_comment: 'manually initiated credit card payment'
+              payment_default_comment:
+                credit: 'manually initiated credit card payment'
+                transfer: 'manually initiated SEPA payment'
+              public_sepa_link_url: 'https://my.domain.example.com/hello/you/regsys/page/sepa'
             server:
               port: 8080
               read_timeout_seconds: 30
@@ -487,7 +492,8 @@ tests:
           payment_service:
             transaction_id_prefix: TTC69
             currency: EUR
-            payment_default_comment: manually initiated credit card payment
+            payment_default_comment:
+              credit: manually initiated credit card payment
       choices:
         packages:
           attendance:
@@ -537,7 +543,8 @@ tests:
           payment_service:
             transaction_id_prefix: TTC69
             currency: EUR
-            payment_default_comment: manually initiated credit card payment
+            payment_default_comment:
+              credit: manually initiated credit card payment
       choices:
         packages:
           attendance:

@@ -330,7 +330,14 @@ data:
       transaction_id_prefix: '{{ .Values.system.components.payment_service.transaction_id_prefix }}'
       allowed_currencies:
         - '{{ .Values.system.components.payment_service.currency }}'
-      payment_default_comment: '{{ .Values.system.components.payment_service.payment_default_comment }}'
+      payment_default_comment:
+        {{- with .Values.system.components.payment_service.payment_default_comment.credit }}
+        credit: '{{ . }}'
+        {{- end }}
+        {{- with .Values.system.components.payment_service.payment_default_comment.transfer }}
+        transfer: '{{ . }}'
+        {{- end }}
+      public_sepa_link_url: '{{ $public_base_url }}/{{ .Values.system.components.regsys_classic.context_path }}/page/sepa'
     server:
       port: 8080
       read_timeout_seconds: 30
