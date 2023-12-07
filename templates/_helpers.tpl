@@ -49,6 +49,13 @@ spec:
           {{- with .component.docker }}
           image: '{{ .registry }}/{{ .repository }}:{{ .tag }}'
           {{- end }}
+          {{- with .command }}
+          command: ["{{ . }}"]
+          {{- end }}
+          {{- with .args }}
+          args:
+          {{- toYaml . | nindent 14 }}
+          {{- end }}
           ports:
             - containerPort: 8080
               name: primary
@@ -86,6 +93,6 @@ spec:
             name: regsys-cm
             items:
               - key: {{ .name }}-config
-                path: config/yaml
+                path: config.yaml
                 mode: 0444
 {{- end }}

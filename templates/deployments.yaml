@@ -1,29 +1,39 @@
 {{ $attSrvInput := dict "name" "attendee-service"
                         "all" .Values
                         "component" .Values.system.components.attendee_service
-                        "secrets" (list "REG_SECRET_DB_PASSWORD" "REG_SECRET_API_TOKEN") -}}
+                        "secrets" (list "REG_SECRET_DB_PASSWORD" "REG_SECRET_API_TOKEN")
+                        "command" "/main"
+                        "args" (list "--config=/config/config.yaml" "--migrate-database") -}}
 {{- template "helpers.deployment" $attSrvInput }}
 ---
 {{ $authSrvInput := dict "name" "auth-service"
                          "all" .Values
                          "component" .Values.system.components.auth_service
-                         "secrets" (list "REG_SECRET_OIDC_CLIENT_ID" "REG_SECRET_OIDC_CLIENT_SECRET") -}}
+                         "secrets" (list "REG_SECRET_OIDC_CLIENT_ID" "REG_SECRET_OIDC_CLIENT_SECRET")
+                         "command" "/main"
+                         "args" (list "--config=/config/config.yaml") -}}
 {{- template "helpers.deployment" $authSrvInput }}
 ---
 {{ $mailSrvInput := dict "name" "mail-service"
                          "all" .Values
                          "component" .Values.system.components.mail_service
-                         "secrets" (list "REG_SECRET_SMTP_PASSWORD" "REG_SECRET_DB_PASSWORD" "REG_SECRET_API_TOKEN") -}}
+                         "secrets" (list "REG_SECRET_SMTP_PASSWORD" "REG_SECRET_DB_PASSWORD" "REG_SECRET_API_TOKEN")
+                         "command" "/main"
+                         "args" (list "--config=/config/config.yaml" "--migrate-database") -}}
 {{- template "helpers.deployment" $mailSrvInput }}
 ---
 {{ $cncrdAdapterInput := dict "name" "payment-cncrd-adapter"
                          "all" .Values
                          "component" .Values.system.components.payment_cncrd_adapter
-                         "secrets" (list "REG_SECRET_CONCARDIS_API_SECRET" "REG_SECRET_API_TOKEN" "REG_SECRET_CONCARDIS_INCOMING_WEBHOOK_SECRET") -}}
+                         "secrets" (list "REG_SECRET_CONCARDIS_API_SECRET" "REG_SECRET_API_TOKEN" "REG_SECRET_CONCARDIS_INCOMING_WEBHOOK_SECRET")
+                         "command" "/main"
+                         "args" (list "--config=/config/config.yaml") -}}
 {{- template "helpers.deployment" $cncrdAdapterInput }}
 ---
 {{ $paySrvInput := dict "name" "payment-service"
                          "all" .Values
                          "component" .Values.system.components.payment_service
-                         "secrets" (list "REG_SECRET_DB_PASSWORD" "REG_SECRET_API_TOKEN") -}}
+                         "secrets" (list "REG_SECRET_DB_PASSWORD" "REG_SECRET_API_TOKEN")
+                         "command" "/main"
+                         "args" (list "--config=/config/config.yaml" "--migrate-database") -}}
 {{- template "helpers.deployment" $paySrvInput }}
