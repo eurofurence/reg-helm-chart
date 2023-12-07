@@ -589,6 +589,32 @@
                   "description": "the context path to use after public_base_context. Must not include slashes, or the system will not work. Cannot be empty.",
                   "pattern": "^[^/]+$",
                   "default": "regsys"
+                },
+                "docker": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "container source configuration",
+                  "properties": {
+                    "registry": {
+                      "type": "string",
+                      "description": "the container registry to pull from",
+                      "default": "ghcr.io"
+                    },
+                    "repository": {
+                      "type": "string",
+                      "description": "the path within the registry",
+                      "default": "eurofurence/reg-regsys-classic"
+                    },
+                    "tag": {
+                      "type": "string",
+                      "description": "the version tag, unless overridden in the individual component.",
+                      "default": "latest"
+                    }
+                  }
+                },
+                "labels": {
+                  "type": "object",
+                  "additionalProperties": true
                 }
               }
             },
@@ -601,6 +627,32 @@
                   "type": "boolean",
                   "description": "deploy the frontend",
                   "default": "true"
+                },
+                "docker": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "container source configuration",
+                  "properties": {
+                    "registry": {
+                      "type": "string",
+                      "description": "the container registry to pull from",
+                      "default": "ghcr.io"
+                    },
+                    "repository": {
+                      "type": "string",
+                      "description": "the path within the registry",
+                      "default": "eurofurence/reg-frontend"
+                    },
+                    "tag": {
+                      "type": "string",
+                      "description": "the version tag, unless overridden in the individual component.",
+                      "default": "latest"
+                    }
+                  }
+                },
+                "labels": {
+                  "type": "object",
+                  "additionalProperties": true
                 }
               }
             }

@@ -142,6 +142,15 @@ tests:
               # secu_token: '$REG_SECRET_SECU_TOKEN'
               # secu_secret: '$REG_SECRET_SECU_SECRET'
             testing: {}
+            sepa:
+              account_owner: 'Awesome Convention, Inc.'
+              bank_name: 'Greedy Bank'
+              bank_address: '1 Money Drive, 6AC 1EU Fairyland'
+              iban: 'UK00100020003000400050'
+              bic: 'AABBCCDDUK'
+              subject_prefix: 'AWECON'
+              success_redirect: 'https://my.domain.example.com/hello/you/register'
+              failure_redirect: 'https://my.domain.example.com/hello/you/register'
             choices:
               flags:
                 guest:

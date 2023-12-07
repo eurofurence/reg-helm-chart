@@ -91,9 +91,21 @@ system:
     regsys_classic:
       enable: true
       context_path: regsys
+      docker:
+        registry: ghcr.io
+        repository: eurofurence/reg-regsys-classic
+        tag: latest
+      labels:
+        service: regsys-classic
 
     frontend:
       enable: true
+      docker:
+        registry: ghcr.io
+        repository: eurofurence/reg-frontend
+        tag: latest
+      labels:
+        service: frontend
 
   database:
     use: 'inmemory'

@@ -7,7 +7,7 @@ tests:
       - isKind:
           of: Deployment
       - hasDocuments:
-          count: 5
+          count: 6
       - equal:
           path: metadata
           value:
@@ -396,6 +396,107 @@ tests:
                           path: config.yaml
                           mode: 0444
         documentIndex: 4
+      - equal:
+          path: metadata
+          value:
+            name: regsys-classic
+            labels:
+              app: regsys
+              service: regsys-classic
+              regsysChart: https://github.com/eurofurence/reg-helm-chart
+        documentIndex: 5
+      - equal:
+          path: spec
+          value:
+            replicas: 1
+            revisionHistoryLimit: 3
+            selector:
+              matchLabels:
+                app: regsys
+                service: regsys-classic
+                regsysChart: https://github.com/eurofurence/reg-helm-chart
+            template:
+              metadata:
+                labels:
+                  app: regsys
+                  service: regsys-classic
+                  regsysChart: https://github.com/eurofurence/reg-helm-chart
+              spec:
+                containers:
+                  - name: application
+                    image: 'ghcr.io/eurofurence/reg-regsys-classic:latest'
+                    ports:
+                      - containerPort: 8080
+                        name: primary
+                    readinessProbe:
+                      httpGet:
+                        port: primary
+                        path: /
+                      initialDelaySeconds: 2
+                      periodSeconds: 10
+                      successThreshold: 1
+                      timeoutSeconds: 1
+                    resources:
+                      limits:
+                        memory: 256Mi
+                    securityContext:
+                      allowPrivilegeEscalation: false
+                      capabilities:
+                        drop:
+                          - ALL
+                    command: [/usr/bin/java]
+                    args:
+                      - -jar
+                      - /app/regsys-classic.jar
+                    env:
+                      - name: REG_SECRET_API_TOKEN
+                        valueFrom:
+                          secretKeyRef:
+                            name: regsys-secret
+                            key: REG_SECRET_API_TOKEN
+                      - name: REG_SECRET_NOSECOUNTER_TOKEN
+                        valueFrom:
+                          secretKeyRef:
+                            name: regsys-secret
+                            key: REG_SECRET_NOSECOUNTER_TOKEN
+                      - name: REG_SECRET_DD_TOKEN
+                        valueFrom:
+                          secretKeyRef:
+                            name: regsys-secret
+                            key: REG_SECRET_DD_TOKEN
+                      - name: REG_SECRET_ARTSHOW_TOKEN
+                        valueFrom:
+                          secretKeyRef:
+                            name: regsys-secret
+                            key: REG_SECRET_ARTSHOW_TOKEN
+                      - name: REG_SECRET_BOAT_TOKEN
+                        valueFrom:
+                          secretKeyRef:
+                            name: regsys-secret
+                            key: REG_SECRET_BOAT_TOKEN
+                      - name: REG_SECRET_SECU_TOKEN
+                        valueFrom:
+                          secretKeyRef:
+                            name: regsys-secret
+                            key: REG_SECRET_SECU_TOKEN
+                      - name: REG_SECRET_SECU_SECRET
+                        valueFrom:
+                          secretKeyRef:
+                            name: regsys-secret
+                            key: REG_SECRET_SECU_SECRET
+                    volumeMounts:
+                      - name: config-file
+                        mountPath: /config
+                        readOnly: true
+                volumes:
+                  - name: config-file
+                    configMap:
+                      name: regsys-cm
+                      items:
+                        - key: regsys-classic-config
+                          path: config.yaml
+                          mode: 0444
+        documentIndex: 5
 
   - it: should not set namespace if unset
     asserts:

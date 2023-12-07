@@ -34,6 +34,15 @@ data:
       # secu_token: '$REG_SECRET_SECU_TOKEN'
       # secu_secret: '$REG_SECRET_SECU_SECRET'
     testing: {}
+    sepa:
+      account_owner: 'Awesome Convention, Inc.'
+      bank_name: 'Greedy Bank'
+      bank_address: '1 Money Drive, 6AC 1EU Fairyland'
+      iban: 'UK00100020003000400050'
+      bic: 'AABBCCDDUK'
+      subject_prefix: 'AWECON'
+      success_redirect: '{{ $public_base_url }}/register'
+      failure_redirect: '{{ $public_base_url }}/register'
     choices:
       flags:
         {{- .Values.choices.flags | toYaml | nindent 8 }}
