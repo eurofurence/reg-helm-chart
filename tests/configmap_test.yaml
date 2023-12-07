@@ -473,6 +473,9 @@ tests:
             logging:
               severity: INFO
               style: ecs
+      - equal:
+          path: data.HTTPD_CONF_PATH_PREFIX_NO_SLASHES
+          value: 'TODO'
 
   - it: should not set namespace if unset
     set:

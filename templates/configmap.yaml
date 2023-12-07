@@ -392,3 +392,5 @@ data:
     logging:
       severity: {{ .Values.system.logging.severity }}
       style: {{ .Values.system.logging.style }}
+
+  HTTPD_CONF_PATH_PREFIX_NO_SLASHES: 'TODO'

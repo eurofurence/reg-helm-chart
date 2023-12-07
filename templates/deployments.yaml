@@ -45,3 +45,12 @@
                          "command" "/usr/bin/java"
                          "args" (list "-jar" "/app/regsys-classic.jar") -}}
 {{- template "helpers.deployment" $classicInput }}
+---
+{{ $frontendInput := dict "name" "frontend"
+                         "all" .Values
+                         "component" .Values.system.components.frontend
+                         "envs" (list "HTTPD_CONF_PATH_PREFIX_NO_SLASHES")
+                         "command" "/usr/sbin/httpd"
+                         "args" (list "-f" "/etc/apache2/regsys.conf")
+                         "volume" "no" -}}
+{{- template "helpers.deployment" $frontendInput }}

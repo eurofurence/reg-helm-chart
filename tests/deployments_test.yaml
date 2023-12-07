@@ -7,7 +7,7 @@ tests:
       - isKind:
           of: Deployment
       - hasDocuments:
-          count: 6
+          count: 7
       - equal:
           path: metadata
           value:
@@ -497,6 +497,65 @@ tests:
                           path: config.yaml
                           mode: 0444
         documentIndex: 5
+      - equal:
+          path: metadata
+          value:
+            name: frontend
+            labels:
+              app: regsys
+              service: frontend
+              regsysChart: https://github.com/eurofurence/reg-helm-chart
+        documentIndex: 6
+      - equal:
+          path: spec
+          value:
+            replicas: 1
+            revisionHistoryLimit: 3
+            selector:
+              matchLabels:
+                app: regsys
+                service: frontend
+                regsysChart: https://github.com/eurofurence/reg-helm-chart
+            template:
+              metadata:
+                labels:
+                  app: regsys
+                  service: frontend
+                  regsysChart: https://github.com/eurofurence/reg-helm-chart
+              spec:
+                containers:
+                  - name: application
+                    image: 'ghcr.io/eurofurence/reg-frontend:latest'
+                    ports:
+                      - containerPort: 8080
+                        name: primary
+                    readinessProbe:
+                      httpGet:
+                        port: primary
+                        path: /
+                      initialDelaySeconds: 2
+                      periodSeconds: 10
+                      successThreshold: 1
+                      timeoutSeconds: 1
+                    resources:
+                      limits:
+                        memory: 256Mi
+                    securityContext:
+                      allowPrivilegeEscalation: false
+                      capabilities:
+                        drop:
+                          - ALL
+                    command: [/usr/sbin/httpd]
+                    args:
+                      - -f
+                      - /etc/apache2/regsys.conf
+                    env:
+                      - name: HTTPD_CONF_PATH_PREFIX_NO_SLASHES
+                        valueFrom:
+                          configMapKeyRef:
+                            name: regsys-cm
+                            key: HTTPD_CONF_PATH_PREFIX_NO_SLASHES
+        documentIndex: 6
 
   - it: should not set namespace if unset
     asserts:

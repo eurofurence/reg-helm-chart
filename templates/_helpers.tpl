@@ -83,6 +83,14 @@ spec:
                   name: regsys-secret
                   key: {{ . }}
 {{- end }}
+{{- range .envs }}
+            - name: {{ . }}
+              valueFrom:
+                configMapKeyRef:
+                  name: regsys-cm
+                  key: {{ . }}
+{{- end }}
+{{- if ne .volume "no" }}
           volumeMounts:
             - name: config-file
               mountPath: /config
@@ -95,4 +103,5 @@ spec:
               - key: {{ .name }}-config
                 path: config.yaml
                 mode: 0444
+{{- end }}
 {{- end }}
