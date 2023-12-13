@@ -393,4 +393,4 @@ data:
       severity: {{ .Values.system.logging.severity }}
       style: {{ .Values.system.logging.style }}
 
-  HTTPD_CONF_PATH_PREFIX_NO_SLASHES: 'TODO'
+  HTTPD_CONF_PATH_PREFIX_NO_SLASHES: '{{ .Values.system.public_base_context }}'

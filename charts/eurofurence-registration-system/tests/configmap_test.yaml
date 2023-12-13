@@ -475,7 +475,7 @@ tests:
               style: ecs
       - equal:
           path: data.HTTPD_CONF_PATH_PREFIX_NO_SLASHES
-          value: 'TODO'
+          value: 'hello/you'
 
   - it: should not set namespace if unset
     set:
