@@ -17,6 +17,18 @@
         }
       }
     },
+    "namespace": {
+      "additionalProperties": false,
+      "type": "object",
+      "description": "settings for an ingress (optional, off by default)",
+      "properties": {
+        "create": {
+          "type": "boolean",
+          "description": "enable creating the namespace",
+          "default": false
+        }
+      }
+    },
     "ingress": {
       "additionalProperties": false,
       "type": "object",

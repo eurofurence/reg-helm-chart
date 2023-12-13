@@ -13,6 +13,9 @@
 global:
   namespace: my-namespace
 
+namespace:
+  create: true
+
 ingress:
   enable: true
 

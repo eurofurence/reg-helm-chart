@@ -1,0 +1,26 @@
+suite: test ingress
+templates:
+  - namespace.yaml
+tests:
+  - it: should not create anything by default
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: should create a namespace if enabled
+    set:
+      global:
+        namespace: hellospace
+      namespace:
+        create: true
+    asserts:
+      - isKind:
+          of: Namespace
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: metadata
+          value:
+            name: hellospace
+            annotations:
+              argocd.argoproj.io/sync-wave: "-10"
+
