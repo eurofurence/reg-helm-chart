@@ -1,7 +1,7 @@
 # reg-helm-chart
 
 <img src="https://github.com/eurofurence/reg-helm-chart/actions/workflows/helm-unit-tests.yml/badge.svg" alt="test status"/>
-<img src="https://github.com/eurofurence/reg-helm-chart/actions/workflows/helm-chart-release.yaml/badge.svg" alt="release status"/>
+<img src="https://github.com/eurofurence/reg-helm-chart/actions/workflows/helm-chart-release.yml/badge.svg" alt="release status"/>
 
 ## Overview
 
