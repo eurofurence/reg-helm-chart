@@ -18,7 +18,6 @@ system:
   labels:
     # make sure app is unique if deploying multiple instances
     app: regsys
-    regsysChart: https://github.com/eurofurence/reg-helm-chart
 
   logging:
     severity: INFO

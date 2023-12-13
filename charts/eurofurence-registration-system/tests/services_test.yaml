@@ -15,7 +15,6 @@ tests:
             labels:
               app: regsys
               service: attendee-service
-              regsysChart: https://github.com/eurofurence/reg-helm-chart
         documentIndex: 0
       - equal:
           path: spec
@@ -28,7 +27,6 @@ tests:
             selector:
               app: regsys
               service: attendee-service
-              regsysChart: https://github.com/eurofurence/reg-helm-chart
             type: ClusterIP
         documentIndex: 0
       - equal:
@@ -38,7 +36,6 @@ tests:
             labels:
               app: regsys
               service: auth-service
-              regsysChart: https://github.com/eurofurence/reg-helm-chart
         documentIndex: 1
       - equal:
           path: spec
@@ -51,7 +48,6 @@ tests:
             selector:
               app: regsys
               service: auth-service
-              regsysChart: https://github.com/eurofurence/reg-helm-chart
             type: ClusterIP
         documentIndex: 1
       - equal:
@@ -61,7 +57,6 @@ tests:
             labels:
               app: regsys
               service: mail-service
-              regsysChart: https://github.com/eurofurence/reg-helm-chart
         documentIndex: 2
       - equal:
           path: spec
@@ -74,7 +69,6 @@ tests:
             selector:
               app: regsys
               service: mail-service
-              regsysChart: https://github.com/eurofurence/reg-helm-chart
             type: ClusterIP
         documentIndex: 2
       - equal:
@@ -84,7 +78,6 @@ tests:
             labels:
               app: regsys
               service: payment-cncrd-adapter
-              regsysChart: https://github.com/eurofurence/reg-helm-chart
         documentIndex: 3
       - equal:
           path: spec
@@ -97,7 +90,6 @@ tests:
             selector:
               app: regsys
               service: payment-cncrd-adapter
-              regsysChart: https://github.com/eurofurence/reg-helm-chart
             type: ClusterIP
         documentIndex: 3
       - equal:
@@ -107,7 +99,6 @@ tests:
             labels:
               app: regsys
               service: payment-service
-              regsysChart: https://github.com/eurofurence/reg-helm-chart
         documentIndex: 4
       - equal:
           path: spec
@@ -120,7 +111,6 @@ tests:
             selector:
               app: regsys
               service: payment-service
-              regsysChart: https://github.com/eurofurence/reg-helm-chart
             type: ClusterIP
         documentIndex: 4
       - equal:
@@ -130,7 +120,6 @@ tests:
             labels:
               app: regsys
               service: regsys-classic
-              regsysChart: https://github.com/eurofurence/reg-helm-chart
         documentIndex: 5
       - equal:
           path: spec
@@ -143,7 +132,6 @@ tests:
             selector:
               app: regsys
               service: regsys-classic
-              regsysChart: https://github.com/eurofurence/reg-helm-chart
             type: ClusterIP
         documentIndex: 5
       - equal:
@@ -153,7 +141,6 @@ tests:
             labels:
               app: regsys
               service: frontend
-              regsysChart: https://github.com/eurofurence/reg-helm-chart
         documentIndex: 6
       - equal:
           path: spec
@@ -166,7 +153,6 @@ tests:
             selector:
               app: regsys
               service: frontend
-              regsysChart: https://github.com/eurofurence/reg-helm-chart
             type: ClusterIP
         documentIndex: 6
   - it: should not set namespace if unset
