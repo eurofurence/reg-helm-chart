@@ -1,5 +1,5 @@
 apiVersion: v2
-name: eurofurence-regsys
+name: eurofurence-registration-system
 version: 0.0.1
 description: A helm chart that can deploy the Eurofurence Registration System.
 type: application

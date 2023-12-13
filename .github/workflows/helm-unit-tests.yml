@@ -21,7 +21,7 @@ jobs:
 
       - name: Docker build and push image
         run: >
-          cd app &&
+          cd app/charts/eurofurence-registration-system &&
           mkdir -p tests/__snapshot__ &&
           chmod 777 tests/__snapshot__ &&
           docker run --rm -v ${{ github.workspace }}/app:/apps helmunittest/helm-unittest:3.12.3-0.3.5 .

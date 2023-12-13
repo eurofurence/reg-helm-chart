@@ -12,8 +12,8 @@ To use, you just need helm in your path.
 
 To run the unittests, use the [helm-unittest/helm-unittest](https://github.com/helm-unittest/helm-unittest) helm plugin or docker container.
 
-If you have the plugin installed, `helm unittest .` runs all
-unit tests on the command line.
+If you have the plugin installed, `helm unittest .` runs all unit tests on the command line.
+Your current directory must be `charts/eurofurence-registration-system`.
 
 ## Configuring IntelliJ
 
