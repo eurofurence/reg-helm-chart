@@ -528,6 +528,8 @@ tests:
                     args:
                       - -f
                       - /etc/apache2/regsys.conf
+                      - -DNO_DETACH
+                      - -DFOREGROUND
                     env:
                       - name: HTTPD_CONF_PATH_PREFIX_NO_SLASHES
                         valueFrom:

@@ -51,6 +51,6 @@
                          "component" .Values.system.components.frontend
                          "envs" (list "HTTPD_CONF_PATH_PREFIX_NO_SLASHES")
                          "command" "/usr/sbin/httpd"
-                         "args" (list "-f" "/etc/apache2/regsys.conf")
+                         "args" (list "-f" "/etc/apache2/regsys.conf" "-DNO_DETACH" "-DFOREGROUND")
                          "volume" "no" -}}
 {{- template "helpers.deployment" $frontendInput }}
