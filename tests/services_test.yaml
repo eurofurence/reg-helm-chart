@@ -7,7 +7,7 @@ tests:
       - isKind:
           of: Service
       - hasDocuments:
-          count: 2
+          count: 7
       - equal:
           path: metadata
           value:
@@ -54,6 +54,121 @@ tests:
               regsysChart: https://github.com/eurofurence/reg-helm-chart
             type: ClusterIP
         documentIndex: 1
+      - equal:
+          path: metadata
+          value:
+            name: mail-service
+            labels:
+              app: regsys
+              service: mail-service
+              regsysChart: https://github.com/eurofurence/reg-helm-chart
+        documentIndex: 2
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8080
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: mail-service
+              regsysChart: https://github.com/eurofurence/reg-helm-chart
+            type: ClusterIP
+        documentIndex: 2
+      - equal:
+          path: metadata
+          value:
+            name: payment-cncrd-adapter
+            labels:
+              app: regsys
+              service: payment-cncrd-adapter
+              regsysChart: https://github.com/eurofurence/reg-helm-chart
+        documentIndex: 3
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8080
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: payment-cncrd-adapter
+              regsysChart: https://github.com/eurofurence/reg-helm-chart
+            type: ClusterIP
+        documentIndex: 3
+      - equal:
+          path: metadata
+          value:
+            name: payment-service
+            labels:
+              app: regsys
+              service: payment-service
+              regsysChart: https://github.com/eurofurence/reg-helm-chart
+        documentIndex: 4
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8080
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: payment-service
+              regsysChart: https://github.com/eurofurence/reg-helm-chart
+            type: ClusterIP
+        documentIndex: 4
+      - equal:
+          path: metadata
+          value:
+            name: regsys-classic
+            labels:
+              app: regsys
+              service: regsys-classic
+              regsysChart: https://github.com/eurofurence/reg-helm-chart
+        documentIndex: 5
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8080
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: regsys-classic
+              regsysChart: https://github.com/eurofurence/reg-helm-chart
+            type: ClusterIP
+        documentIndex: 5
+      - equal:
+          path: metadata
+          value:
+            name: frontend
+            labels:
+              app: regsys
+              service: frontend
+              regsysChart: https://github.com/eurofurence/reg-helm-chart
+        documentIndex: 6
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8080
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: frontend
+              regsysChart: https://github.com/eurofurence/reg-helm-chart
+            type: ClusterIP
+        documentIndex: 6
   - it: should not set namespace if unset
     asserts:
       - notExists:

@@ -7,3 +7,28 @@
                          "all" .Values
                          "component" .Values.system.components.auth_service -}}
 {{- template "helpers.service" $authSrvInput }}
+---
+{{ $mailSrvInput := dict "name" "mail-service"
+                         "all" .Values
+                         "component" .Values.system.components.mail_service -}}
+{{- template "helpers.service" $mailSrvInput }}
+---
+{{ $cncrdAdapterInput := dict "name" "payment-cncrd-adapter"
+                         "all" .Values
+                         "component" .Values.system.components.payment_cncrd_adapter -}}
+{{- template "helpers.service" $cncrdAdapterInput }}
+---
+{{ $paySrvInput := dict "name" "payment-service"
+                         "all" .Values
+                         "component" .Values.system.components.payment_service -}}
+{{- template "helpers.service" $paySrvInput }}
+---
+{{ $classicInput := dict "name" "regsys-classic"
+                         "all" .Values
+                         "component" .Values.system.components.regsys_classic -}}
+{{- template "helpers.service" $classicInput }}
+---
+{{ $frontendInput := dict "name" "frontend"
+                         "all" .Values
+                         "component" .Values.system.components.frontend -}}
+{{- template "helpers.service" $frontendInput }}
