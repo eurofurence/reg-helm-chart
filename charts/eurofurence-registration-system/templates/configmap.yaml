@@ -298,10 +298,10 @@ data:
       {{- else }}
       {{-   if ne .Values.system.components.payment_cncrd_adapter.concardis_downstream "" }}
       concardis_downstream: '{{ .Values.system.components.payment_cncrd_adapter.concardis_downstream }}'
-      concardis_instance: '{{ .Values.system.components.payment_cncrd_adapter.concardis_instance }}'
       # concardis_api_secret: '$REG_SECRET_CONCARDIS_API_SECRET'
       {{-   end }}
       {{- end }}
+      concardis_instance: '{{ .Values.system.components.payment_cncrd_adapter.concardis_instance }}'
       success_redirect: '{{ $public_base_url }}/app/register'
       failure_redirect: '{{ $public_base_url }}/app/register'
     server:

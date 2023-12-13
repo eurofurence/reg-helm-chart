@@ -402,8 +402,8 @@ tests:
               mail_service: 'http://mail-service:8080'
               payment_service: 'http://payment-service:8080'
               concardis_downstream: 'https://api.example.com'
-              concardis_instance: 'demo'
               # concardis_api_secret: '$REG_SECRET_CONCARDIS_API_SECRET'
+              concardis_instance: 'demo'
               success_redirect: 'https://my.domain.example.com/hello/you/app/register'
               failure_redirect: 'https://my.domain.example.com/hello/you/app/register'
             server:
