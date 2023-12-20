@@ -279,6 +279,7 @@ tests:
                     command: [/main]
                     args:
                       - --config=/config/config.yaml
+                      - --migrate-database
                     env:
                       - name: REG_SECRET_CONCARDIS_API_SECRET
                         valueFrom:
@@ -295,6 +296,11 @@ tests:
                           secretKeyRef:
                             name: regsys-secret
                             key: REG_SECRET_CONCARDIS_INCOMING_WEBHOOK_SECRET
+                      - name: REG_SECRET_DB_PASSWORD
+                        valueFrom:
+                          secretKeyRef:
+                            name: regsys-secret
+                            key: REG_SECRET_DB_PASSWORD
                     volumeMounts:
                       - name: config-file
                         mountPath: /config
