@@ -6,31 +6,30 @@ metadata:
   {{- with .Values.global.namespace }}
   namespace: '{{ . }}'
   {{- end }}
+  {{- with .Values.ingress.annotations }}
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-live
-    nginx.ingress.kubernetes.io/proxy-body-size: 100m
-    nginx.ingress.kubernetes.io/limit-rps: "9"
-    nginx.ingress.kubernetes.io/limit-rpm: "360"
-    nginx.ingress.kubernetes.io/limit-burst-multiplier: "5"
-    nginx.ingress.kubernetes.io/limit-whitelist: "10.200.10.1/24,85.199.154.55/32,2001:1a50:a::/64,31.16.177.200/32"
+    {{- . | toYaml | nindent 4 }}
+  {{- end }}
   labels:
-    name: ef-regsys
+    {{- .Values.system.labels | toYaml | nindent 4 }}
 spec:
   ingressClassName: nginx
   rules:
-    - host: regsys.test.eurofurence.org
+    - host: {{ .Values.ingress.host }}
       http:
         paths:
           - pathType: Prefix
             path: "/"
             backend:
               service:
-                name: regsys
+                name: frontend
                 port:
                   number: 8080
+{{- if .Values.ingress.tls.enable }}
   tls:
     - hosts:
-        - regsys.test.eurofurence.org
-      secretName: regsys-test-certificate
+        - {{ .Values.ingress.host }}
+      secretName: {{ .Values.ingress.tls.secret_name }}
+{{- end }}
 ---
 {{- end }}

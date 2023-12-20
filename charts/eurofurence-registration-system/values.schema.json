@@ -38,6 +38,30 @@
           "type": "boolean",
           "description": "enable creating an ingress",
           "default": false
+        },
+        "host": {
+          "type": "string",
+          "description": "hostname for the ingress (and possibly the certificate)"
+        },
+        "tls": {
+          "additionalProperties": false,
+          "type": "object",
+          "properties": {
+            "enable": {
+              "type": "boolean",
+              "description": "enable tls",
+              "default": false
+            },
+            "secret_name": {
+              "type": "string",
+              "description": "the name of the secret for the letsencrypt operator"
+            }
+          }
+        },
+        "annotations": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "annotations to be put on the ingress"
         }
       }
     },

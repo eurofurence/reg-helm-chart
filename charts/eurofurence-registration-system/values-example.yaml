@@ -18,6 +18,17 @@ namespace:
 
 ingress:
   enable: true
+  host: my.domain.example.com
+  tls:
+    enable: false
+    secret_name: regsys-test-certificate
+  annotations:
+    # cert-manager.io/cluster-issuer: letsencrypt-live
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    nginx.ingress.kubernetes.io/limit-rps: "9"
+    nginx.ingress.kubernetes.io/limit-rpm: "360"
+    nginx.ingress.kubernetes.io/limit-burst-multiplier: "5"
+    nginx.ingress.kubernetes.io/limit-whitelist: "10.200.10.1/24,127.0.0.1/24"
 
 # system configuration
 system:

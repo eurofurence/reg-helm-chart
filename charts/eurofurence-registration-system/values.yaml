@@ -7,6 +7,8 @@ global: {}
 
 ingress:
   enable: false
+  tls:
+    enable: false
 
 # system configuration
 system:

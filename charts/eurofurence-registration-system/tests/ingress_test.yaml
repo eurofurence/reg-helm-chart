@@ -6,15 +6,83 @@ tests:
     asserts:
       - hasDocuments:
           count: 0
-  - it: should create an ingress if enabled
+  - it: should create a http ingress if enabled
     set:
       ingress:
         enable: true
+        host: my.domain.example.com
     asserts:
       - isKind:
           of: Ingress
       - hasDocuments:
           count: 1
+      - equal:
+          path: metadata
+          value:
+            name: regsys-ingress
+            labels:
+              app: regsys
+      - equal:
+          path: spec
+          value:
+            ingressClassName: nginx
+            rules:
+              - host: my.domain.example.com
+                http:
+                  paths:
+                    - pathType: Prefix
+                      path: "/"
+                      backend:
+                        service:
+                          name: frontend
+                          port:
+                            number: 8080
+  - it: should create a https ingress if configured
+    set:
+      ingress:
+        enable: true
+        host: my.domain.example.com
+        tls:
+          enable: true
+          secret_name: regsys-certificate
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-live
+          nginx.ingress.kubernetes.io/proxy-body-size: 100m
+          nginx.ingress.kubernetes.io/limit-rps: "9"
+    asserts:
+      - isKind:
+          of: Ingress
+      - hasDocuments:
+          count: 1
+      - equal:
+          path: metadata
+          value:
+            name: regsys-ingress
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-live
+              nginx.ingress.kubernetes.io/proxy-body-size: 100m
+              nginx.ingress.kubernetes.io/limit-rps: "9"
+            labels:
+              app: regsys
+      - equal:
+          path: spec
+          value:
+            ingressClassName: nginx
+            rules:
+              - host: my.domain.example.com
+                http:
+                  paths:
+                    - pathType: Prefix
+                      path: "/"
+                      backend:
+                        service:
+                          name: frontend
+                          port:
+                            number: 8080
+            tls:
+              - hosts:
+                  - my.domain.example.com
+                secretName: regsys-certificate
   - it: should not set namespace if unset
     set:
       ingress:
@@ -22,9 +90,6 @@ tests:
     asserts:
       - notExists:
           path: metadata.namespace
-      - equal:
-          path: spec.rules[0].host
-          value: regsys.test.eurofurence.org
   - it: should set namespace if specified
     set:
       ingress:
