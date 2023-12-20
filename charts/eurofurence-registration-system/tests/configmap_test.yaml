@@ -418,6 +418,16 @@ tests:
                 # webhook: '$REG_SECRET_CONCARDIS_INCOMING_WEBHOOK_SECRET'
               cors:
                 disable: false
+            database:
+              use: 'mysql'
+              username: 'demouser'
+              # password: '$REG_SECRET_DB_PASSWORD'
+              database: 'tcp(localhost:3306)/dbname'
+              parameters:
+                - 'charset=utf8mb4'
+                - 'collation=utf8mb4_general_ci'
+                - 'parseTime=True'
+                - 'timeout=30s'
             invoice:
               title: 'Time Traveller Con 1969 Edition - Attendee Fee'
               description: 'Fee for attending Time Traveller Con 1969 Edition from July 17th to 22nd 1969, including all selected options. Accommodation and catering will have been provided.'

@@ -321,6 +321,19 @@ data:
         {{- with .Values.development.cors.allow_origin }}
         allow_origin: '{{ . }}'
         {{- end }}
+    database:
+      use: '{{ .Values.system.database.use }}'
+      {{- if eq .Values.system.database.use "mysql" }}
+      username: '{{ .Values.system.database.username }}'
+      # password: '$REG_SECRET_DB_PASSWORD'
+      database: '{{ .Values.system.database.database }}'
+      {{-   with .Values.system.database.parameters }}
+      parameters:
+        {{- range . }}
+        - '{{ . }}'
+        {{- end }}
+      {{-   end }}
+      {{- end }}
     invoice:
       title: '{{ .Values.system.components.payment_cncrd_adapter.invoice.title }}'
       description: '{{ .Values.system.components.payment_cncrd_adapter.invoice.description }}'
