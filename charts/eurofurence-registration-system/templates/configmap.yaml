@@ -33,7 +33,6 @@ data:
       # boat_token: '$REG_SECRET_BOAT_TOKEN'
       # secu_token: '$REG_SECRET_SECU_TOKEN'
       # secu_secret: '$REG_SECRET_SECU_SECRET'
-    testing: {}
     sepa:
       account_owner: 'Awesome Convention, Inc.'
       bank_name: 'Greedy Bank'
