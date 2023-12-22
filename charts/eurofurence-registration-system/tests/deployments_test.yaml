@@ -57,6 +57,7 @@ tests:
                     args:
                       - --config=/config/config.yaml
                       - --migrate-database
+                      - --ecs-json-logging
                     env:
                       - name: REG_SECRET_DB_PASSWORD
                         valueFrom:
@@ -129,6 +130,7 @@ tests:
                     command: [/main]
                     args:
                       - --config=/config/config.yaml
+                      - --ecs-json-logging
                     env:
                       - name: REG_SECRET_OIDC_CLIENT_ID
                         valueFrom:
@@ -202,6 +204,7 @@ tests:
                     args:
                       - --config=/config/config.yaml
                       - --migrate-database
+                      - --ecs-json-logging
                     env:
                       - name: REG_SECRET_SMTP_PASSWORD
                         valueFrom:
@@ -280,6 +283,7 @@ tests:
                     args:
                       - --config=/config/config.yaml
                       - --migrate-database
+                      - --ecs-json-logging
                     env:
                       - name: REG_SECRET_CONCARDIS_API_SECRET
                         valueFrom:
@@ -363,6 +367,7 @@ tests:
                     args:
                       - --config=/config/config.yaml
                       - --migrate-database
+                      - --ecs-json-logging
                     env:
                       - name: REG_SECRET_DB_PASSWORD
                         valueFrom:
