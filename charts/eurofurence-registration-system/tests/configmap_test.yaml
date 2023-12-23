@@ -306,9 +306,10 @@ tests:
                 id_token_cookie_name: 'JWT'
                 access_token_cookie_name: 'AUTH'
                 relevant_groups:
-                  admin:
-                    - '123456789'
-                  earlyReg: []
+                  D1DQADM:
+                    - 'IDPUSERID1'
+                    - 'IDPUSERID2'
+                  D2DQEARLYREG: []
                 token_public_keys_PEM:
                 - |
                   -----BEGIN PUBLIC KEY-----
