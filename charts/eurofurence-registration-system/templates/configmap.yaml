@@ -345,9 +345,7 @@ data:
       {{- if .Values.system.components.attendee_service.enable }}
       attendee_service: '{{ .Values.system.components.attendee_service.local_base_url }}'
       {{- end }}
-      {{- if .Values.system.components.payment_cncrd_adapter.enable }}
       provider_adapter: '{{ .Values.system.components.payment_cncrd_adapter.local_base_url }}'
-      {{- end }}
       transaction_id_prefix: '{{ .Values.system.components.payment_service.transaction_id_prefix }}'
       allowed_currencies:
         - '{{ .Values.system.components.payment_service.currency }}'
