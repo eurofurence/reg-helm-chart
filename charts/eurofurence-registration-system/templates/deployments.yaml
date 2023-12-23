@@ -1,3 +1,4 @@
+{{- if .Values.system.components.attendee_service.enable }}
 {{ $attSrvInput := dict "name" "attendee-service"
                         "all" .Values
                         "component" .Values.system.components.attendee_service
@@ -6,6 +7,8 @@
                         "args" (list "--config=/config/config.yaml" "--migrate-database" "--ecs-json-logging") -}}
 {{- template "helpers.deployment" $attSrvInput }}
 ---
+{{- end }}
+{{- if .Values.system.components.auth_service.enable }}
 {{ $authSrvInput := dict "name" "auth-service"
                          "all" .Values
                          "component" .Values.system.components.auth_service
@@ -14,6 +17,8 @@
                          "args" (list "--config=/config/config.yaml" "--ecs-json-logging") -}}
 {{- template "helpers.deployment" $authSrvInput }}
 ---
+{{- end }}
+{{- if .Values.system.components.mail_service.enable }}
 {{ $mailSrvInput := dict "name" "mail-service"
                          "all" .Values
                          "component" .Values.system.components.mail_service
@@ -22,6 +27,8 @@
                          "args" (list "--config=/config/config.yaml" "--migrate-database" "--ecs-json-logging") -}}
 {{- template "helpers.deployment" $mailSrvInput }}
 ---
+{{- end }}
+{{- if .Values.system.components.payment_cncrd_adapter.enable }}
 {{ $cncrdAdapterInput := dict "name" "payment-cncrd-adapter"
                          "all" .Values
                          "component" .Values.system.components.payment_cncrd_adapter
@@ -30,6 +37,8 @@
                          "args" (list "--config=/config/config.yaml" "--migrate-database" "--ecs-json-logging") -}}
 {{- template "helpers.deployment" $cncrdAdapterInput }}
 ---
+{{- end }}
+{{- if .Values.system.components.payment_service.enable }}
 {{ $paySrvInput := dict "name" "payment-service"
                          "all" .Values
                          "component" .Values.system.components.payment_service
@@ -38,6 +47,8 @@
                          "args" (list "--config=/config/config.yaml" "--migrate-database" "--ecs-json-logging") -}}
 {{- template "helpers.deployment" $paySrvInput }}
 ---
+{{- end }}
+{{- if .Values.system.components.regsys_classic.enable }}
 {{ $classicInput := dict "name" "regsys-classic"
                          "all" .Values
                          "component" .Values.system.components.regsys_classic
@@ -46,6 +57,8 @@
                          "args" (list "-jar" "/app/regsys-classic.jar") -}}
 {{- template "helpers.deployment" $classicInput }}
 ---
+{{- end }}
+{{- if .Values.system.components.frontend.enable }}
 {{ $frontendInput := dict "name" "frontend"
                          "all" .Values
                          "component" .Values.system.components.frontend
@@ -54,3 +67,4 @@
                          "args" (list "-f" "/etc/apache2/regsys.conf" "-DNO_DETACH" "-DFOREGROUND")
                          "volume" "no" -}}
 {{- template "helpers.deployment" $frontendInput }}
+{{- end }}

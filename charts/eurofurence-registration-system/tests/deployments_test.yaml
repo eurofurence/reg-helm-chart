@@ -2,7 +2,45 @@ suite: test deployments
 templates:
   - deployments.yaml
 tests:
-  - it: should create expected deployments minimal
+  - it: should create no deployments if all disabled
+    set:
+      system:
+        components:
+          attendee_service:
+            enable: false
+          auth_service:
+            enable: false
+          mail_service:
+            enable: false
+          payment_cncrd_adapter:
+            enable: false
+          payment_service:
+            enable: false
+          regsys_classic:
+            enable: false
+          frontend:
+            enable: false
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: should create all deployments minimal
+    set:
+      system:
+        components:
+          attendee_service:
+            enable: true
+          auth_service:
+            enable: true
+          mail_service:
+            enable: true
+          payment_cncrd_adapter:
+            enable: true
+          payment_service:
+            enable: true
+          regsys_classic:
+            enable: true
+          frontend:
+            enable: true
     asserts:
       - isKind:
           of: Deployment
