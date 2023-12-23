@@ -4,6 +4,8 @@ templates:
 tests:
   - it: should create correct configmap
     set:
+      ingress:
+        host: my.domain.example.com
       system:
         public_base_url_domain: https://my.domain.example.com
         public_base_context: 'hello/you'
@@ -486,6 +488,12 @@ tests:
       - equal:
           path: data.HTTPD_CONF_PATH_PREFIX_NO_SLASHES
           value: 'hello/you'
+      - equal:
+          path: data.HTTPD_CONF_SERVER_NAME
+          value: 'my.domain.example.com'
+      - equal:
+          path: data.HTTPD_CONF_STATIC_DIR
+          value: 'reg-frontend'
 
   - it: should not set namespace if unset
     set:

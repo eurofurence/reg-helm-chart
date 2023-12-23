@@ -585,6 +585,16 @@ tests:
                           configMapKeyRef:
                             name: regsys-cm
                             key: HTTPD_CONF_PATH_PREFIX_NO_SLASHES
+                      - name: HTTPD_CONF_SERVER_NAME
+                        valueFrom:
+                          configMapKeyRef:
+                            name: regsys-cm
+                            key: HTTPD_CONF_SERVER_NAME
+                      - name: HTTPD_CONF_STATIC_DIR
+                        valueFrom:
+                          configMapKeyRef:
+                            name: regsys-cm
+                            key: HTTPD_CONF_STATIC_DIR
         documentIndex: 6
 
   - it: should not set namespace if unset
