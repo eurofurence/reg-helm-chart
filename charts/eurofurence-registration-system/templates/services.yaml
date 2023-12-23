@@ -40,9 +40,7 @@
 {{- template "helpers.service" $classicInput }}
 ---
 {{- end }}
-{{- if .Values.system.components.frontend.enable }}
 {{ $frontendInput := dict "name" "frontend"
                          "all" .Values
                          "component" .Values.system.components.frontend -}}
 {{- template "helpers.service" $frontendInput }}
-{{- end }}

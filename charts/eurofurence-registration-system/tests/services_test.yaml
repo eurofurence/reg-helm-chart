@@ -2,7 +2,7 @@ suite: test services
 templates:
   - services.yaml
 tests:
-  - it: should create no services if all disabled
+  - it: should create only frontend service if all disabled
     set:
       system:
         components:
@@ -22,7 +22,28 @@ tests:
             enable: false
     asserts:
       - hasDocuments:
-          count: 0
+          count: 1
+      - equal:
+          path: metadata
+          value:
+            name: frontend
+            labels:
+              app: regsys
+              service: frontend
+        documentIndex: 0
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8080
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: frontend
+            type: ClusterIP
+        documentIndex: 0
   - it: should create expected services all enabled
     set:
       system:

@@ -2,7 +2,7 @@ suite: test deployments
 templates:
   - deployments.yaml
 tests:
-  - it: should create no deployments if all disabled
+  - it: should create frontend deployment if all disabled
     set:
       system:
         components:
@@ -21,8 +21,78 @@ tests:
           frontend:
             enable: false
     asserts:
+      - isKind:
+          of: Deployment
       - hasDocuments:
-          count: 0
+          count: 1
+      - equal:
+          path: metadata
+          value:
+            name: frontend
+            labels:
+              app: regsys
+              service: frontend
+        documentIndex: 0
+      - equal:
+          path: spec
+          value:
+            replicas: 1
+            revisionHistoryLimit: 3
+            selector:
+              matchLabels:
+                app: regsys
+                service: frontend
+            template:
+              metadata:
+                labels:
+                  app: regsys
+                  service: frontend
+              spec:
+                containers:
+                  - name: application
+                    image: 'ghcr.io/eurofurence/reg-frontend:latest'
+                    ports:
+                      - containerPort: 8080
+                        name: primary
+                    readinessProbe:
+                      httpGet:
+                        port: primary
+                        path: /
+                      initialDelaySeconds: 2
+                      periodSeconds: 10
+                      successThreshold: 1
+                      timeoutSeconds: 1
+                    resources:
+                      limits:
+                        memory: 256Mi
+                    securityContext:
+                      allowPrivilegeEscalation: false
+                      capabilities:
+                        drop:
+                          - ALL
+                    command: [/usr/sbin/httpd]
+                    args:
+                      - -f
+                      - /etc/apache2/regsys.conf
+                      - -DNO_DETACH
+                      - -DFOREGROUND
+                    env:
+                      - name: HTTPD_CONF_PATH_PREFIX_NO_SLASHES
+                        valueFrom:
+                          configMapKeyRef:
+                            name: regsys-cm
+                            key: HTTPD_CONF_PATH_PREFIX_NO_SLASHES
+                      - name: HTTPD_CONF_SERVER_NAME
+                        valueFrom:
+                          configMapKeyRef:
+                            name: regsys-cm
+                            key: HTTPD_CONF_SERVER_NAME
+                      - name: HTTPD_CONF_STATIC_DIR
+                        valueFrom:
+                          configMapKeyRef:
+                            name: regsys-cm
+                            key: HTTPD_CONF_STATIC_DIR
+        documentIndex: 0
   - it: should create all deployments minimal
     set:
       system:
