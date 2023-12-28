@@ -767,8 +767,12 @@
               },
               "read_only": {
                 "type": "boolean",
-                "description": "if set to true, this flag can only be changed by an admin",
+                "description": "if set to true, this flag can only be changed by an admin, but it is stored among the regular flags",
                 "default": false
+              },
+              "group": {
+                "type": "string",
+                "description": "optional group id that auto-sets this flags during initial registration if the user has this group id. Must also enable passing through the group in the auth service relevant groups configuration, or the system will not see it. Only works for flags that are not admin_only (because no admin data written during initial reg). Example: auto-set the 'ev' flag for members of eurofurence e.V."
               },
               "visible_for": {
                 "type": "array",

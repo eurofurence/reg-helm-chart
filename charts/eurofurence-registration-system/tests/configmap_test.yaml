@@ -77,6 +77,11 @@ tests:
         database:
           use: mysql
       choices:
+        flags:
+          ev:
+            description: 'Member of e.V.'
+            group: evgroupid
+            read_only: true
         packages:
           attendance:
             description: 'Entrance Fee (Convention Ticket)'
@@ -154,6 +159,10 @@ tests:
               failure_redirect: 'https://my.domain.example.com/hello/you/register'
             choices:
               flags:
+                ev:
+                  description: Member of e.V.
+                  group: evgroupid
+                  read_only: true
                 guest:
                   admin_only: true
                   description: Guest of the Convention
@@ -260,6 +269,10 @@ tests:
                 - sponsordesk
             choices:
               flags:
+                ev:
+                  description: Member of e.V.
+                  group: evgroupid
+                  read_only: true
                 guest:
                   admin_only: true
                   description: Guest of the Convention

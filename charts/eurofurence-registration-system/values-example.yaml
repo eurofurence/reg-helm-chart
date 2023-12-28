@@ -159,7 +159,8 @@ choices:
         - regdesk
     ev:
       description: 'Eurofurence e.V. Member'
-      admin_only: true
+      read_only: true
+      group: ev # group id in IDP
       visible_for:
         - regdesk
     terms-accepted:
