@@ -421,6 +421,7 @@ tests:
               concardis_instance: 'demo'
               success_redirect: 'https://my.domain.example.com/hello/you/app/register'
               failure_redirect: 'https://my.domain.example.com/hello/you/app/register'
+              transaction_id_prefix: 'TTC69'
             server:
               port: 8080
             logging:

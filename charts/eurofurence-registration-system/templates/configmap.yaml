@@ -311,6 +311,7 @@ data:
       concardis_instance: '{{ .Values.system.components.payment_cncrd_adapter.concardis_instance }}'
       success_redirect: '{{ $public_base_url }}/app/register'
       failure_redirect: '{{ $public_base_url }}/app/register'
+      transaction_id_prefix: '{{ .Values.system.components.payment_service.transaction_id_prefix }}'
     server:
       port: 8080
     logging:
