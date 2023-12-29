@@ -12,7 +12,7 @@ data:
     web:
       server_url: '{{ $public_base_url }}/'
       context_path: '{{ .Values.system.components.regsys_classic.context_path }}'
-      regsys_public_url: '{{ $public_base_url }}/register'
+      regsys_public_url: '{{ $public_base_url }}/app/register'
       {{- range (index .Values.system.registration_languages 0) }}
       {{-   range $key, $value := . }}
       system_language: '{{ $key }}'
@@ -40,8 +40,8 @@ data:
       iban: 'UK00100020003000400050'
       bic: 'AABBCCDDUK'
       subject_prefix: 'AWECON'
-      success_redirect: '{{ $public_base_url }}/register'
-      failure_redirect: '{{ $public_base_url }}/register'
+      success_redirect: '{{ $public_base_url }}/app/register'
+      failure_redirect: '{{ $public_base_url }}/app/register'
     choices:
       flags:
         {{- .Values.choices.flags | toYaml | nindent 8 }}
@@ -62,7 +62,7 @@ data:
     # configuration file for attendee-service
     service:
       name: 'Attendee Service'
-      regsys_public_url: '{{ $public_base_url }}/register'
+      regsys_public_url: '{{ $public_base_url }}/app/register'
       {{- if .Values.system.components.payment_service.enable }}
       payment_service: '{{ .Values.system.components.payment_service.local_base_url }}'
       {{- end }}

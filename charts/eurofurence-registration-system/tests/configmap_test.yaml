@@ -131,7 +131,7 @@ tests:
             web:
               server_url: 'https://my.domain.example.com/hello/you/'
               context_path: 'regsys'
-              regsys_public_url: 'https://my.domain.example.com/hello/you/register'
+              regsys_public_url: 'https://my.domain.example.com/hello/you/app/register'
               system_language: 'en-US'
             downstream:
               auth_service: 'http://auth-service:8080'
@@ -155,8 +155,8 @@ tests:
               iban: 'UK00100020003000400050'
               bic: 'AABBCCDDUK'
               subject_prefix: 'AWECON'
-              success_redirect: 'https://my.domain.example.com/hello/you/register'
-              failure_redirect: 'https://my.domain.example.com/hello/you/register'
+              success_redirect: 'https://my.domain.example.com/hello/you/app/register'
+              failure_redirect: 'https://my.domain.example.com/hello/you/app/register'
             choices:
               flags:
                 ev:
@@ -208,7 +208,7 @@ tests:
             # configuration file for attendee-service
             service:
               name: 'Attendee Service'
-              regsys_public_url: 'https://my.domain.example.com/hello/you/register'
+              regsys_public_url: 'https://my.domain.example.com/hello/you/app/register'
               payment_service: 'http://payment-service:8080'
               mail_service: 'http://mail-service:8080'
               auth_service: 'http://auth-service:8080'
