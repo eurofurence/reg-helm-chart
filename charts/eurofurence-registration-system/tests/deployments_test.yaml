@@ -547,6 +547,7 @@ tests:
                           - ALL
                     command: [/usr/bin/java]
                     args:
+                      - -Xmx176m
                       - -jar
                       - /app/regsys-classic.jar
                     env:
