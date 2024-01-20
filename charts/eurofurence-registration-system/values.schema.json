@@ -651,6 +651,37 @@
                 "labels": {
                   "type": "object",
                   "additionalProperties": true
+                },
+                "sepa": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "presence of this block enables the sepa paylink implementation (shows money transfer infos)",
+                  "properties": {
+                    "account_owner": {
+                      "type": "string",
+                      "description": "the name of the account owner for sepa transfers"
+                    },
+                    "bank_name": {
+                      "type": "string",
+                      "description": "the name of the bank for sepa transfers"
+                    },
+                    "bank_address": {
+                      "type": "string",
+                      "description": "the address of the bank for sepa transfers"
+                    },
+                    "iban": {
+                      "type": "string",
+                      "description": "the IBAN (international account number) for sepa transfers"
+                    },
+                    "bic": {
+                      "type": "string",
+                      "description": "the BIC (bank code) for sepa transfers"
+                    },
+                    "subject_prefix": {
+                      "type": "string",
+                      "description": "the prefix to use in the suggested subject (followed by nickname and badge number)"
+                    }
+                  }
                 }
               }
             },

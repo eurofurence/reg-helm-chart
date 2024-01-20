@@ -74,6 +74,14 @@ tests:
             payment_default_comment:
               credit: manually initiated credit card payment
               transfer: manually initiated SEPA payment
+          regsys_classic:
+            sepa:
+              account_owner: 'Awesome Convention, Inc.'
+              bank_name: 'Greedy Bank'
+              bank_address: '1 Money Drive, 6AC 1EU Fairyland'
+              iban: 'UK00100020003000400050'
+              bic: 'AABBCCDDUK'
+              subject_prefix: 'AWECON'
         database:
           use: mysql
       choices:

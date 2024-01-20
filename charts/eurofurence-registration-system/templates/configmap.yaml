@@ -33,15 +33,17 @@ data:
       # boat_token: '$REG_SECRET_BOAT_TOKEN'
       # secu_token: '$REG_SECRET_SECU_TOKEN'
       # secu_secret: '$REG_SECRET_SECU_SECRET'
+    {{- with .Values.system.components.regsys_classic.sepa }}
     sepa:
-      account_owner: 'Awesome Convention, Inc.'
-      bank_name: 'Greedy Bank'
-      bank_address: '1 Money Drive, 6AC 1EU Fairyland'
-      iban: 'UK00100020003000400050'
-      bic: 'AABBCCDDUK'
-      subject_prefix: 'AWECON'
+      account_owner: '{{ .account_owner }}'
+      bank_name: '{{ .bank_name }}'
+      bank_address: '{{ .bank_address }}'
+      iban: '{{ .iban }}'
+      bic: '{{ .bic }}'
+      subject_prefix: '{{ .subject_prefix }}'
       success_redirect: '{{ $public_base_url }}/app/register'
       failure_redirect: '{{ $public_base_url }}/app/register'
+    {{- end }}
     choices:
       flags:
         {{- .Values.choices.flags | toYaml | nindent 8 }}
