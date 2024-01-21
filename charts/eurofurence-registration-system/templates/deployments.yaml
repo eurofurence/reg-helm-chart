@@ -54,7 +54,7 @@
                          "component" .Values.system.components.regsys_classic
                          "secrets" (list "REG_SECRET_API_TOKEN" "REG_SECRET_NOSECOUNTER_TOKEN" "REG_SECRET_DD_TOKEN" "REG_SECRET_ARTSHOW_TOKEN" "REG_SECRET_BOAT_TOKEN" "REG_SECRET_SECU_TOKEN" "REG_SECRET_SECU_SECRET")
                          "command" "/usr/bin/java"
-                         "args" (list "-Xmx176m" "-jar" "/app/regsys-classic.jar") -}}
+                         "args" (list "-Xmx256m" "-jar" "/app/regsys-classic.jar") -}}
 {{- template "helpers.deployment" $classicInput }}
 ---
 {{- end }}

@@ -64,7 +64,7 @@ tests:
                       timeoutSeconds: 1
                     resources:
                       limits:
-                        memory: 256Mi
+                        memory: 512Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                       capabilities:
@@ -155,7 +155,7 @@ tests:
                       timeoutSeconds: 1
                     resources:
                       limits:
-                        memory: 256Mi
+                        memory: 512Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                       capabilities:
@@ -229,7 +229,7 @@ tests:
                       timeoutSeconds: 1
                     resources:
                       limits:
-                        memory: 256Mi
+                        memory: 512Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                       capabilities:
@@ -302,7 +302,7 @@ tests:
                       timeoutSeconds: 1
                     resources:
                       limits:
-                        memory: 256Mi
+                        memory: 512Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                       capabilities:
@@ -381,7 +381,7 @@ tests:
                       timeoutSeconds: 1
                     resources:
                       limits:
-                        memory: 256Mi
+                        memory: 512Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                       capabilities:
@@ -465,7 +465,7 @@ tests:
                       timeoutSeconds: 1
                     resources:
                       limits:
-                        memory: 256Mi
+                        memory: 512Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                       capabilities:
@@ -539,7 +539,7 @@ tests:
                       timeoutSeconds: 1
                     resources:
                       limits:
-                        memory: 256Mi
+                        memory: 512Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                       capabilities:
@@ -547,7 +547,7 @@ tests:
                           - ALL
                     command: [/usr/bin/java]
                     args:
-                      - -Xmx176m
+                      - -Xmx256m
                       - -jar
                       - /app/regsys-classic.jar
                     env:
@@ -638,7 +638,7 @@ tests:
                       timeoutSeconds: 1
                     resources:
                       limits:
-                        memory: 256Mi
+                        memory: 512Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                       capabilities:
