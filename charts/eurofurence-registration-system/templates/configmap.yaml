@@ -147,19 +147,19 @@ data:
     spoken_languages:
 {{- range .Values.choices.spoken_languages }}
 {{-   range $key, $value := . }}
-      - {{ $key }}
+      - '{{ $key }}'
 {{-   end }}
 {{- end }}
     registration_languages:
 {{- range .Values.system.registration_languages }}
 {{-   range $key, $value := . }}
-      - {{ $key }}
+      - '{{ $key }}'
 {{-   end }}
 {{- end }}
     countries:
 {{- range .Values.choices.countries }}
 {{-   range $key, $value := . }}
-      - {{ $key }}
+      - '{{ $key }}'
 {{-   end }}
 {{- end }}
 

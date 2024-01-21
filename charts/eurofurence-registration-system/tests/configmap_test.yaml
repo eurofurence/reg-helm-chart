@@ -106,11 +106,13 @@ tests:
           - 'XS':
               'en-US': 'XS (Regular Cut)'
         spoken_languages:
-          - de:
+          - 'de':
               en-US: German
-          - la:
+          - 'la':
               en-US: Latin
               de-DE: Latein
+          - 'no': # quotes important! otherwise this is false, no the string 'no'
+              en-US: Norwegian
         countries:
           - 'US':
               'en-US': 'United States of America'
@@ -204,6 +206,8 @@ tests:
               - la:
                   de-DE: Latein
                   en-US: Latin
+              - "no":
+                  en-US: Norwegian
             countries:
               - US:
                   en-US: United States of America
@@ -308,12 +312,13 @@ tests:
             tshirtsizes:
               - XS
             spoken_languages:
-              - de
-              - la
+              - 'de'
+              - 'la'
+              - 'no'
             registration_languages:
-              - en-US
+              - 'en-US'
             countries:
-              - US
+              - 'US'
       - equal:
           path: data.auth-service-config
           value: |
