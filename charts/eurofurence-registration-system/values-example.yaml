@@ -34,6 +34,7 @@ ingress:
 system:
   public_base_url_domain: https://my.domain.example.com
   public_base_context: 'testing-instance'
+  public_login_url: https://my.identity.provider.example.com/
 
   registration_languages:
     # the first listed locale is the system default

@@ -110,6 +110,12 @@
           "default": "",
           "example": "this/comes/after/the/domain"
         },
+        "public_login_url": {
+          "type": "string",
+          "description": "The public url to show in emails as the user entry point, e.g. a login page",
+          "pattern": "^https?://.*$",
+          "example": "https://identity.example.com/"
+        },
         "logging": {
           "type": "object",
           "additionalProperties": false,

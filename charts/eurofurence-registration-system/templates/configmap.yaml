@@ -12,7 +12,7 @@ data:
     web:
       server_url: '{{ $public_base_url }}/'
       context_path: '{{ .Values.system.components.regsys_classic.context_path }}'
-      regsys_public_url: '{{ $public_base_url }}/app/register'
+      regsys_public_url: '{{ .Values.system.public_login_url }}'
       {{- range (index .Values.system.registration_languages 0) }}
       {{-   range $key, $value := . }}
       system_language: '{{ $key }}'
@@ -64,7 +64,7 @@ data:
     # configuration file for attendee-service
     service:
       name: 'Attendee Service'
-      regsys_public_url: '{{ $public_base_url }}/app/register'
+      regsys_public_url: '{{ .Values.system.public_login_url }}'
       {{- if .Values.system.components.payment_service.enable }}
       payment_service: '{{ .Values.system.components.payment_service.local_base_url }}'
       {{- end }}

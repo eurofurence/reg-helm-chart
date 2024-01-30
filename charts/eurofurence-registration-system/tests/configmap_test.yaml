@@ -9,6 +9,7 @@ tests:
       system:
         public_base_url_domain: https://my.domain.example.com
         public_base_context: 'hello/you'
+        public_login_url: https://identity.example.com/
         registration_languages:
           - 'en-US':
               en-US: English
@@ -141,7 +142,7 @@ tests:
             web:
               server_url: 'https://my.domain.example.com/hello/you/'
               context_path: 'regsys'
-              regsys_public_url: 'https://my.domain.example.com/hello/you/app/register'
+              regsys_public_url: 'https://identity.example.com/'
               system_language: 'en-US'
             downstream:
               auth_service: 'http://auth-service:8080'
@@ -220,7 +221,7 @@ tests:
             # configuration file for attendee-service
             service:
               name: 'Attendee Service'
-              regsys_public_url: 'https://my.domain.example.com/hello/you/app/register'
+              regsys_public_url: 'https://identity.example.com/'
               payment_service: 'http://payment-service:8080'
               mail_service: 'http://mail-service:8080'
               auth_service: 'http://auth-service:8080'
