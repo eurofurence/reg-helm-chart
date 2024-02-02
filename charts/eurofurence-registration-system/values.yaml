@@ -40,6 +40,9 @@ system:
         tag: latest
       labels:
         service: attendee-service
+      replicas: 1
+      limits:
+        memory: 512Mi
 
     auth_service:
       enable: true
@@ -54,6 +57,9 @@ system:
         tag: latest
       labels:
         service: auth-service
+      replicas: 1 # do NOT increase before adding redis for in-memory flow cache
+      limits:
+        memory: 512Mi
 
     mail_service:
       enable: true
@@ -66,6 +72,9 @@ system:
         tag: latest
       labels:
         service: mail-service
+      replicas: 1
+      limits:
+        memory: 512Mi
 
     payment_cncrd_adapter:
       enable: false
@@ -78,6 +87,9 @@ system:
         tag: latest
       labels:
         service: payment-cncrd-adapter
+      replicas: 1
+      limits:
+        memory: 512Mi
 
     payment_service:
       enable: true
@@ -88,6 +100,9 @@ system:
         tag: latest
       labels:
         service: payment-service
+      replicas: 1
+      limits:
+        memory: 512Mi
 
     regsys_classic:
       enable: true
@@ -98,6 +113,9 @@ system:
         tag: latest
       labels:
         service: regsys-classic
+      replicas: 1
+      limits:
+        memory: 512Mi
 
     frontend:
       enable: true
@@ -107,6 +125,9 @@ system:
         tag: latest
       labels:
         service: frontend
+      replicas: 1
+      limits:
+        memory: 512Mi
 
   database:
     use: 'inmemory'

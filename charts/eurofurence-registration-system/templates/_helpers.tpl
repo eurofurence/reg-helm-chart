@@ -34,7 +34,7 @@ metadata:
     {{- $mergedLabels := merge .component.labels .all.system.labels }}
     {{- $mergedLabels | toYaml | nindent 4 }}
 spec:
-  replicas: 1
+  replicas: {{ .component.replicas }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -69,7 +69,7 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              memory: 512Mi
+              memory: {{ .component.limits.memory }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:

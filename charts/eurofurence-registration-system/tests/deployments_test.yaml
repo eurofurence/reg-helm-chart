@@ -109,6 +109,11 @@ tests:
             enable: true
           regsys_classic:
             enable: true
+            docker:
+              tag: v0.1
+            replicas: 2
+            limits:
+              memory: 4444Mi
           frontend:
             enable: true
     asserts:
@@ -511,7 +516,7 @@ tests:
       - equal:
           path: spec
           value:
-            replicas: 1
+            replicas: 2
             revisionHistoryLimit: 3
             selector:
               matchLabels:
@@ -525,7 +530,7 @@ tests:
               spec:
                 containers:
                   - name: application
-                    image: 'ghcr.io/eurofurence/reg-regsys-classic:latest'
+                    image: 'ghcr.io/eurofurence/reg-regsys-classic:v0.1'
                     ports:
                       - containerPort: 8080
                         name: primary
@@ -539,7 +544,7 @@ tests:
                       timeoutSeconds: 1
                     resources:
                       limits:
-                        memory: 512Mi
+                        memory: 4444Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                       capabilities:

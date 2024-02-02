@@ -242,6 +242,24 @@
                 "labels": {
                   "type": "object",
                   "additionalProperties": true
+                },
+                "replicas":  {
+                  "type": "integer",
+                  "minValue": 1,
+                  "description": "number of replicas to start",
+                  "default": 1
+                },
+                "limits": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of maximum memory before getting OOM-killed",
+                      "example": "512Mi",
+                      "default": "512Mi"
+                    }
+                  }
                 }
               }
             },
@@ -390,6 +408,25 @@
                 "labels": {
                   "type": "object",
                   "additionalProperties": true
+                },
+                "replicas":  {
+                  "type": "integer",
+                  "minValue": 1,
+                  "maxValue": 1,
+                  "description": "number of replicas to start - currently the auth service uses an in-memory flow cache, so only 1 replica is supported at the moment",
+                  "default": 1
+                },
+                "limits": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of maximum memory before getting OOM-killed",
+                      "example": "512Mi",
+                      "default": "512Mi"
+                    }
+                  }
                 }
               }
             },
@@ -464,6 +501,24 @@
                 "labels": {
                   "type": "object",
                   "additionalProperties": true
+                },
+                "replicas":  {
+                  "type": "integer",
+                  "minValue": 1,
+                  "description": "number of replicas to start",
+                  "default": 1
+                },
+                "limits": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of maximum memory before getting OOM-killed",
+                      "example": "512Mi",
+                      "default": "512Mi"
+                    }
+                  }
                 }
               }
             },
@@ -546,6 +601,25 @@
                 "labels": {
                   "type": "object",
                   "additionalProperties": true
+                },
+                "replicas":  {
+                  "type": "integer",
+                  "minValue": 1,
+                  "maxValue": 1,
+                  "description": "number of replicas to start - currently the auth service uses an in-memory flow cache, so only 1 replica is supported at the moment",
+                  "default": 1
+                },
+                "limits": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of maximum memory before getting OOM-killed",
+                      "example": "512Mi",
+                      "default": "512Mi"
+                    }
+                  }
                 }
               }
             },
@@ -613,6 +687,25 @@
                 "labels": {
                   "type": "object",
                   "additionalProperties": true
+                },
+                "replicas":  {
+                  "type": "integer",
+                  "minValue": 1,
+                  "maxValue": 1,
+                  "description": "number of replicas to start - currently the auth service uses an in-memory flow cache, so only 1 replica is supported at the moment",
+                  "default": 1
+                },
+                "limits": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of maximum memory before getting OOM-killed",
+                      "example": "512Mi",
+                      "default": "512Mi"
+                    }
+                  }
                 }
               }
             },
@@ -688,6 +781,25 @@
                       "description": "the prefix to use in the suggested subject (followed by nickname and badge number)"
                     }
                   }
+                },
+                "replicas":  {
+                  "type": "integer",
+                  "minValue": 1,
+                  "maxValue": 1,
+                  "description": "number of replicas to start - currently the auth service uses an in-memory flow cache, so only 1 replica is supported at the moment",
+                  "default": 1
+                },
+                "limits": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of maximum memory before getting OOM-killed",
+                      "example": "512Mi",
+                      "default": "512Mi"
+                    }
+                  }
                 }
               }
             },
@@ -726,6 +838,25 @@
                 "labels": {
                   "type": "object",
                   "additionalProperties": true
+                },
+                "replicas":  {
+                  "type": "integer",
+                  "minValue": 1,
+                  "maxValue": 1,
+                  "description": "number of replicas to start - currently the auth service uses an in-memory flow cache, so only 1 replica is supported at the moment",
+                  "default": 1
+                },
+                "limits": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of maximum memory before getting OOM-killed",
+                      "example": "512Mi",
+                      "default": "512Mi"
+                    }
+                  }
                 }
               }
             }
