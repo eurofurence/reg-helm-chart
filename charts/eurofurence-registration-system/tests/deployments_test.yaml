@@ -61,7 +61,7 @@ tests:
                       initialDelaySeconds: 2
                       periodSeconds: 10
                       successThreshold: 1
-                      timeoutSeconds: 1
+                      timeoutSeconds: 5
                     resources:
                       limits:
                         memory: 512Mi
@@ -157,7 +157,7 @@ tests:
                       initialDelaySeconds: 2
                       periodSeconds: 10
                       successThreshold: 1
-                      timeoutSeconds: 1
+                      timeoutSeconds: 5
                     resources:
                       limits:
                         memory: 512Mi
@@ -231,7 +231,7 @@ tests:
                       initialDelaySeconds: 2
                       periodSeconds: 10
                       successThreshold: 1
-                      timeoutSeconds: 1
+                      timeoutSeconds: 5
                     resources:
                       limits:
                         memory: 512Mi
@@ -304,7 +304,7 @@ tests:
                       initialDelaySeconds: 2
                       periodSeconds: 10
                       successThreshold: 1
-                      timeoutSeconds: 1
+                      timeoutSeconds: 5
                     resources:
                       limits:
                         memory: 512Mi
@@ -383,7 +383,7 @@ tests:
                       initialDelaySeconds: 2
                       periodSeconds: 10
                       successThreshold: 1
-                      timeoutSeconds: 1
+                      timeoutSeconds: 5
                     resources:
                       limits:
                         memory: 512Mi
@@ -467,7 +467,7 @@ tests:
                       initialDelaySeconds: 2
                       periodSeconds: 10
                       successThreshold: 1
-                      timeoutSeconds: 1
+                      timeoutSeconds: 5
                     resources:
                       limits:
                         memory: 512Mi
@@ -541,7 +541,7 @@ tests:
                       initialDelaySeconds: 2
                       periodSeconds: 10
                       successThreshold: 1
-                      timeoutSeconds: 1
+                      timeoutSeconds: 5
                     resources:
                       limits:
                         memory: 4444Mi
@@ -640,7 +640,7 @@ tests:
                       initialDelaySeconds: 2
                       periodSeconds: 10
                       successThreshold: 1
-                      timeoutSeconds: 1
+                      timeoutSeconds: 5
                     resources:
                       limits:
                         memory: 512Mi

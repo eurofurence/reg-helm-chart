@@ -66,7 +66,7 @@ spec:
             initialDelaySeconds: 2
             periodSeconds: 10
             successThreshold: 1
-            timeoutSeconds: 1
+            timeoutSeconds: 5
           resources:
             limits:
               memory: {{ .component.limits.memory }}
