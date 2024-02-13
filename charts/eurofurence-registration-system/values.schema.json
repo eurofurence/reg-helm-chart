@@ -260,6 +260,18 @@
                       "default": "512Mi"
                     }
                   }
+                },
+                "requests": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of memory reserved for the container",
+                      "example": "64Mi",
+                      "default": "64Mi"
+                    }
+                  }
                 }
               }
             },
@@ -427,6 +439,18 @@
                       "default": "512Mi"
                     }
                   }
+                },
+                "requests": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of memory reserved for the container",
+                      "example": "64Mi",
+                      "default": "64Mi"
+                    }
+                  }
                 }
               }
             },
@@ -517,6 +541,18 @@
                       "description": "amount of maximum memory before getting OOM-killed",
                       "example": "512Mi",
                       "default": "512Mi"
+                    }
+                  }
+                },
+                "requests": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of memory reserved for the container",
+                      "example": "64Mi",
+                      "default": "64Mi"
                     }
                   }
                 }
@@ -620,6 +656,18 @@
                       "default": "512Mi"
                     }
                   }
+                },
+                "requests": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of memory reserved for the container",
+                      "example": "64Mi",
+                      "default": "64Mi"
+                    }
+                  }
                 }
               }
             },
@@ -704,6 +752,18 @@
                       "description": "amount of maximum memory before getting OOM-killed",
                       "example": "512Mi",
                       "default": "512Mi"
+                    }
+                  }
+                },
+                "requests": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of memory reserved for the container",
+                      "example": "64Mi",
+                      "default": "64Mi"
                     }
                   }
                 }
@@ -800,6 +860,18 @@
                       "default": "512Mi"
                     }
                   }
+                },
+                "requests": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of memory reserved for the container",
+                      "example": "256Mi",
+                      "default": "256Mi"
+                    }
+                  }
                 }
               }
             },
@@ -855,6 +927,18 @@
                       "description": "amount of maximum memory before getting OOM-killed",
                       "example": "512Mi",
                       "default": "512Mi"
+                    }
+                  }
+                },
+                "requests": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of memory reserved for the container",
+                      "example": "256Mi",
+                      "default": "256Mi"
                     }
                   }
                 }

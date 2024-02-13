@@ -65,6 +65,8 @@ tests:
                     resources:
                       limits:
                         memory: 512Mi
+                      requests:
+                        memory: 256Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                       capabilities:
@@ -114,6 +116,8 @@ tests:
             replicas: 2
             limits:
               memory: 4444Mi
+            requests:
+              memory: 1111Mi
           frontend:
             enable: true
     asserts:
@@ -161,6 +165,8 @@ tests:
                     resources:
                       limits:
                         memory: 512Mi
+                      requests:
+                        memory: 64Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                       capabilities:
@@ -235,6 +241,8 @@ tests:
                     resources:
                       limits:
                         memory: 512Mi
+                      requests:
+                        memory: 64Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                       capabilities:
@@ -308,6 +316,8 @@ tests:
                     resources:
                       limits:
                         memory: 512Mi
+                      requests:
+                        memory: 64Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                       capabilities:
@@ -387,6 +397,8 @@ tests:
                     resources:
                       limits:
                         memory: 512Mi
+                      requests:
+                        memory: 64Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                       capabilities:
@@ -471,6 +483,8 @@ tests:
                     resources:
                       limits:
                         memory: 512Mi
+                      requests:
+                        memory: 64Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                       capabilities:
@@ -545,6 +559,8 @@ tests:
                     resources:
                       limits:
                         memory: 4444Mi
+                      requests:
+                        memory: 1111Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                       capabilities:
@@ -644,6 +660,8 @@ tests:
                     resources:
                       limits:
                         memory: 512Mi
+                      requests:
+                        memory: 256Mi
                     securityContext:
                       allowPrivilegeEscalation: false
                       capabilities:

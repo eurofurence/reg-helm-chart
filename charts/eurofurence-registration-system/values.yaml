@@ -43,6 +43,8 @@ system:
       replicas: 1
       limits:
         memory: 512Mi
+      requests:
+        memory: 64Mi
 
     auth_service:
       enable: true
@@ -60,6 +62,8 @@ system:
       replicas: 1 # do NOT increase before adding redis for in-memory flow cache
       limits:
         memory: 512Mi
+      requests:
+        memory: 64Mi
 
     mail_service:
       enable: true
@@ -75,6 +79,8 @@ system:
       replicas: 1
       limits:
         memory: 512Mi
+      requests:
+        memory: 64Mi
 
     payment_cncrd_adapter:
       enable: false
@@ -90,6 +96,8 @@ system:
       replicas: 1
       limits:
         memory: 512Mi
+      requests:
+        memory: 64Mi
 
     payment_service:
       enable: true
@@ -103,6 +111,8 @@ system:
       replicas: 1
       limits:
         memory: 512Mi
+      requests:
+        memory: 64Mi
 
     regsys_classic:
       enable: true
@@ -116,6 +126,8 @@ system:
       replicas: 1
       limits:
         memory: 512Mi
+      requests:
+        memory: 256Mi
 
     frontend:
       enable: true
@@ -128,6 +140,8 @@ system:
       replicas: 1
       limits:
         memory: 512Mi
+      requests:
+        memory: 256Mi
 
   database:
     use: 'inmemory'

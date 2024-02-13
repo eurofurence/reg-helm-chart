@@ -70,6 +70,8 @@ spec:
           resources:
             limits:
               memory: {{ .component.limits.memory }}
+            requests:
+              memory: {{ .component.requests.memory }}
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
