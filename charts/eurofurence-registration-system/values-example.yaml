@@ -102,6 +102,8 @@ system:
       dropoff_url_pattern: https://example.com/app/(\?(foo=[a-z]+|bar=[0-9]{3,8}|&)+)?
       cookie_domain: example.com
       cookie_expiry: 6h
+      # displayed as a link to the user
+      error_url: https://my.dashboard.example.com
 
     mail_service:
       enable: true
@@ -115,6 +117,8 @@ system:
       from: 'Example Sender <no-reply@example.com>'
       smtp_host: 'mail.example.com'
       smtp_port: 587
+      # domain part of Message-ID email header, recommended to set this
+      message_id_domain: 'example.com'
 
     payment_cncrd_adapter:
       enable: false

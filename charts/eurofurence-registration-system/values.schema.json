@@ -451,6 +451,10 @@
                       "default": "64Mi"
                     }
                   }
+                },
+                "error_url": {
+                  "type": "string",
+                  "description": "link displayed to the user to retry logging in, should point to either dashboard or start over page"
                 }
               }
             },
@@ -499,6 +503,11 @@
                 "smtp_port": {
                   "type": "integer",
                   "description": "Mail-server Port"
+                },
+                "message_id_domain": {
+                  "type": "string",
+                  "description": "the domain part of the Message-ID email header, technically optional but some providers will not accept your mails if unset",
+                  "example": "reg.example.com"
                 },
                 "docker": {
                   "type": "object",

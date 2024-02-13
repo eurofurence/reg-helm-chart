@@ -169,6 +169,9 @@ data:
       name: 'Auth Service'
       # external url of my own "dropoff" endpoint. This must match the OAuth2 redirect_url setting on each client
       dropoff_endpoint_url: '{{ $public_base_url }}/authsrv/v1/dropoff'
+      {{- with .Values.system.components.auth_service.error_url }}
+      error_url: '{{ . }}'
+      {{- end }}
     server:
       port: 8080
     security:
@@ -248,6 +251,9 @@ data:
       # from_password: '$REG_SECRET_SMTP_PASSWORD' # or blank for no password
       smtp_host: '{{ .Values.system.components.mail_service.smtp_host }}'
       smtp_port: '{{ .Values.system.components.mail_service.smtp_port }}'
+      {{- with .Values.system.components.mail_service.message_id_domain }}
+      message_id_domain: '{{ . }}'
+      {{- end }}
     database:
       use: '{{ .Values.system.database.use }}'
       {{- if eq .Values.system.database.use "mysql" }}
