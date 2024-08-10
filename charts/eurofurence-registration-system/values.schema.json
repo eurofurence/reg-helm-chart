@@ -1239,6 +1239,21 @@
               }
             }
           }
+        },
+        "find_api_access": {
+          "type": "object",
+          "description": "Configure permissions for the non-admin version of the find attendees API. Used by some on-site UIs and interfaces.",
+          "additionalProperties": false,
+          "properties": {
+            "permissions": {
+              "type": "array",
+              "description": "the list of permissions assigned to an attendee that will allow access to the find attendees api",
+              "items": {
+                "type": "string"
+              },
+              "default": ["regdesk","sponsordesk"]
+            }
+          }
         }
       }
     },
