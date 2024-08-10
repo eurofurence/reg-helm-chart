@@ -255,6 +255,10 @@ tests:
               cors:
                 disable: false
               require_login_for_reg: true
+              find_api_access:
+                permissions:
+                - regdesk
+                - sponsordesk
             logging:
               severity: INFO
               style: ecs

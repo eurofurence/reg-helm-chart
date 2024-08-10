@@ -114,6 +114,7 @@ data:
         allow_origin: '{{ . }}'
         {{- end }}
       require_login_for_reg: {{ .Values.system.components.attendee_service.require_login_for_reg }}
+      find_api_access: {{- .Values.choices.find_api_access | toYaml | nindent 8 }}
     logging:
       severity: {{ .Values.system.logging.severity }}
       style: {{ .Values.system.logging.style }}

@@ -182,7 +182,11 @@ choices:
     sponsordesk:
       permissions:
         - sponsordesk
-
+  find_api_access:
+    permissions:
+      # minimum entries required for correct system operation
+      - regdesk
+      - sponsordesk
 # development only - do NOT enable any of this for production, or you'll make the system insecure.
 development:
   cors:
