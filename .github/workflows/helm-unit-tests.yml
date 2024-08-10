@@ -12,12 +12,11 @@ jobs:
       contents: read
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        run: 'git clone -b "$BRANCH_OR_TAG_NAME" --depth 1 "$FULL_REPO_URL" app'
-        shell: bash
-        env:
-          FULL_REPO_URL: "https://github.com/${{ github.repository }}"
-          BRANCH_OR_TAG_NAME: ${{ github.ref_name }}
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          path: 'app'
 
       - name: Run Helm Unit Tests
         run: >
