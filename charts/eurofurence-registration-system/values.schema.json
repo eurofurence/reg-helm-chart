@@ -952,6 +952,75 @@
                   }
                 }
               }
+            },
+            "onsite": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "system configuration for onsite ui",
+              "properties": {
+                "enable": {
+                  "type": "boolean",
+                  "description": "deploy onsite ui",
+                  "default": "false"
+                },
+                "docker": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "container source configuration",
+                  "properties": {
+                    "registry": {
+                      "type": "string",
+                      "description": "the container registry to pull from",
+                      "default": "ghcr.io"
+                    },
+                    "repository": {
+                      "type": "string",
+                      "description": "the path within the registry",
+                      "default": "eurofurence/reg-regsys-classic"
+                    },
+                    "tag": {
+                      "type": "string",
+                      "description": "the version tag, unless overridden in the individual component.",
+                      "default": "latest"
+                    }
+                  }
+                },
+                "labels": {
+                  "type": "object",
+                  "additionalProperties": true
+                },
+                "replicas":  {
+                  "type": "integer",
+                  "minValue": 1,
+                  "maxValue": 1,
+                  "description": "number of replicas to start - currently the auth service uses an in-memory flow cache, so only 1 replica is supported at the moment",
+                  "default": 1
+                },
+                "limits": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of maximum memory before getting OOM-killed",
+                      "example": "512Mi",
+                      "default": "512Mi"
+                    }
+                  }
+                },
+                "requests": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of memory reserved for the container",
+                      "example": "256Mi",
+                      "default": "256Mi"
+                    }
+                  }
+                }
+              }
             }
           }
         },

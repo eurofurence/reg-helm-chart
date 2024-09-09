@@ -58,6 +58,18 @@
 {{- template "helpers.deployment" $classicInput }}
 ---
 {{- end }}
+{{- if .Values.system.components.onsite.enable }}
+{{ $onsiteInput := dict "name" "onsite"
+                         "all" .Values
+                         "component" .Values.system.components.onsite
+                         "secrets" (list "REG_SECRET_NOSECOUNTER_TOKEN")
+                         "command" "nginx"
+                         "args" (list "-g" "daemon off;")
+                         "port" 8000
+                         "volume" "no" -}}
+{{- template "helpers.deployment" $onsiteInput }}
+---
+{{- end }}
 {{ $frontendInput := dict "name" "frontend"
                          "all" .Values
                          "component" .Values.system.components.frontend

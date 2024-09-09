@@ -62,11 +62,13 @@ tests:
             enable: true
           frontend:
             enable: true
+          onsite:
+            enable: true
     asserts:
       - isKind:
           of: Service
       - hasDocuments:
-          count: 7
+          count: 8
       - equal:
           path: metadata
           value:
@@ -196,11 +198,32 @@ tests:
       - equal:
           path: metadata
           value:
+            name: onsite
+            labels:
+              app: regsys
+              service: onsite
+        documentIndex: 6
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8000
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: onsite
+            type: ClusterIP
+        documentIndex: 6
+      - equal:
+          path: metadata
+          value:
             name: frontend
             labels:
               app: regsys
               service: frontend
-        documentIndex: 6
+        documentIndex: 7
       - equal:
           path: spec
           value:
@@ -213,7 +236,7 @@ tests:
               app: regsys
               service: frontend
             type: ClusterIP
-        documentIndex: 6
+        documentIndex: 7
   - it: should not set namespace if unset
     asserts:
       - notExists:

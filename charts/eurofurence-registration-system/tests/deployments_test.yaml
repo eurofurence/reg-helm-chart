@@ -120,11 +120,13 @@ tests:
               memory: 1111Mi
           frontend:
             enable: true
+          onsite:
+            enable: true
     asserts:
       - isKind:
           of: Deployment
       - hasDocuments:
-          count: 7
+          count: 8
       - equal:
           path: metadata
           value:
@@ -623,11 +625,69 @@ tests:
       - equal:
           path: metadata
           value:
+            name: onsite
+            labels:
+              app: regsys
+              service: onsite
+        documentIndex: 6
+      - equal:
+          path: spec
+          value:
+            replicas: 1
+            revisionHistoryLimit: 3
+            selector:
+              matchLabels:
+                app: regsys
+                service: onsite
+            template:
+              metadata:
+                labels:
+                  app: regsys
+                  service: onsite
+              spec:
+                containers:
+                  - name: application
+                    image: 'ghcr.io/eurofurence/reg-onsite-ui:latest'
+                    ports:
+                      - containerPort: 8000
+                        name: primary
+                    readinessProbe:
+                      httpGet:
+                        port: primary
+                        path: /
+                      initialDelaySeconds: 2
+                      periodSeconds: 10
+                      successThreshold: 1
+                      timeoutSeconds: 5
+                    resources:
+                      limits:
+                        memory: 512Mi
+                      requests:
+                        memory: 64Mi
+                    securityContext:
+                      allowPrivilegeEscalation: false
+                      capabilities:
+                        drop:
+                          - ALL
+                    command: [nginx]
+                    args:
+                      - -g
+                      - 'daemon off;'
+                    env:
+                      - name: REG_SECRET_NOSECOUNTER_TOKEN
+                        valueFrom:
+                          secretKeyRef:
+                            name: regsys-secret
+                            key: REG_SECRET_NOSECOUNTER_TOKEN
+        documentIndex: 6
+      - equal:
+          path: metadata
+          value:
             name: frontend
             labels:
               app: regsys
               service: frontend
-        documentIndex: 6
+        documentIndex: 7
       - equal:
           path: spec
           value:
@@ -689,7 +749,7 @@ tests:
                           configMapKeyRef:
                             name: regsys-cm
                             key: HTTPD_CONF_STATIC_DIR
-        documentIndex: 6
+        documentIndex: 7
 
   - it: should not set namespace if unset
     asserts:

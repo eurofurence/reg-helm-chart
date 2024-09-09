@@ -40,6 +40,14 @@
 {{- template "helpers.service" $classicInput }}
 ---
 {{- end }}
+{{- if .Values.system.components.onsite.enable }}
+{{ $onsiteInput := dict "name" "onsite"
+                         "all" .Values
+                         "component" .Values.system.components.onsite
+                         "port" 8000 -}}
+{{- template "helpers.service" $onsiteInput }}
+---
+{{- end }}
 {{ $frontendInput := dict "name" "frontend"
                          "all" .Values
                          "component" .Values.system.components.frontend -}}

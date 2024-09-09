@@ -12,7 +12,7 @@ metadata:
     {{- $mergedLabels | toYaml | nindent 4 }}
 spec:
   ports:
-    - port: 8080
+    - port: {{ .port | default 8080 }}
       appProtocol: http
       name: application
       targetPort: primary
@@ -57,7 +57,7 @@ spec:
           {{- toYaml . | nindent 14 }}
           {{- end }}
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .port | default 8080 }}
               name: primary
           readinessProbe:
             httpGet:
