@@ -129,6 +129,26 @@ system:
       requests:
         memory: 256Mi
 
+    room_service:
+      enable: false
+      max_group_size: 6
+      group_flags:
+        - public
+      room_flags:
+        - handicapped
+        - final
+      docker:
+        registry: ghcr.io
+        repository: eurofurence/reg-room-service
+        tag: latest
+      labels:
+        service: room-service
+      replicas: 1
+      limits:
+        memory: 512Mi
+      requests:
+        memory: 64Mi
+
     frontend:
       enable: true
       docker:

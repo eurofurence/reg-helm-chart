@@ -118,6 +118,8 @@ tests:
               memory: 4444Mi
             requests:
               memory: 1111Mi
+          room_service:
+            enable: true
           frontend:
             enable: true
           onsite:
@@ -126,7 +128,7 @@ tests:
       - isKind:
           of: Deployment
       - hasDocuments:
-          count: 8
+          count: 9
       - equal:
           path: metadata
           value:
@@ -524,11 +526,86 @@ tests:
       - equal:
           path: metadata
           value:
+            name: room-service
+            labels:
+              app: regsys
+              service: room-service
+        documentIndex: 5
+      - equal:
+          path: spec
+          value:
+            replicas: 1
+            revisionHistoryLimit: 3
+            selector:
+              matchLabels:
+                app: regsys
+                service: room-service
+            template:
+              metadata:
+                labels:
+                  app: regsys
+                  service: room-service
+              spec:
+                containers:
+                  - name: application
+                    image: 'ghcr.io/eurofurence/reg-room-service:latest'
+                    ports:
+                      - containerPort: 8080
+                        name: primary
+                    readinessProbe:
+                      httpGet:
+                        port: primary
+                        path: /
+                      initialDelaySeconds: 2
+                      periodSeconds: 10
+                      successThreshold: 1
+                      timeoutSeconds: 5
+                    resources:
+                      limits:
+                        memory: 512Mi
+                      requests:
+                        memory: 64Mi
+                    securityContext:
+                      allowPrivilegeEscalation: false
+                      capabilities:
+                        drop:
+                          - ALL
+                    command: [/main]
+                    args:
+                      - --config=/config/config.yaml
+                      - --migrate-database
+                    env:
+                      - name: REG_SECRET_DB_PASSWORD
+                        valueFrom:
+                          secretKeyRef:
+                            name: regsys-secret
+                            key: REG_SECRET_DB_PASSWORD
+                      - name: REG_SECRET_API_TOKEN
+                        valueFrom:
+                          secretKeyRef:
+                            name: regsys-secret
+                            key: REG_SECRET_API_TOKEN
+                    volumeMounts:
+                      - name: config-file
+                        mountPath: /config
+                        readOnly: true
+                volumes:
+                  - name: config-file
+                    configMap:
+                      name: regsys-cm
+                      items:
+                        - key: room-service-config
+                          path: config.yaml
+                          mode: 0444
+        documentIndex: 5
+      - equal:
+          path: metadata
+          value:
             name: regsys-classic
             labels:
               app: regsys
               service: regsys-classic
-        documentIndex: 5
+        documentIndex: 6
       - equal:
           path: spec
           value:
@@ -621,7 +698,7 @@ tests:
                         - key: regsys-classic-config
                           path: config.yaml
                           mode: 0444
-        documentIndex: 5
+        documentIndex: 6
       - equal:
           path: metadata
           value:
@@ -629,7 +706,7 @@ tests:
             labels:
               app: regsys
               service: onsite
-        documentIndex: 6
+        documentIndex: 7
       - equal:
           path: spec
           value:
@@ -679,7 +756,7 @@ tests:
                           secretKeyRef:
                             name: regsys-secret
                             key: REG_SECRET_NOSECOUNTER_TOKEN
-        documentIndex: 6
+        documentIndex: 7
       - equal:
           path: metadata
           value:
@@ -687,7 +764,7 @@ tests:
             labels:
               app: regsys
               service: frontend
-        documentIndex: 7
+        documentIndex: 8
       - equal:
           path: spec
           value:
@@ -749,7 +826,7 @@ tests:
                           configMapKeyRef:
                             name: regsys-cm
                             key: HTTPD_CONF_STATIC_DIR
-        documentIndex: 7
+        documentIndex: 8
 
   - it: should not set namespace if unset
     asserts:

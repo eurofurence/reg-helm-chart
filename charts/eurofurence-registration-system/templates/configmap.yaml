@@ -421,6 +421,75 @@ data:
       severity: {{ .Values.system.logging.severity }}
       style: {{ .Values.system.logging.style }}
 
+  room-service-config: |
+    # configuration file for room-service
+    service:
+      {{- if .Values.system.components.attendee_service.enable }}
+      attendee_service_url: '{{ .Values.system.components.attendee_service.local_base_url }}'
+      {{- end }}
+      {{- if .Values.system.components.auth_service.enable }}
+      auth_service_url: '{{ .Values.system.components.auth_service.local_base_url }}'
+      {{- end }}
+      {{- if .Values.system.components.mail_service.enable }}
+      mail_service_url: '{{ .Values.system.components.mail_service.local_base_url }}'
+      {{- end }}
+      join_link_base_url: '{{ .Values.system.components.room_service.join_link_base_url }}'
+      max_group_size: {{ .Values.system.components.room_service.max_group_size }}
+      {{- with .Values.system.components.room_service.group_flags }}
+      group_flags: {{- . | toYaml | nindent 8 }}
+      {{- end }}
+      {{- with .Values.system.components.room_service.room_flags }}
+      room_flags: {{- . | toYaml | nindent 8 }}
+      {{- end }}
+    server:
+      port: 8080
+      read_timeout_seconds: 30
+      write_timeout_seconds: 30
+      idle_timeout_seconds: 120
+    database:
+      use: '{{ .Values.system.database.use }}'
+      {{- if eq .Values.system.database.use "mysql" }}
+      username: '{{ .Values.system.database.username }}'
+      # password: '$REG_SECRET_DB_PASSWORD'
+      database: '{{ .Values.system.database.database }}'
+      {{-   with .Values.system.database.parameters }}
+      parameters:
+        {{- range . }}
+        - '{{ . }}'
+        {{- end }}
+      {{-   end }}
+      {{- end }}
+    security:
+      fixed_token: {}
+        # api: '$REG_SECRET_API_TOKEN'
+      oidc:
+        id_token_cookie_name: '{{ .Values.system.components.auth_service.id_token_cookie_name }}'
+        access_token_cookie_name: '{{ .Values.system.components.auth_service.access_token_cookie_name }}'
+        {{- with .Values.system.components.auth_service.token_public_keys_PEM }}
+        token_public_keys_PEM: {{- . | toYaml | nindent 8 }}
+        {{- end }}
+        admin_group: '{{ .Values.system.components.auth_service.admin_group_id }}'
+        {{- if .Values.system.components.auth_service.enable }}
+        auth_service: '{{ .Values.system.components.auth_service.local_base_url }}'
+        {{- end }}
+        {{- with .Values.system.components.auth_service.allowed_audience_in_tokens }}
+        audience: '{{ . }}'
+        {{- end }}
+        {{- with .Values.system.components.auth_service.allowed_issuer_in_tokens }}
+        issuer: '{{ . }}'
+        {{- end }}
+      cors:
+        disable: {{ .Values.development.cors.disable }}
+        {{- with .Values.development.cors.allow_origin }}
+        allow_origin: '{{ . }}'
+        {{- end }}
+    logging:
+      severity: {{ .Values.system.logging.severity }}
+      style: {{ .Values.system.logging.style }}
+    {{- with .Values.system.components.room_service.go_live }}
+    go_live: {{- . | toYaml | nindent 6 }}
+    {{- end }}
+
   HTTPD_CONF_PATH_PREFIX_NO_SLASHES: '{{ .Values.system.public_base_context }}'
   HTTPD_CONF_SERVER_NAME: '{{ .Values.ingress.host }}'
 {{- if .Values.system.components.frontend.enable }}

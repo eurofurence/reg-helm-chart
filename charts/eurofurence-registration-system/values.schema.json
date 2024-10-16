@@ -884,6 +884,139 @@
                 }
               }
             },
+            "room_service": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "system configuration for the room service",
+              "properties": {
+                "enable": {
+                  "type": "boolean",
+                  "description": "deploy the room service",
+                  "default": "false"
+                },
+                "join_link_base_url": {
+                  "type": "string",
+                  "description": "the base url to construct group join links from, with no trailing slash"
+                },
+                "max_group_size": {
+                  "type": "number",
+                  "description": "the maximum size for roomshare groups",
+                  "default": 6
+                },
+                "group_flags": {
+                  "type": "array",
+                  "description": "the list of available group flags",
+                  "default": ["public"],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "room_flags": {
+                  "type": "array",
+                  "description": "the list of available room flags",
+                  "default": ["public"],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "go_live": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "configuration for the mail lottery",
+                  "properties": {
+                    "public": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "start_iso_datetime": {
+                          "type": "string",
+                          "description": "the time at which the booking code is revealed to the public",
+                          "example": "1995-06-30T11:11:11+02:00"
+                        },
+                        "booking_code": {
+                          "type": "string",
+                          "description": "the booking code for the public",
+                          "example": "Kaiser-Wilhelm-Koog"
+                        }
+                      }
+                    },
+                    "staff": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "start_iso_datetime": {
+                          "type": "string",
+                          "description": "the time at which the booking code is revealed to members of the staff group",
+                          "example": "1995-06-30T11:11:11+02:00"
+                        },
+                        "booking_code": {
+                          "type": "string",
+                          "description": "the booking code for staff",
+                          "example": "Kaiser-Wilhelm-Koog"
+                        }
+                      }
+                    }
+                  }
+                },
+                "docker": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "container source configuration",
+                  "properties": {
+                    "registry": {
+                      "type": "string",
+                      "description": "the container registry to pull from",
+                      "default": "ghcr.io"
+                    },
+                    "repository": {
+                      "type": "string",
+                      "description": "the path within the registry",
+                      "default": "eurofurence/reg-payment-service"
+                    },
+                    "tag": {
+                      "type": "string",
+                      "description": "the version tag, unless overridden in the individual component.",
+                      "default": "latest"
+                    }
+                  }
+                },
+                "labels": {
+                  "type": "object",
+                  "additionalProperties": true
+                },
+                "replicas":  {
+                  "type": "integer",
+                  "minValue": 1,
+                  "maxValue": 1,
+                  "description": "number of replicas to start - currently the auth service uses an in-memory flow cache, so only 1 replica is supported at the moment",
+                  "default": 1
+                },
+                "limits": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of maximum memory before getting OOM-killed",
+                      "example": "512Mi",
+                      "default": "512Mi"
+                    }
+                  }
+                },
+                "requests": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "memory": {
+                      "type": "string",
+                      "description": "amount of memory reserved for the container",
+                      "example": "64Mi",
+                      "default": "64Mi"
+                    }
+                  }
+                }
+              }
+            },
             "frontend": {
               "type": "object",
               "additionalProperties": false,

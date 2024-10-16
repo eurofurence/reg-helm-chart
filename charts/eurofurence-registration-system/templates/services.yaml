@@ -40,6 +40,13 @@
 {{- template "helpers.service" $classicInput }}
 ---
 {{- end }}
+{{- if .Values.system.components.room_service.enable }}
+{{ $roomSrvInput := dict "name" "room-service"
+                         "all" .Values
+                         "component" .Values.system.components.room_service -}}
+{{- template "helpers.service" $roomSrvInput }}
+---
+{{- end }}
 {{- if .Values.system.components.onsite.enable }}
 {{ $onsiteInput := dict "name" "onsite"
                          "all" .Values
