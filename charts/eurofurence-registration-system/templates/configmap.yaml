@@ -23,6 +23,9 @@ data:
       attendee_service: '{{ .Values.system.components.attendee_service.local_base_url }}'
       payment_service: '{{ .Values.system.components.payment_service.local_base_url }}'
       mail_service: '{{ .Values.system.components.mail_service.local_base_url }}'
+      {{- if .Values.system.components.room_service.enable }}
+      room_service: '{{ .Values.system.components.room_service.local_base_url }}'
+      {{- end }}
       id_token_cookie_name: '{{ .Values.system.components.auth_service.id_token_cookie_name }}'
       access_token_cookie_name: '{{ .Values.system.components.auth_service.access_token_cookie_name }}'
       admin_group: '{{ .Values.system.components.auth_service.admin_group_id }}'
@@ -43,6 +46,17 @@ data:
       subject_prefix: '{{ .subject_prefix }}'
       success_redirect: '{{ $public_base_url }}/app/register'
       failure_redirect: '{{ $public_base_url }}/app/register'
+    {{- end }}
+    {{- with .Values.system.components.room_service }}
+    groups:
+      enable: {{ and .enable (eq .mode "groups") }}
+      max_size: {{ .max_group_size }}
+      flags:
+        {{- .group_flags | toYaml | nindent 8 }}
+    rooms:
+      enable: {{ and .enable (or (eq .mode "groups") (eq .mode "packages")) }}
+      flags:
+        {{- .room_flags | toYaml | nindent 8 }}
     {{- end }}
     choices:
       flags:

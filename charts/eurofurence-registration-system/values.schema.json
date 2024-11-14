@@ -894,6 +894,10 @@
                   "description": "deploy the room service",
                   "default": "false"
                 },
+                "local_base_url": {
+                  "type": "string",
+                  "description": "the local url used to access this service, including protocol and port, with no trailing /"
+                },
                 "join_link_base_url": {
                   "type": "string",
                   "description": "the base url to construct group join links from, with no trailing slash"
@@ -902,6 +906,12 @@
                   "type": "number",
                   "description": "the maximum size for roomshare groups",
                   "default": 6
+                },
+                "mode": {
+                  "type": "string",
+                  "enum": ["off", "external", "packages", "groups"],
+                  "description": "the type of room management - see values.yaml comment for detailed description",
+                  "default": "off"
                 },
                 "group_flags": {
                   "type": "array",

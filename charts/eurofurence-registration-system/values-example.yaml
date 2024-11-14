@@ -153,6 +153,7 @@ system:
     room_service:
       enable: true
       join_link_base_url: 'http://localhost:10000'
+      mode: groups
       go_live:
         public:
           booking_code: Kaiser-Wilhelm-Koog

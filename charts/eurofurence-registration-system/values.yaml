@@ -131,7 +131,61 @@ system:
 
     room_service:
       enable: false
+      local_base_url: http://room-service:8080
       max_group_size: 6
+      #
+      # the mode of room management this convention employs.go_live:
+      #
+      # off (default) = room management features are completely disabled.
+      #
+      #   Completely hides all relevant pages and options, only displays a few simple
+      #   messages in some places.
+      #
+      #   typical usecase: private party, housemeet, pay-at-the-door
+      #
+      # external = the venue handles all room bookings directly
+      #
+      #   The only feature the room service offers is an API endpoint with a countdown
+      #   until revealing a secret codeword. Staff can have a different secret codeword
+      #   and a different reveal time.
+      #
+      #   See the go_live section to configure the secret codewords.
+      #
+      #   The idea is that you show an info page to accepted attendees called "how to book a room".
+      #
+      #   Email generator standalone page: https://github.com/eurofurence/reg-hotel-booking
+      #   (not maintained any more because Eurofurence does not currently need it)
+      #
+      # packages = sell accomodation as packages
+      #
+      #   Note: currently somewhat unfinished because none of the current conventions use this mode.
+      #
+      #   Use this when the convention is reselling individual rooms or beds
+      #     - allows individual pricing of room options
+      #     - attendees enter their roommate ids in their registration
+      #       (currently not implemented)
+      #     - rooms can be maintained in the database
+      #     - packages become unavailable when their quota is exceeded
+      #       (currently not implemented)
+      #
+      #   In this mode, you can go wild with accommodation packages.
+      #
+      #   typical usecase: small hotels (large hotels will often force you to use their booking provider)
+      #
+      # groups = attendees can form room sharing groups which are then assigned to rooms by staff
+      #
+      #   Use this when you want staff to have fine-grained control over room assignments
+      #     - staff needs to watch that the number of accepted attendees does not exceed available beds
+      #     - staff needs to enter available rooms in the registration system
+      #     - staff needs to do room assignment into actual rooms prior to the convention
+      #     - conventions can track keys given to the attendees during onsite check-in
+      #     - individual pricing of room options is not directly supported, but with a trick you can do it anyway:
+      #       simply add regular sales packages with the various room prices. If you do this, staff will need to
+      #       manually ensure no-one unintentionally gets a room they haven't paid for.
+      #
+      #   typical usecase: youth hostels (the price of registration automatically includes a bed)
+      #
+      mode: 'off' # external, packages, groups
       group_flags:
         - public
       room_flags:
