@@ -270,6 +270,31 @@ choices:
       visible_for:
         - regdesk
         - sponsordesk
+    benefactor:
+      allowed_counts:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 8
+        - 10
+        - 15
+        - 20
+        - 30
+        - 40
+        - 50
+        - 100
+      constraint: 'sponsor2'
+      constraint_msg: Only available for supersponsors.
+      description: Benefactor
+      max_count: 100
+      price: 5000
+      vat_percent: 19
+      visible_for:
+        - regdesk
+        - sponsordesk
     tshirt:
       description: 'Paid T-Shirt (non-sponsor)'
       price: 2000
@@ -277,6 +302,23 @@ choices:
       constraint: '!sponsor,!sponsor2'
       constraint_msg: 'Sponsors and supersponsors get their T-Shirt for free.'
       visible_for:
+        - sponsordesk
+    fursuit:
+      description: First Fursuit Badge
+      price: 0
+      vat_percent: 19
+      visible_for:
+        - regdesk
+        - sponsordesk
+    fursuitadd:
+      constraint: 'fursuit'
+      constraint_msg: Please select the free fursuit badge first, otherwise you'll pay too much.
+      description: Additional Fursuit Badge
+      price: 200
+      vat_percent: 19
+      max_count: 10
+      visible_for:
+        - regdesk
         - sponsordesk
     day-wed:
       description: 'Day Guest (Wednesday)'

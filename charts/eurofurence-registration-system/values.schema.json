@@ -1317,6 +1317,18 @@
                   "type": "string",
                   "pattern": "^[a-z][a-z0-9_-]*$"
                 }
+              },
+              "max_count": {
+                "type": "integer",
+                "description": "Maximal number of times this package can be selected. 0 or omitted means 1 so can be left out.",
+                "default": 1
+              },
+              "allowed_counts": {
+                "type": "array",
+                "description": "optional specific list of selections for the number of times a package can be selected. Ignored unless you also set max_count. If unset, all values from 1 to max_count are accepted.",
+                "items": {
+                  "type": "integer"
+                }
               }
             }
           }
