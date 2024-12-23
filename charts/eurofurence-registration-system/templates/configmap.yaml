@@ -18,6 +18,7 @@ data:
       system_language: '{{ $key }}'
       {{-   end }}
       {{- end }}
+      enable_bank_import: true
     downstream:
       auth_service: '{{ .Values.system.components.auth_service.local_base_url }}'
       attendee_service: '{{ .Values.system.components.attendee_service.local_base_url }}'

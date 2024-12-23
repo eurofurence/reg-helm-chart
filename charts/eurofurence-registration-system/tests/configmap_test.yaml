@@ -154,6 +154,7 @@ tests:
               context_path: 'regsys'
               regsys_public_url: 'https://identity.example.com/'
               system_language: 'en-US'
+              enable_bank_import: true
             downstream:
               auth_service: 'http://auth-service:8080'
               attendee_service: 'http://attendee-service:8080'
