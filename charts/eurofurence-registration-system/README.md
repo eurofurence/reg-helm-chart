@@ -204,16 +204,11 @@ the Youth Hostel model only, since EF needs no hotel booking and MMC uses this m
 
 The registration system sends some standardized mails, rendered from templates:
 
-* confirm your email address (likely to move to the IDP)
-* confirm your changed email address (likely to move to the IDP)
-* your login information (likely to move to the IDP)
-* password reset email (likely to move to the IDP)
-* an admin has force reset your password (likely to move to the IDP)
 * please pay
 * please pay - partially paid version
 * please pay - overdue version with cancel warning
 * thank you for paying
-* you have been cancelled
+* your registration has been cancelled
 * you have been granted guest status
 * you have been placed on the waiting list
 * ... some mails related to room groups
