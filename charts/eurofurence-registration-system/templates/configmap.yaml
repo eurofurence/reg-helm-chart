@@ -47,6 +47,9 @@ data:
       subject_prefix: '{{ .subject_prefix }}'
       success_redirect: '{{ $public_base_url }}/app/register'
       failure_redirect: '{{ $public_base_url }}/app/register'
+      {{- if .unavailable }}
+      unavailable: true
+      {{- end }}
     {{- end }}
     {{- with .Values.system.components.room_service }}
     groups:

@@ -848,6 +848,10 @@
                     "subject_prefix": {
                       "type": "string",
                       "description": "the prefix to use in the suggested subject (followed by nickname and badge number)"
+                    },
+                    "unavailable": {
+                      "type": "boolean",
+                      "description": "disable showing SEPA payment info a short time before the convention to prevent transfer runtime overruns"
                     }
                   }
                 },

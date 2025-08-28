@@ -149,6 +149,7 @@ system:
         iban: 'UK00100020003000400050'
         bic: 'AABBCCDDUK'
         subject_prefix: 'AWECON'
+        unavailable: true
 
     room_service:
       enable: true
