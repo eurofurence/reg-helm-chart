@@ -28,14 +28,14 @@
 {{- template "helpers.deployment" $mailSrvInput }}
 ---
 {{- end }}
-{{- if .Values.system.components.payment_cncrd_adapter.enable }}
-{{ $cncrdAdapterInput := dict "name" "payment-cncrd-adapter"
+{{- if .Values.system.components.paygate_adapter.enable }}
+{{ $nexiAdapterInput := dict "name" "paygate-adapter"
                          "all" .Values
-                         "component" .Values.system.components.payment_cncrd_adapter
-                         "secrets" (list "REG_SECRET_CONCARDIS_API_SECRET" "REG_SECRET_API_TOKEN" "REG_SECRET_CONCARDIS_INCOMING_WEBHOOK_SECRET" "REG_SECRET_DB_PASSWORD" )
+                         "component" .Values.system.components.paygate_adapter
+                         "secrets" (list "REG_SECRET_NEXI_API_SECRET" "REG_SECRET_API_TOKEN" "REG_SECRET_NEXI_INCOMING_WEBHOOK_SECRET" "REG_SECRET_DB_PASSWORD" )
                          "command" "/main"
                          "args" (list "--config=/config/config.yaml" "--migrate-database" "--ecs-json-logging") -}}
-{{- template "helpers.deployment" $cncrdAdapterInput }}
+{{- template "helpers.deployment" $nexiAdapterInput }}
 ---
 {{- end }}
 {{- if .Values.system.components.payment_service.enable }}

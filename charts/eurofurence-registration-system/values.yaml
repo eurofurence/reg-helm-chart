@@ -82,17 +82,16 @@ system:
       requests:
         memory: 64Mi
 
-    payment_cncrd_adapter:
+    paygate_adapter:
       enable: false
-      local_base_url: http://payment-cncrd-adapter:8080
-      simulator: false
+      local_base_url: http://paygate-adapter:8080
       log_full_requests: true
       docker:
         registry: ghcr.io
-        repository: eurofurence/reg-payment-cncrd-adapter
+        repository: eurofurence/reg-paygate-adapter
         tag: latest
       labels:
-        service: payment-cncrd-adapter
+        service: paygate-adapter
       replicas: 1
       limits:
         memory: 512Mi

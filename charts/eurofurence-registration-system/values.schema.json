@@ -567,41 +567,41 @@
                 }
               }
             },
-            "payment_cncrd_adapter": {
+            "paygate_adapter": {
               "type": "object",
               "additionalProperties": false,
-              "description": "system configuration for the concardis adapter",
+              "description": "system configuration for the nexi paygate adapter",
               "properties": {
                 "enable": {
                   "type": "boolean",
-                  "description": "deploy the concardis adapter",
+                  "description": "deploy the paygate adapter",
                   "default": "false"
                 },
                 "local_base_url": {
                   "type": "string",
                   "description": "the local url used to access this service, including protocol and port, with no trailing /"
                 },
-                "simulator": {
-                  "type": "boolean",
-                  "description": "enable local simulator for paylinks. This disables talking to the actual payment provider api even if the URL is configured."
-                },
                 "log_full_requests": {
                   "type": "boolean",
                   "description": "switch to true to log ALL communication from/to the payment provider (only signatures omitted)",
                   "default": true
                 },
-                "concardis_downstream": {
+                "nexi_downstream": {
                   "type": "string",
-                  "description": "base url for the concardis downstream",
-                  "example": "https://api.pay-link.eu"
+                  "description": "base url for the nexi api downstream, leave unset to enable local simulator instead (not useful for production)",
+                  "example": "https://test.api.dibspayment.eu"
                 },
-                "concardis_instance": {
+                "nexi_instance": {
                   "type": "string",
-                  "description": "the name of your concardis instance, part of the info you receive when making a paylink contract with them (or create a test account)"
+                  "description": "the public checkout key from nexi portal (not currently used by adapter). nexi api secret is set via manually created secret as environment variable $REG_SECRET_NEXI_API_SECRET."
+                },
+                "nexi_merchant_number": {
+                  "type": "string",
+                  "description": "the merchant number, usually a 9 digit number. Provide as a string."
                 },
                 "error_notify_mail": {
                   "type": "string",
-                  "description": ""
+                  "description": "set an email address to receive error notifications. Strongly recommended for production."
                 },
                 "invoice": {
                   "type": "object",

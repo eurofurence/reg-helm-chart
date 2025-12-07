@@ -19,11 +19,11 @@
 {{- template "helpers.service" $mailSrvInput }}
 ---
 {{- end }}
-{{- if .Values.system.components.payment_cncrd_adapter.enable }}
-{{ $cncrdAdapterInput := dict "name" "payment-cncrd-adapter"
+{{- if .Values.system.components.paygate_adapter.enable }}
+{{ $nexiAdapterInput := dict "name" "paygate-adapter"
                          "all" .Values
-                         "component" .Values.system.components.payment_cncrd_adapter -}}
-{{- template "helpers.service" $cncrdAdapterInput }}
+                         "component" .Values.system.components.paygate_adapter -}}
+{{- template "helpers.service" $nexiAdapterInput }}
 ---
 {{- end }}
 {{- if .Values.system.components.payment_service.enable }}

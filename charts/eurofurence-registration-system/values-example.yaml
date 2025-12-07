@@ -120,11 +120,12 @@ system:
       # domain part of Message-ID email header, recommended to set this
       message_id_domain: 'example.com'
 
-    payment_cncrd_adapter:
+    paygate_adapter:
       enable: false
-      local_base_url: http://payment-cncrd-adapter:8080
-      concardis_downstream: https://api.example.com
-      concardis_instance: demo
+      local_base_url: http://paygate-adapter:8080
+      nexi_downstream: https://api.example.com
+      nexi_instance: 'e5abcdef000000000000000000000000' # invalid demo value
+      nexi_merchant_number: '100000000' # invalid demo value
       error_notify_mail: nobody@example.com
       invoice:
         title: Time Traveller Con 1969 Edition - Attendee Fee

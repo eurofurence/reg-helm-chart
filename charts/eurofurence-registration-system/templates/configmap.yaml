@@ -314,10 +314,10 @@ data:
       severity: {{ .Values.system.logging.severity }}
       style: {{ .Values.system.logging.style }}
 
-  payment-cncrd-adapter-config: |
-    # configuration file for payment-cncrd-adapter
+  paygate-adapter-config: |
+    # configuration file for paygate-adapter
     service:
-      name: 'Concardis Adapter'
+      name: 'Nexi Paygate Adapter'
       {{- if .Values.system.components.attendee_service.enable }}
       attendee_service: '{{ .Values.system.components.attendee_service.local_base_url }}'
       {{- end }}
@@ -327,15 +327,13 @@ data:
       {{- if .Values.system.components.payment_service.enable }}
       payment_service: '{{ .Values.system.components.payment_service.local_base_url }}'
       {{- end }}
-      {{- if .Values.system.components.payment_cncrd_adapter.simulator }}
-      public_url: '{{ $public_base_url }}/cncrdsrv'
-      {{- else }}
-      {{-   if ne .Values.system.components.payment_cncrd_adapter.concardis_downstream "" }}
-      concardis_downstream: '{{ .Values.system.components.payment_cncrd_adapter.concardis_downstream }}'
-      # concardis_api_secret: '$REG_SECRET_CONCARDIS_API_SECRET'
-      {{-   end }}
+      public_url: '{{ $public_base_url }}/paygatesrv'
+      {{- if ne .Values.system.components.paygate_adapter.nexi_downstream "" }}
+      nexi_downstream: '{{ .Values.system.components.paygate_adapter.nexi_downstream }}'
       {{- end }}
-      concardis_instance: '{{ .Values.system.components.payment_cncrd_adapter.concardis_instance }}'
+      nexi_instance: '{{ .Values.system.components.paygate_adapter.nexi_instance }}'
+      # nexi_api_secret: '$REG_SECRET_NEXI_API_SECRET'
+      nexi_merchant_number: '{{ .Values.system.components.paygate_adapter.nexi_merchant_number }}'
       success_redirect: '{{ $public_base_url }}/app/register'
       failure_redirect: '{{ $public_base_url }}/app/register'
       transaction_id_prefix: '{{ .Values.system.components.payment_service.transaction_id_prefix }}'
@@ -343,14 +341,14 @@ data:
       port: 8080
     logging:
       severity: {{ .Values.system.logging.severity }}
-      full_requests: {{ .Values.system.components.payment_cncrd_adapter.log_full_requests }}
-      {{- with .Values.system.components.payment_cncrd_adapter.error_notify_mail }}
+      full_requests: {{ .Values.system.components.paygate_adapter.log_full_requests }}
+      {{- with .Values.system.components.paygate_adapter.error_notify_mail }}
       error_notify_mail: '{{ . }}'
       {{- end }}
     security:
       fixed_token: {}
         # api: '$REG_SECRET_API_TOKEN'
-        # webhook: '$REG_SECRET_CONCARDIS_INCOMING_WEBHOOK_SECRET'
+        # webhook: '$REG_SECRET_NEXI_INCOMING_WEBHOOK_SECRET'
       cors:
         disable: {{ .Values.development.cors.disable }}
         {{- with .Values.development.cors.allow_origin }}
@@ -370,9 +368,9 @@ data:
       {{-   end }}
       {{- end }}
     invoice:
-      title: '{{ .Values.system.components.payment_cncrd_adapter.invoice.title }}'
-      description: '{{ .Values.system.components.payment_cncrd_adapter.invoice.description }}'
-      purpose: '{{ .Values.system.components.payment_cncrd_adapter.invoice.purpose }}'
+      title: '{{ .Values.system.components.paygate_adapter.invoice.title }}'
+      description: '{{ .Values.system.components.paygate_adapter.invoice.description }}'
+      purpose: '{{ .Values.system.components.paygate_adapter.invoice.purpose }}'
 
   payment-service-config: |
     # configuration file for payment-service
@@ -381,7 +379,7 @@ data:
       {{- if .Values.system.components.attendee_service.enable }}
       attendee_service: '{{ .Values.system.components.attendee_service.local_base_url }}'
       {{- end }}
-      provider_adapter: '{{ .Values.system.components.payment_cncrd_adapter.local_base_url }}'
+      provider_adapter: '{{ .Values.system.components.paygate_adapter.local_base_url }}'
       transaction_id_prefix: '{{ .Values.system.components.payment_service.transaction_id_prefix }}'
       allowed_currencies:
         - '{{ .Values.system.components.payment_service.currency }}'

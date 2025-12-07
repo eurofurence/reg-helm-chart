@@ -60,10 +60,11 @@ tests:
             from: 'Example Sender <no-reply@example.com>'
             smtp_host: 'mail.example.com'
             smtp_port: 587
-          payment_cncrd_adapter:
+          paygate_adapter:
             enable: true
-            concardis_downstream: https://api.example.com
-            concardis_instance: demo
+            nexi_downstream: https://api.example.com
+            nexi_instance: demo
+            nexi_merchant_number: '12345'
             error_notify_mail: nobody@example.com
             invoice:
               title: Time Traveller Con 1969 Edition - Attendee Fee
@@ -448,17 +449,19 @@ tests:
               style: ecs
 
       - equal:
-          path: data.payment-cncrd-adapter-config
+          path: data.paygate-adapter-config
           value: |
-            # configuration file for payment-cncrd-adapter
+            # configuration file for paygate-adapter
             service:
-              name: 'Concardis Adapter'
+              name: 'Nexi Paygate Adapter'
               attendee_service: 'http://attendee-service:8080'
               mail_service: 'http://mail-service:8080'
               payment_service: 'http://payment-service:8080'
-              concardis_downstream: 'https://api.example.com'
-              # concardis_api_secret: '$REG_SECRET_CONCARDIS_API_SECRET'
-              concardis_instance: 'demo'
+              public_url: 'https://my.domain.example.com/hello/you/paygatesrv'
+              nexi_downstream: 'https://api.example.com'
+              nexi_instance: 'demo'
+              # nexi_api_secret: '$REG_SECRET_NEXI_API_SECRET'
+              nexi_merchant_number: '12345'
               success_redirect: 'https://my.domain.example.com/hello/you/app/register'
               failure_redirect: 'https://my.domain.example.com/hello/you/app/register'
               transaction_id_prefix: 'TTC69'
@@ -471,7 +474,7 @@ tests:
             security:
               fixed_token: {}
                 # api: '$REG_SECRET_API_TOKEN'
-                # webhook: '$REG_SECRET_CONCARDIS_INCOMING_WEBHOOK_SECRET'
+                # webhook: '$REG_SECRET_NEXI_INCOMING_WEBHOOK_SECRET'
               cors:
                 disable: false
             database:
@@ -496,7 +499,7 @@ tests:
             service:
               name: 'Payment Service'
               attendee_service: 'http://attendee-service:8080'
-              provider_adapter: 'http://payment-cncrd-adapter:8080'
+              provider_adapter: 'http://paygate-adapter:8080'
               transaction_id_prefix: 'TTC69'
               allowed_currencies:
                 - 'EUR'
@@ -626,7 +629,7 @@ tests:
             identity_provider:
               user_info_url: https://my.identity.provider.example.com/user-info
               token_introspection_url: https://my.identity.provider.example.com/token-introspection
-          payment_cncrd_adapter:
+          paygate_adapter:
             invoice:
               title: t
               description: d
@@ -677,7 +680,7 @@ tests:
             identity_provider:
               user_info_url: https://my.identity.provider.example.com/user-info
               token_introspection_url: https://my.identity.provider.example.com/token-introspection
-          payment_cncrd_adapter:
+          paygate_adapter:
             invoice:
               title: t
               description: d
