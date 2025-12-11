@@ -337,6 +337,7 @@ data:
       success_redirect: '{{ $public_base_url }}/app/register'
       failure_redirect: '{{ $public_base_url }}/app/register'
       transaction_id_prefix: '{{ .Values.system.components.payment_service.transaction_id_prefix }}'
+      terms_url: '{{ .Values.system.components.paygate_adapter.terms_url }}'
     server:
       port: 8080
     logging:

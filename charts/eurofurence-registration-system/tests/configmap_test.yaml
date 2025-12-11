@@ -66,6 +66,7 @@ tests:
             nexi_instance: demo
             nexi_merchant_number: '12345'
             error_notify_mail: nobody@example.com
+            terms_url: https://example.com/terms
             invoice:
               title: Time Traveller Con 1969 Edition - Attendee Fee
               description: Fee for attending Time Traveller Con 1969 Edition from July 17th to 22nd 1969, including all selected options. Accommodation and catering will have been provided.
@@ -465,6 +466,7 @@ tests:
               success_redirect: 'https://my.domain.example.com/hello/you/app/register'
               failure_redirect: 'https://my.domain.example.com/hello/you/app/register'
               transaction_id_prefix: 'TTC69'
+              terms_url: 'https://example.com/terms'
             server:
               port: 8080
             logging:

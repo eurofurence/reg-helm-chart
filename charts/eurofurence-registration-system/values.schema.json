@@ -603,6 +603,10 @@
                   "type": "string",
                   "description": "set an email address to receive error notifications. Strongly recommended for production."
                 },
+                "terms_url": {
+                  "type": "string",
+                  "description": "URL to terms and conditions, to be linked to on the checkout page."
+                },
                 "invoice": {
                   "type": "object",
                   "additionalProperties": false,

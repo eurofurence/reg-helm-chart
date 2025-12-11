@@ -127,6 +127,7 @@ system:
       nexi_instance: 'e5abcdef000000000000000000000000' # invalid demo value
       nexi_merchant_number: '100000000' # invalid demo value
       error_notify_mail: nobody@example.com
+      terms_url: https://example.com/terms
       invoice:
         title: Time Traveller Con 1969 Edition - Attendee Fee
         description: Fee for attending Time Traveller Con 1969 Edition from July 17th to 22nd 1969, including all selected options. Accommodation and catering will have been provided.
