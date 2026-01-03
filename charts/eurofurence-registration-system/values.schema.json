@@ -1337,6 +1337,10 @@
                 "items": {
                   "type": "integer"
                 }
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Available total stock for this package. Booking the package will fail if the stock is exhausted. 0 means unlimited."
               }
             }
           }

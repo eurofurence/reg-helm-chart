@@ -243,13 +243,21 @@ choices:
         - regdesk
       default: true
       read_only: true
-    door:
-      description: 'At The Door Fee'
+    late:
+      description: 'Late Fee'
       price: 1000
       vat_percent: 19
       visible_for:
         - regdesk
       read_only: true
+    party:
+      description: 'staff party'
+      price: 1000
+      vat_percent: 19
+      visible_for:
+        - regdesk
+        - sponsordesk
+      limit: 1000
     stage:
       description: 'Entrance Fee (Stage Ticket)'
       price: 500

@@ -108,6 +108,7 @@ tests:
             description: 'Entrance Fee (Convention Ticket)'
             price: 12000
             vat_percent: 19
+            limit: 4000
             default: true
             at-least-one-mandatory: true
             visible_for:
@@ -215,6 +216,7 @@ tests:
                   at-least-one-mandatory: true
                   default: true
                   description: Entrance Fee (Convention Ticket)
+                  limit: 4000
                   price: 12000
                   vat_percent: 19
                   visible_for:
@@ -331,6 +333,7 @@ tests:
                   at-least-one-mandatory: true
                   default: true
                   description: Entrance Fee (Convention Ticket)
+                  limit: 4000
                   price: 12000
                   vat_percent: 19
                   visible_for:
