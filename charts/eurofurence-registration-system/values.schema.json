@@ -1341,6 +1341,15 @@
               "limit": {
                 "type": "integer",
                 "description": "Available total stock for this package. Booking the package will fail if the stock is exhausted. 0 means unlimited."
+              },
+              "category":  {
+                "type": "string",
+                "description": "used for grouping choices in some UIs. No functional effect. Can be left blank for the default category.",
+                "example": "artshow"
+              },
+              "sorting": {
+                "type": "integer",
+                "description": "used for sorting choices in ascending order within each category. Used in some UIs, no functional effect."
               }
             }
           }

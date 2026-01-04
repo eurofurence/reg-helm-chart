@@ -227,6 +227,7 @@ choices:
       vat_percent: 7
       default: true
       read_only: true
+      category: other
     attendance:
       description: 'Entrance Fee (Convention Ticket)'
       price: 12000
@@ -258,6 +259,8 @@ choices:
         - regdesk
         - sponsordesk
       limit: 1000
+      category: addons
+      sorting: 100
     stage:
       description: 'Entrance Fee (Stage Ticket)'
       price: 500

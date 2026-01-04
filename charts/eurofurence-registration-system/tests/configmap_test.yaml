@@ -113,6 +113,8 @@ tests:
             at-least-one-mandatory: true
             visible_for:
               - regdesk
+            category: other
+            sorting: 120
         options:
           art:
             description: 'Artist'
@@ -214,10 +216,12 @@ tests:
               packages:
                 attendance:
                   at-least-one-mandatory: true
+                  category: other
                   default: true
                   description: Entrance Fee (Convention Ticket)
                   limit: 4000
                   price: 12000
+                  sorting: 120
                   vat_percent: 19
                   visible_for:
                   - regdesk
@@ -331,10 +335,12 @@ tests:
               packages:
                 attendance:
                   at-least-one-mandatory: true
+                  category: other
                   default: true
                   description: Entrance Fee (Convention Ticket)
                   limit: 4000
                   price: 12000
+                  sorting: 120
                   vat_percent: 19
                   visible_for:
                   - regdesk
