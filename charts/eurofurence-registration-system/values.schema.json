@@ -591,13 +591,9 @@
                   "description": "base url for the nexi api downstream, leave unset to enable local simulator instead (not useful for production)",
                   "example": "https://test.api.dibspayment.eu"
                 },
-                "nexi_instance": {
+                "nexi_merchant_id": {
                   "type": "string",
-                  "description": "the public checkout key from nexi portal (not currently used by adapter). nexi api secret is set via manually created secret as environment variable $REG_SECRET_NEXI_API_SECRET."
-                },
-                "nexi_merchant_number": {
-                  "type": "string",
-                  "description": "the merchant number, usually a 9 digit number. Provide as a string."
+                  "description": "the merchant id, NEXI_xxxxxxxxx_yyyyyyyy."
                 },
                 "nexi_simulation_mode": {
                   "type": "boolean",

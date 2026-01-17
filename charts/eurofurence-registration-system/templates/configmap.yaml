@@ -331,9 +331,8 @@ data:
       {{- if ne .Values.system.components.paygate_adapter.nexi_downstream "" }}
       nexi_downstream: '{{ .Values.system.components.paygate_adapter.nexi_downstream }}'
       {{- end }}
-      nexi_instance: '{{ .Values.system.components.paygate_adapter.nexi_instance }}'
       # nexi_api_secret: '$REG_SECRET_NEXI_API_SECRET'
-      nexi_merchant_number: '{{ .Values.system.components.paygate_adapter.nexi_merchant_number }}'
+      nexi_merchant_id: '{{ .Values.system.components.paygate_adapter.nexi_merchant_id }}'
       {{- if .Values.system.components.paygate_adapter.nexi_simulation_mode }}
       nexi_simulation_mode: true
       {{- end }}
