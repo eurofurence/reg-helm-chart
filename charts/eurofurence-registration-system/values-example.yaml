@@ -126,6 +126,7 @@ system:
       nexi_downstream: https://api.example.com
       nexi_instance: 'e5abcdef000000000000000000000000' # invalid demo value
       nexi_merchant_number: '100000000' # invalid demo value
+      nexi_simulation_mode: true
       error_notify_mail: nobody@example.com
       terms_url: https://example.com/terms
       invoice:

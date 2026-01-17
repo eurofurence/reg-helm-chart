@@ -599,6 +599,10 @@
                   "type": "string",
                   "description": "the merchant number, usually a 9 digit number. Provide as a string."
                 },
+                "nexi_simulation_mode": {
+                  "type": "boolean",
+                  "description": "set to true to force simulation mode on all payments - note you can ask for a real test account"
+                },
                 "error_notify_mail": {
                   "type": "string",
                   "description": "set an email address to receive error notifications. Strongly recommended for production."
