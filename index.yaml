@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   eurofurence-registration-system:
   - apiVersion: v2
+    created: "2026-01-17T12:16:16.637428309Z"
+    description: A helm chart that can deploy the Eurofurence Registration System.
+    digest: 4c55f847c1fabf274c07cc37cf01910017b0fe0fa0ed0c9689ceea43c0924764
+    home: https://github.com/eurofurence/reg-helm-chart
+    name: eurofurence-registration-system
+    type: application
+    urls:
+    - https://github.com/eurofurence/reg-helm-chart/releases/download/eurofurence-registration-system-0.0.40/eurofurence-registration-system-0.0.40.tgz
+    version: 0.0.40
+  - apiVersion: v2
     created: "2026-01-04T14:17:20.386866572Z"
     description: A helm chart that can deploy the Eurofurence Registration System.
     digest: 1d64e1b371c9c873592e071ccf922b1ca9532bf3df75faeae21633403f629cd1
@@ -391,4 +401,4 @@ entries:
     urls:
     - https://github.com/eurofurence/reg-helm-chart/releases/download/eurofurence-registration-system-0.0.1/eurofurence-registration-system-0.0.1.tgz
     version: 0.0.1
-generated: "2026-01-04T14:17:20.387162293Z"
+generated: "2026-01-17T12:16:16.637727999Z"
