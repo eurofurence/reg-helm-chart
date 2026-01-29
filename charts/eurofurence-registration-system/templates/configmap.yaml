@@ -336,8 +336,8 @@ data:
       {{- if .Values.system.components.paygate_adapter.nexi_simulation_mode }}
       nexi_simulation_mode: true
       {{- end }}
-      success_redirect: '{{ $public_base_url }}/app/register'
-      failure_redirect: '{{ $public_base_url }}/app/register'
+      success_redirect: '{{ $public_base_url }}/app/payment-success'
+      failure_redirect: '{{ $public_base_url }}/app/payment-failure'
       transaction_id_prefix: '{{ .Values.system.components.payment_service.transaction_id_prefix }}'
       terms_url: '{{ .Values.system.components.paygate_adapter.terms_url }}'
     server:

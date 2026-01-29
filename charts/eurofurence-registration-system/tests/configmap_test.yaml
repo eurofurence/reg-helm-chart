@@ -470,8 +470,8 @@ tests:
               nexi_downstream: 'https://api.example.com'
               # nexi_api_secret: '$REG_SECRET_NEXI_API_SECRET'
               nexi_merchant_id: '12345'
-              success_redirect: 'https://my.domain.example.com/hello/you/app/register'
-              failure_redirect: 'https://my.domain.example.com/hello/you/app/register'
+              success_redirect: 'https://my.domain.example.com/hello/you/app/payment-success'
+              failure_redirect: 'https://my.domain.example.com/hello/you/app/payment-failure'
               transaction_id_prefix: 'TTC69'
               terms_url: 'https://example.com/terms'
             server:
