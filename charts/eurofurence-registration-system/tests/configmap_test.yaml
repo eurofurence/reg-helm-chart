@@ -163,6 +163,7 @@ tests:
               auth_service: 'http://auth-service:8080'
               attendee_service: 'http://attendee-service:8080'
               payment_service: 'http://payment-service:8080'
+              paygate_adapter: 'http://paygate-adapter:8080'
               mail_service: 'http://mail-service:8080'
               room_service: 'http://room-service:8080'
               id_token_cookie_name: 'JWT'
