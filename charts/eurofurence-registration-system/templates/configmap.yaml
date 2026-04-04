@@ -274,6 +274,9 @@ data:
       {{- with .Values.system.components.mail_service.message_id_domain }}
       message_id_domain: '{{ . }}'
       {{- end }}
+      {{- with .Values.system.components.mail_service.insecure_skip_verify_tls }}
+      insecure_skip_verify_tls: {{ . }}
+      {{- end }}
     database:
       use: '{{ .Values.system.database.use }}'
       {{- if eq .Values.system.database.use "mysql" }}

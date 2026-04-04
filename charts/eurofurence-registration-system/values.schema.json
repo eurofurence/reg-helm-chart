@@ -509,6 +509,11 @@
                   "description": "the domain part of the Message-ID email header, technically optional but some providers will not accept your mails if unset",
                   "example": "reg.example.com"
                 },
+                "insecure_skip_verify_tls": {
+                  "type": "boolean",
+                  "description": "disable mail server cert check (useful for local mail servers only, INSECURE if remote mail servers used)",
+                  "default": "false"
+                },
                 "docker": {
                   "type": "object",
                   "additionalProperties": false,
