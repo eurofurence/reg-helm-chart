@@ -92,6 +92,10 @@ spec:
                   name: regsys-cm
                   key: {{ . }}
 {{- end }}
+{{- range .inline_envs }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+{{- end }}
 {{- if ne .volume "no" }}
           volumeMounts:
             - name: config-file

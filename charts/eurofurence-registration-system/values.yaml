@@ -230,6 +230,20 @@ system:
       requests:
         memory: 64Mi
 
+    onsite_backend:
+      enable: false
+      docker:
+        registry: ghcr.io
+        repository: eurofurence/reg-onsite-ui
+        tag: backend-latest
+      labels:
+        service: onsite-backend
+      replicas: 1
+      limits:
+        memory: 512Mi
+      requests:
+        memory: 64Mi
+
   database:
     use: 'inmemory'
     username: 'demouser'

@@ -80,6 +80,24 @@
 {{- template "helpers.deployment" $onsiteInput }}
 ---
 {{- end }}
+{{- if .Values.system.components.onsite_backend.enable }}
+{{ $onsiteBackendInput := dict "name" "onsite-backend"
+                         "all" .Values
+                         "component" .Values.system.components.onsite_backend
+                         "secrets" (list)
+                         "inline_envs" (list
+                           (dict "name" "JWT_AUDIENCE" "value" .Values.system.components.auth_service.allowed_audience_in_tokens)
+                           (dict "name" "JWT_ISSUER" "value" .Values.system.components.auth_service.allowed_issuer_in_tokens)
+                           (dict "name" "ATTENDEE_SERVICE_URL" "value" .Values.system.components.attendee_service.local_base_url)
+                           (dict "name" "PAYMENT_SERVICE_URL" "value" .Values.system.components.payment_service.local_base_url)
+                           (dict "name" "ADMIN_GROUP" "value" .Values.system.components.auth_service.admin_group_id)
+                           (dict "name" "JWT_PUBLIC_KEYS" "value" (.Values.system.components.auth_service.token_public_keys_PEM | toJson))
+                         )
+                         "port" 8001
+                         "volume" "no" -}}
+{{- template "helpers.deployment" $onsiteBackendInput }}
+---
+{{- end }}
 {{ $frontendInput := dict "name" "frontend"
                          "all" .Values
                          "component" .Values.system.components.frontend
