@@ -236,6 +236,7 @@ system:
         registry: ghcr.io
         repository: eurofurence/reg-onsite-ui
         tag: backend-latest
+        pullPolicy: Always
       labels:
         service: onsite-backend
       replicas: 1

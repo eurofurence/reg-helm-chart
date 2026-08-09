@@ -48,6 +48,9 @@ spec:
         - name: application
           {{- with .component.docker }}
           image: '{{ .registry }}/{{ .repository }}:{{ .tag }}'
+          {{- with .pullPolicy }}
+          imagePullPolicy: {{ . }}
+          {{- end }}
           {{- end }}
           {{- with .command }}
           command: ["{{ . }}"]
