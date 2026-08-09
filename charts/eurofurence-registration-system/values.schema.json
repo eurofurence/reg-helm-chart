@@ -1138,6 +1138,11 @@
                       "type": "string",
                       "description": "the version tag, unless overridden in the individual component.",
                       "default": "backend-latest"
+                    },
+                    "pullPolicy": {
+                      "type": "string",
+                      "description": "image pull policy passed as imagePullPolicy",
+                      "default": "Always"
                     }
                   }
                 },
