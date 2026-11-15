@@ -73,7 +73,7 @@ tests:
                         drop:
                           - ALL
                     command:
-                      - /bin/bash
+                      - /bin/sh
                     args:
                       - /docker-entrypoint.sh
                     env:
@@ -823,7 +823,7 @@ tests:
                         drop:
                           - ALL
                     command:
-                      - /bin/bash
+                      - /bin/sh
                     args:
                       - /docker-entrypoint.sh
                     env:
