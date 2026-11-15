@@ -101,8 +101,8 @@
 {{ $frontendInput := dict "name" "frontend"
                          "all" .Values
                          "component" .Values.system.components.frontend
-                         "envs" (list "HTTPD_CONF_PATH_PREFIX_NO_SLASHES" "HTTPD_CONF_SERVER_NAME" "HTTPD_CONF_STATIC_DIR")
-                         "command" "/usr/sbin/httpd"
-                         "args" (list "-f" "/etc/apache2/regsys.conf" "-DNO_DETACH" "-DFOREGROUND")
+                         "envs" (list "HTTPD_CONF_PATH_PREFIX_NO_SLASHES" "HTTPD_CONF_SERVER_NAME" "HTTPD_CONF_STATIC_DIR" "NGINX_CONF_PATH_PREFIX" "NGINX_CONF_SERVER_NAME" "NGINX_CONF_MAINTENANCE" "NGINX_CONF_OFFLINE")
+                         "command" "/bin/bash"
+                         "args" (list "/docker-entrypoint.sh")
                          "volume" "no" -}}
 {{- template "helpers.deployment" $frontendInput }}

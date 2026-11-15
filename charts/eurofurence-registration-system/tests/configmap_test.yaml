@@ -619,6 +619,18 @@ tests:
       - equal:
           path: data.HTTPD_CONF_STATIC_DIR
           value: 'reg-frontend'
+      - equal:
+          path: data.NGINX_CONF_PATH_PREFIX
+          value: 'hello/you'
+      - equal:
+          path: data.NGINX_CONF_SERVER_NAME
+          value: 'my.domain.example.com'
+      - equal:
+          path: data.NGINX_CONF_MAINTENANCE
+          value: ''
+      - equal:
+          path: data.NGINX_CONF_OFFLINE
+          value: ''
 
   - it: should not set namespace if unset
     set:

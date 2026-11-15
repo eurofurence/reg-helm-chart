@@ -1047,8 +1047,13 @@
               "properties": {
                 "enable": {
                   "type": "boolean",
-                  "description": "deploy the frontend",
+                  "description": "enable the frontend (always deployed)",
                   "default": "true"
+                },
+                "maintenance": {
+                  "type": "boolean",
+                  "description": "maintenance mode toggle",
+                  "default": "false"
                 },
                 "docker": {
                   "type": "object",

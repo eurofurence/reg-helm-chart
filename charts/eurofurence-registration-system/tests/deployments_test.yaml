@@ -50,7 +50,7 @@ tests:
               spec:
                 containers:
                   - name: application
-                    image: 'ghcr.io/eurofurence/reg-frontend:latest'
+                    image: 'ghcr.io/eurofurence/reg-frontend-v2:latest'
                     ports:
                       - containerPort: 8080
                         name: primary
@@ -72,12 +72,10 @@ tests:
                       capabilities:
                         drop:
                           - ALL
-                    command: [/usr/sbin/httpd]
+                    command:
+                      - /bin/bash
                     args:
-                      - -f
-                      - /etc/apache2/regsys.conf
-                      - -DNO_DETACH
-                      - -DFOREGROUND
+                      - /docker-entrypoint.sh
                     env:
                       - name: HTTPD_CONF_PATH_PREFIX_NO_SLASHES
                         valueFrom:
@@ -94,6 +92,26 @@ tests:
                           configMapKeyRef:
                             name: regsys-cm
                             key: HTTPD_CONF_STATIC_DIR
+                      - name: NGINX_CONF_PATH_PREFIX
+                        valueFrom:
+                          configMapKeyRef:
+                            key: NGINX_CONF_PATH_PREFIX
+                            name: regsys-cm
+                      - name: NGINX_CONF_SERVER_NAME
+                        valueFrom:
+                          configMapKeyRef:
+                            key: NGINX_CONF_SERVER_NAME
+                            name: regsys-cm
+                      - name: NGINX_CONF_MAINTENANCE
+                        valueFrom:
+                          configMapKeyRef:
+                            key: NGINX_CONF_MAINTENANCE
+                            name: regsys-cm
+                      - name: NGINX_CONF_OFFLINE
+                        valueFrom:
+                          configMapKeyRef:
+                            key: NGINX_CONF_OFFLINE
+                            name: regsys-cm
         documentIndex: 0
   - it: should create all deployments minimal
     set:
@@ -782,7 +800,7 @@ tests:
               spec:
                 containers:
                   - name: application
-                    image: 'ghcr.io/eurofurence/reg-frontend:latest'
+                    image: 'ghcr.io/eurofurence/reg-frontend-v2:latest'
                     ports:
                       - containerPort: 8080
                         name: primary
@@ -804,12 +822,10 @@ tests:
                       capabilities:
                         drop:
                           - ALL
-                    command: [/usr/sbin/httpd]
+                    command:
+                      - /bin/bash
                     args:
-                      - -f
-                      - /etc/apache2/regsys.conf
-                      - -DNO_DETACH
-                      - -DFOREGROUND
+                      - /docker-entrypoint.sh
                     env:
                       - name: HTTPD_CONF_PATH_PREFIX_NO_SLASHES
                         valueFrom:
@@ -826,6 +842,26 @@ tests:
                           configMapKeyRef:
                             name: regsys-cm
                             key: HTTPD_CONF_STATIC_DIR
+                      - name: NGINX_CONF_PATH_PREFIX
+                        valueFrom:
+                          configMapKeyRef:
+                            key: NGINX_CONF_PATH_PREFIX
+                            name: regsys-cm
+                      - name: NGINX_CONF_SERVER_NAME
+                        valueFrom:
+                          configMapKeyRef:
+                            key: NGINX_CONF_SERVER_NAME
+                            name: regsys-cm
+                      - name: NGINX_CONF_MAINTENANCE
+                        valueFrom:
+                          configMapKeyRef:
+                            key: NGINX_CONF_MAINTENANCE
+                            name: regsys-cm
+                      - name: NGINX_CONF_OFFLINE
+                        valueFrom:
+                          configMapKeyRef:
+                            key: NGINX_CONF_OFFLINE
+                            name: regsys-cm
         documentIndex: 8
 
   - it: should not set namespace if unset

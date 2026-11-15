@@ -520,3 +520,15 @@ data:
 {{- else }}
   HTTPD_CONF_STATIC_DIR: 'reg-frontend-disabled'
 {{- end }}
+  NGINX_CONF_SERVER_NAME: '{{ .Values.ingress.host }}'
+  NGINX_CONF_PATH_PREFIX: '{{ .Values.system.public_base_context }}'
+{{- if .Values.system.components.frontend.maintenance }}
+  NGINX_CONF_MAINTENANCE: 'maintenance'
+{{- else }}
+  NGINX_CONF_MAINTENANCE: ''
+{{- end }}
+{{- if .Values.system.components.frontend.enable }}
+  NGINX_CONF_OFFLINE: ''
+{{- else }}
+  NGINX_CONF_OFFLINE: 'offline'
+{{- end }}

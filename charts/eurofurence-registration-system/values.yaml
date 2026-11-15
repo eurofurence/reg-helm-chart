@@ -204,9 +204,10 @@ system:
 
     frontend:
       enable: true
+      maintenance: false
       docker:
         registry: ghcr.io
-        repository: eurofurence/reg-frontend
+        repository: eurofurence/reg-frontend-v2
         tag: latest
       labels:
         service: frontend
