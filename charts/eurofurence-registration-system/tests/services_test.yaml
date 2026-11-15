@@ -2,7 +2,7 @@ suite: test services
 templates:
   - services.yaml
 tests:
-  - it: should create only frontend service if all disabled
+  - it: should create all services even if all disabled (otherwise nginx fails to start)
     set:
       system:
         components:
@@ -20,57 +20,11 @@ tests:
             enable: false
           frontend:
             enable: false
-    asserts:
-      - hasDocuments:
-          count: 1
-      - equal:
-          path: metadata
-          value:
-            name: frontend
-            labels:
-              app: regsys
-              service: frontend
-        documentIndex: 0
-      - equal:
-          path: spec
-          value:
-            ports:
-              - port: 8080
-                appProtocol: http
-                name: application
-                targetPort: primary
-            selector:
-              app: regsys
-              service: frontend
-            type: ClusterIP
-        documentIndex: 0
-  - it: should create expected services all enabled
-    set:
-      system:
-        components:
-          attendee_service:
-            enable: true
-          auth_service:
-            enable: true
-          mail_service:
-            enable: true
-          paygate_adapter:
-            enable: true
-          payment_service:
-            enable: true
-          regsys_classic:
-            enable: true
-          room_service:
-            enable: true
-          frontend:
-            enable: true
-          onsite:
-            enable: true
     asserts:
       - isKind:
           of: Service
       - hasDocuments:
-          count: 9
+          count: 10
       - equal:
           path: metadata
           value:
@@ -242,11 +196,32 @@ tests:
       - equal:
           path: metadata
           value:
+            name: onsite-backend
+            labels:
+              app: regsys
+              service: onsite-backend
+        documentIndex: 8
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8001
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: onsite-backend
+            type: ClusterIP
+        documentIndex: 8
+      - equal:
+          path: metadata
+          value:
             name: frontend
             labels:
               app: regsys
               service: frontend
-        documentIndex: 8
+        documentIndex: 9
       - equal:
           path: spec
           value:
@@ -259,7 +234,246 @@ tests:
               app: regsys
               service: frontend
             type: ClusterIP
+        documentIndex: 9
+  - it: should create expected services all enabled
+    set:
+      system:
+        components:
+          attendee_service:
+            enable: true
+          auth_service:
+            enable: true
+          mail_service:
+            enable: true
+          paygate_adapter:
+            enable: true
+          payment_service:
+            enable: true
+          regsys_classic:
+            enable: true
+          room_service:
+            enable: true
+          frontend:
+            enable: true
+          onsite:
+            enable: true
+          onsite_backend:
+            enable: true
+    asserts:
+      - isKind:
+          of: Service
+      - hasDocuments:
+          count: 10
+      - equal:
+          path: metadata
+          value:
+            name: attendee-service
+            labels:
+              app: regsys
+              service: attendee-service
+        documentIndex: 0
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8080
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: attendee-service
+            type: ClusterIP
+        documentIndex: 0
+      - equal:
+          path: metadata
+          value:
+            name: auth-service
+            labels:
+              app: regsys
+              service: auth-service
+        documentIndex: 1
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8080
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: auth-service
+            type: ClusterIP
+        documentIndex: 1
+      - equal:
+          path: metadata
+          value:
+            name: mail-service
+            labels:
+              app: regsys
+              service: mail-service
+        documentIndex: 2
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8080
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: mail-service
+            type: ClusterIP
+        documentIndex: 2
+      - equal:
+          path: metadata
+          value:
+            name: paygate-adapter
+            labels:
+              app: regsys
+              service: paygate-adapter
+        documentIndex: 3
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8080
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: paygate-adapter
+            type: ClusterIP
+        documentIndex: 3
+      - equal:
+          path: metadata
+          value:
+            name: payment-service
+            labels:
+              app: regsys
+              service: payment-service
+        documentIndex: 4
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8080
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: payment-service
+            type: ClusterIP
+        documentIndex: 4
+      - equal:
+          path: metadata
+          value:
+            name: regsys-classic
+            labels:
+              app: regsys
+              service: regsys-classic
+        documentIndex: 5
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8080
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: regsys-classic
+            type: ClusterIP
+        documentIndex: 5
+      - equal:
+          path: metadata
+          value:
+            name: room-service
+            labels:
+              app: regsys
+              service: room-service
+        documentIndex: 6
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8080
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: room-service
+            type: ClusterIP
+        documentIndex: 6
+      - equal:
+          path: metadata
+          value:
+            name: onsite
+            labels:
+              app: regsys
+              service: onsite
+        documentIndex: 7
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8000
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: onsite
+            type: ClusterIP
+        documentIndex: 7
+      - equal:
+          path: metadata
+          value:
+            name: onsite-backend
+            labels:
+              app: regsys
+              service: onsite-backend
         documentIndex: 8
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8001
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: onsite-backend
+            type: ClusterIP
+        documentIndex: 8
+      - equal:
+          path: metadata
+          value:
+            name: frontend
+            labels:
+              app: regsys
+              service: frontend
+        documentIndex: 9
+      - equal:
+          path: spec
+          value:
+            ports:
+              - port: 8080
+                appProtocol: http
+                name: application
+                targetPort: primary
+            selector:
+              app: regsys
+              service: frontend
+            type: ClusterIP
+        documentIndex: 9
   - it: should not set namespace if unset
     asserts:
       - notExists:

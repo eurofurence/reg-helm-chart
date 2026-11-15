@@ -1,68 +1,50 @@
-{{- if .Values.system.components.attendee_service.enable }}
 {{ $attSrvInput := dict "name" "attendee-service"
                         "all" .Values
                         "component" .Values.system.components.attendee_service -}}
 {{- template "helpers.service" $attSrvInput }}
 ---
-{{- end }}
-{{- if .Values.system.components.auth_service.enable }}
 {{ $authSrvInput := dict "name" "auth-service"
                          "all" .Values
                          "component" .Values.system.components.auth_service -}}
 {{- template "helpers.service" $authSrvInput }}
 ---
-{{- end }}
-{{- if .Values.system.components.mail_service.enable }}
 {{ $mailSrvInput := dict "name" "mail-service"
                          "all" .Values
                          "component" .Values.system.components.mail_service -}}
 {{- template "helpers.service" $mailSrvInput }}
 ---
-{{- end }}
-{{- if .Values.system.components.paygate_adapter.enable }}
 {{ $nexiAdapterInput := dict "name" "paygate-adapter"
                          "all" .Values
                          "component" .Values.system.components.paygate_adapter -}}
 {{- template "helpers.service" $nexiAdapterInput }}
 ---
-{{- end }}
-{{- if .Values.system.components.payment_service.enable }}
 {{ $paySrvInput := dict "name" "payment-service"
                          "all" .Values
                          "component" .Values.system.components.payment_service -}}
 {{- template "helpers.service" $paySrvInput }}
 ---
-{{- end }}
-{{- if .Values.system.components.regsys_classic.enable }}
 {{ $classicInput := dict "name" "regsys-classic"
                          "all" .Values
                          "component" .Values.system.components.regsys_classic -}}
 {{- template "helpers.service" $classicInput }}
 ---
-{{- end }}
-{{- if .Values.system.components.room_service.enable }}
 {{ $roomSrvInput := dict "name" "room-service"
                          "all" .Values
                          "component" .Values.system.components.room_service -}}
 {{- template "helpers.service" $roomSrvInput }}
 ---
-{{- end }}
-{{- if .Values.system.components.onsite.enable }}
 {{ $onsiteInput := dict "name" "onsite"
                          "all" .Values
                          "component" .Values.system.components.onsite
                          "port" 8000 -}}
 {{- template "helpers.service" $onsiteInput }}
 ---
-{{- end }}
-{{- if .Values.system.components.onsite_backend.enable }}
 {{ $onsiteBackendInput := dict "name" "onsite-backend"
                          "all" .Values
                          "component" .Values.system.components.onsite_backend
                          "port" 8001 -}}
 {{- template "helpers.service" $onsiteBackendInput }}
 ---
-{{- end }}
 {{ $frontendInput := dict "name" "frontend"
                          "all" .Values
                          "component" .Values.system.components.frontend -}}
